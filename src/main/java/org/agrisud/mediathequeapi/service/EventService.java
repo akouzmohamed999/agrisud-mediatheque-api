@@ -1,5 +1,6 @@
 package org.agrisud.mediathequeapi.service;
 
+import org.agrisud.mediathequeapi.clouddao.EventCloudDao;
 import org.agrisud.mediathequeapi.dao.EventDao;
 import org.agrisud.mediathequeapi.model.Event;
 import org.springframework.beans.factory.annotation.Autowired;
