@@ -13,7 +13,7 @@ public class EventCloudDao {
     NextcloudConnector connector;
 
     public List<String> getEventFolders() {
-        return connector.getFolders("/");
+        return connector.listFolderContent("/");
     }
 
 }
