@@ -3,7 +3,7 @@ version: '2.1'
 services:
 
   mysql:
-    image: mysql
+    image: mysql:8.0.26
     container_name: mysql
     command: --default-authentication-plugin=mysql_native_password
     restart: always
@@ -34,7 +34,8 @@ services:
       - agrisud
 
   keycloak:
-    image: jboss/keycloak
+    image: jboss/keycloak:15.0.0
+    container_name: keycloak
     depends_on:
       mysql:
         condition: service_healthy
@@ -50,7 +51,8 @@ services:
       - agrisud
 
   nextcloud:
-    image: nextcloud
+    image: nextcloud:22.0.0
+    container_name: nextcloud
     restart: always
     ports:
       - 3900:80
