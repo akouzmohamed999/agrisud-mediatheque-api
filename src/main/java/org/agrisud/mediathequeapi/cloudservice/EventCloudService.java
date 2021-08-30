@@ -15,50 +15,46 @@ import java.util.Optional;
 @Service
 public class EventCloudService {
 
-    @Autowired
-    EventCloudDao eventCloudDao;
+	@Autowired
+	EventCloudDao eventCloudDao;
 
-    public List<String> getFolders() {
-        return eventCloudDao.getEventFolders();
-    }
+	public List<String> getFolders() {
+		return eventCloudDao.getEventFolders();
+	}
 
 	public void createFolder(String path) {
-		
+
 		eventCloudDao.createFolder(path);
 	}
 
-	public String uploadFile(MultipartFile multipartFile,String path,String generatedKey) {
-		// eventCloudDao.addImage(multipartFile, path ,generatedKey);
-		String [] name = multipartFile.getOriginalFilename().split("\\.");
-//		String fullFilePath = path;
-//		for(int i=0; i < name.length -1; i++) {
-//			fullFilePath.concat(name[i]);
-//		}
-//		fullFilePath.concat("_" + generatedKey + "." + name[name.length-1]);
-		String fullFilePath = path.concat(name[0]+ "_" + generatedKey + "." + name[1]);
-        Optional<File> fileOptional = Optional.ofNullable(CloudFileHelper.getTempFileFromMultiPartFile(multipartFile));
-        fileOptional.ifPresent(file -> {
-            eventCloudDao.upLoadFile(file, fullFilePath);
-            file.delete();
-        });
-        return fullFilePath;
+	public String uploadFile(MultipartFile multipartFile, String path, String generatedKey) {
+		String[] name = multipartFile.getOriginalFilename().split("\\.");
+		String fullFilePath = path.concat(name[0] + "_" + generatedKey + "." + name[1]);
+		Optional<File> fileOptional = Optional.ofNullable(CloudFileHelper.getTempFileFromMultiPartFile(multipartFile));
+		fileOptional.ifPresent(file -> {
+			eventCloudDao.upLoadFile(file, fullFilePath);
+			file.delete();
+		});
+		return fullFilePath;
 	}
 
 	public InputStream getFile(String fileName) throws IOException {
 		return eventCloudDao.getFile(fileName);
 	}
+
 	public Boolean isFolderExist(String path) {
 		return eventCloudDao.isFolderExist(path);
 	}
 
 	public void deleteFolder(String pathFolder) {
-		 eventCloudDao.deleteFolder(pathFolder);
+		eventCloudDao.deleteFolder(pathFolder);
 	}
 
 	public void deleteFile(String pathFile) {
 		eventCloudDao.deleteFile(pathFile);
 	}
+
 	public String doShared(String path) {
-		return  eventCloudDao.doShared(path);
+		return eventCloudDao.doShared(path);
 	}
 }

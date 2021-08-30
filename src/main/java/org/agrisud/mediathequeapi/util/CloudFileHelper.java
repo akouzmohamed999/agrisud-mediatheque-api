@@ -22,4 +22,3 @@ public class CloudFileHelper {
         return file;
     }
 }
-
