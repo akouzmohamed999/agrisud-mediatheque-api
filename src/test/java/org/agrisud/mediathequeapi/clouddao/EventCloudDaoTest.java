@@ -30,6 +30,6 @@ public class EventCloudDaoTest {
     @Test
     public void shouldGetFolders() {
         eventCloudDao.getEventFolders();
-        verify(connector, times(1)).listFolderContent("/");
+        verify(connector, times(1)).listFolderContent("/category");
     }
 }
