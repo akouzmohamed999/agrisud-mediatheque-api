@@ -65,15 +65,17 @@ public class CategoryDao {
 				.build();
 	}
 
-	public int deleteCategory(String pathFolder) {
+	public int deleteCategory(String pathFolder, Long categoryId) {
 		Map<String, Object> params = new HashMap<>();
-		params.put(DaoConstant.PATH_FOLDER, "%" + pathFolder + "%");
+		params.put(DaoConstant.PATH_FOLDER, "%" + pathFolder +"/"+ "%");
+		params.put(DaoConstant.CATEGORY_ID, categoryId);
 		return jdbcTemplate.update(environment.getProperty(SqlConstant.DELETE_CATEGORY_BY_ID), new MapSqlParameterSource(params));
 	}
 
-	public List<Category> getCategoryByTitle(String title) {
+	public List<Category> getCategoryByTitle(String title,String path ) {
 		Map<String, Object> params = new HashMap<>();
 		params.put(DaoConstant.TITLE, "%" + title + "%");
+		params.put(DaoConstant.PATH_FOLDER, path);
 		return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_CATEGORY_BY_TILTLE),
 									new MapSqlParameterSource(params), getRowMapper());
 	}
@@ -91,5 +93,10 @@ public class CategoryDao {
 		params.put(DaoConstant.PATH_FOLDER, pathFolder);
 		return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_CATEGORY_CHILD_OF_LEVEL),
 				new MapSqlParameterSource(params), getRowMapper());
+	}
+
+	public int updateCategory(Category category) {
+		return jdbcTemplate.update(environment.getProperty(SqlConstant.UPDATE_CATEGORY),
+				getSqlParameterSource(category));
 	}
 }

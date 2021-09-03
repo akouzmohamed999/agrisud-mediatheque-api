@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -58,8 +59,8 @@ public class CategoryController {
 	}
 	
 	@GetMapping(path = "/search")
-	public List<Category> getCategoryByTitle(@RequestParam("title") String title){
-		return categoryService.getCategoryByTitle(title);
+	public List<Category> getCategoryByTitle(@RequestParam("title") String title,@RequestParam("path") String path){
+		return categoryService.getCategoryByTitle(title, path);
 	}
 	@GetMapping(path="/title")
 	public Boolean checkTitleIfExist(@RequestParam("pathFolder") String pathFolder,
@@ -69,5 +70,15 @@ public class CategoryController {
 	@GetMapping(path="/child")
 	public List<Category> getChildOfLevel(@RequestParam("pathFolder") String pathFolder) {
 		return categoryService.getChildOfLevel(pathFolder);
+	}
+	@PutMapping(path = "/files" ,consumes = { MediaType.APPLICATION_JSON_VALUE, "multipart/form-data" })
+	@ResponseStatus(HttpStatus.OK)
+	public String updateFiles(@RequestParam("file") MultipartFile multipartFile,
+							  @RequestParam("path") String path) throws IOException {
+		return categoryService.updateFiles(multipartFile,path);
+	}
+	@PutMapping
+	public int updateCategory(@RequestBody Category category) {
+		return categoryService.updateCategory(category);
 	}
 }

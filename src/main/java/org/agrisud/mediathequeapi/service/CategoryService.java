@@ -63,9 +63,12 @@ public class CategoryService {
 	public int deleteCategory(Long id) {
 		Optional<Category> category = getCategoryById(id);
 		if(category.isPresent() && !category.isEmpty()) {
+			for(Category level : getChildOfLevel(category.get().getPathFolder() + "/")) {
+				eventCloudService.deleteFile(level.getPathImage());
+			}
 			eventCloudService.deleteFolder(category.get().getPathFolder());
 			eventCloudService.deleteFile(category.get().getPathImage());
-			return categoryDao.deleteCategory(category.get().getPathFolder());
+			return categoryDao.deleteCategory(category.get().getPathFolder(),id);
 		}
 		return 0;
 	}
@@ -74,8 +77,8 @@ public class CategoryService {
 		return categoryDao.getCategoryById(id);
 	}
 
-	public List<Category> getCategoryByTitle(String title) {
-		List<Category> list = categoryDao.getCategoryByTitle(title);
+	public List<Category> getCategoryByTitle(String title, String path) {
+		List<Category> list = categoryDao.getCategoryByTitle(title, path);
 		return list;
 	}
 
@@ -89,5 +92,25 @@ public class CategoryService {
 
 	public List<Category> getChildOfLevel(String pathFolder) {
 		return categoryDao.getChildOfLevel(pathFolder);
+	}
+
+	public String updateFiles(MultipartFile multipartFile, String path) {
+		String generatedKey = util.generateKey(32);
+		return eventCloudService.updateFiles(multipartFile,path,generatedKey);
+	}
+
+	public int updateCategory(Category category) {
+		category.setUrlImage(eventCloudService.doShared(category.getPathImage()) + "/preview");
+		String name[] =category.getPathFolder().split("/");
+		String path = "/";
+		for(int i=1; i< name.length - 1;i++) {
+			path+=name[i]+ "/";
+		}
+		if(!category.getPathFolder().equals(path + category.getTitle())) {
+			eventCloudService.renameFile(category.getPathFolder(), path + category.getTitle());
+		}
+		
+		category.setPathFolder(path + category.getTitle());
+		return categoryDao.updateCategory(category);
 	}
 }
