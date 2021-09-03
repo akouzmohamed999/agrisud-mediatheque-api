@@ -7,14 +7,8 @@ pipeline {
 		 stages {
              
               stage('Build') {
-				   agent {
-					   docker {
-						   image "openjdk:16-jdk-slim"
-						   reuseNode true
-					   }
-				   }
 				   steps {
-				    sh("./mvnw clean install")
+				    sh("mvn clean install")
 				   }
 			  }
 			  stage('Docker Build and Tag') {
