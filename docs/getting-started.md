@@ -44,7 +44,7 @@ To start your dev environment, you need to follow these steps:
         - keycloak
         - nextcloud
         
-once you have cloned the gateway project, go to the **root folder** and run the command **docker-compose up -d**
+once you have cloned the gateway project, go to the **root folder** and run the command **docker-compose up -d --build**
 
 * **Mysql**
     *  once your mysql database container is running, you can access either from included cloudBeaver client [http://localhost:3300](http://localhost:3300) and setup connection with the mysql container, or a client of your choice.
@@ -93,4 +93,13 @@ Additional information
 | ------------- |:-------------:|:-------------:|
 |admin | admin | admin |
 |user | user | user |
+
+Resetting Dev Env
+----------------------
+```bash
+docker rm -f $(docker ps -qa)
+docker volume prune
+docker network prune
+docker-compose up -d --build
+```
 
