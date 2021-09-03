@@ -11,4 +11,5 @@ public class SqlConstant {
 	public static final String SELECT_CATEGORY_BY_TILTLE = "select_category_by_title";
 	public static final String SELECT_CATEGORY_CHECK_TILTLE = "select_category_check_title";
 	public static final String SELECT_CATEGORY_CHILD_OF_LEVEL = "select_category_child_of_level";
+	public static final String UPDATE_CATEGORY = "update_category";
 }

@@ -17,7 +17,7 @@ public class EventCloudService {
 
 	@Autowired
 	EventCloudDao eventCloudDao;
-
+	
 	public List<String> getFolders() {
 		return eventCloudDao.getEventFolders();
 	}
@@ -56,5 +56,20 @@ public class EventCloudService {
 
 	public String doShared(String path) {
 		return eventCloudDao.doShared(path);
+	}
+
+	public String updateFiles(MultipartFile multipartFile, String path,String generatedKey) {
+		String[] name = multipartFile.getOriginalFilename().split("\\.");
+		String fullFilePath = "/Mediatheque/image/".concat(name[0] + "_" + generatedKey + "." + name[1]);
+		Optional<File> fileOptional = Optional.ofNullable(CloudFileHelper.getTempFileFromMultiPartFile(multipartFile));
+		eventCloudDao.deleteFile(path);
+		fileOptional.ifPresent(file -> {
+			eventCloudDao.upLoadFile(file, fullFilePath);
+			file.delete();
+		});
+		return fullFilePath;
+	}
+	public void renameFile(String oldPath, String newPath) {
+		eventCloudDao.renameFile(oldPath,newPath);
 	}
 }

@@ -50,7 +50,10 @@ public class EventCloudDao {
 
 	public String doShared(String path) {
 		SharePermissions permissions = new SharePermissions(SingleRight.READ);
-		Share share = connector.doShare("/selector.mp4", ShareType.PUBLIC_LINK, null, false, null, permissions);
+		Share share = connector.doShare(path, ShareType.PUBLIC_LINK, null, false, null, permissions);
 		return share.getUrl();
+	}
+	public void renameFile(String oldPath, String newPath) {
+		connector.renameFile(oldPath, newPath, false);
 	}
 }
