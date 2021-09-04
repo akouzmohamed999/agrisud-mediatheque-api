@@ -8,6 +8,7 @@ pipeline {
              
               stage('Build') {
 				   steps {
+					sh("docker -v")
 					sh("java -version")
 				    sh("mvn clean install")
 				   }
