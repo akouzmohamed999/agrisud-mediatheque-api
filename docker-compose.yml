@@ -55,7 +55,8 @@ services:
       - agrisud
 
   nextcloud:
-    image: nextcloud:22.0.0
+    build:
+      context: ./docker/nextCloud
     container_name: nextcloud
     restart: always
     ports:
