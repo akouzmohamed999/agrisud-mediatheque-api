@@ -3,6 +3,7 @@ package org.agrisud.mediathequeapi.cloudservice;
 import org.agrisud.mediathequeapi.clouddao.EventCloudDao;
 import org.agrisud.mediathequeapi.util.CloudFileHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +22,7 @@ public class EventCloudService {
 	public List<String> getFolders() {
 		return eventCloudDao.getEventFolders();
 	}
-
+	@Async
 	public void createFolder(String path) {
 
 		eventCloudDao.createFolder(path);

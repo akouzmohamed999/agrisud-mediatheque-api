@@ -12,6 +12,7 @@ import org.agrisud.mediathequeapi.util.Utils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,20 +27,23 @@ public class CategoryService {
 	
 	public void addCategory(Category category) {
 		//Boolean isFileExiste =false; 
-		Boolean isFileExiste = eventCloudService.isFolderExist(category.getPathFolder());
+		//Boolean isFileExiste = eventCloudService.isFolderExist(category.getPathFolder());
 //		for(String folder :eventCloudService.getFolders()) {
 //			if(category.getTitle().equals(folder)) {
 //				isFileExiste= true;
 //			}
 //		}
-		if(!isFileExiste) {
+		//if(!isFileExiste) {
 			eventCloudService.createFolder(category.getPathFolder());
 			category.setUrlImage(eventCloudService.doShared(category.getPathImage()) + "/preview");
 			categoryDao.addCategory(category);
-		}
+		//}
 		
 	}
-
+	
+	public void createFolder(Category category) {
+		
+	}
 	public String uploadFile(MultipartFile multipartFile, String path) {
 		String generatedKey = util.generateKey(32);
 		return eventCloudService.uploadFile(multipartFile,path , generatedKey);
