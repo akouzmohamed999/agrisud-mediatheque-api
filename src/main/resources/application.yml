@@ -1,9 +1,13 @@
 server:
   port: 8091
+  http2:
+    enabled: true
 
 spring:
-  servlet:    multipart:
-      max-request-size: 30MB      max-file-size: 30MB
+  servlet:
+    multipart:
+      max-request-size: 30MB
+      max-file-size: 30MB
   profiles:
     active: dev
   datasource:
@@ -25,6 +29,7 @@ spring:
 cloud:
   server:
     name: http://localhost:3900
+    download-url: http://localhost:3900
     password: cloudagrisudcrud
     username: cloudagrisudcrud
 
