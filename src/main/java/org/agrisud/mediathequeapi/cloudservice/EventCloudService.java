@@ -46,11 +46,11 @@ public class EventCloudService {
 	public Boolean isFolderExist(String path) {
 		return eventCloudDao.isFolderExist(path);
 	}
-
+	@Async
 	public void deleteFolder(String pathFolder) {
 		eventCloudDao.deleteFolder(pathFolder);
 	}
-
+	@Async
 	public void deleteFile(String pathFile) {
 		eventCloudDao.deleteFile(pathFile);
 	}
@@ -70,6 +70,7 @@ public class EventCloudService {
 		});
 		return fullFilePath;
 	}
+	@Async
 	public void renameFile(String oldPath, String newPath) {
 		eventCloudDao.renameFile(oldPath,newPath);
 	}
