@@ -27,6 +27,7 @@ public class Support {
     private String language;
     private List<String> listCountry;
     private List<Thematic> listThematic;
+    private DocumentType documentType;
     private String dateSupport;
     
     public static Support baseMapper(ResultSet resultSet, int rowNumber) throws SQLException {

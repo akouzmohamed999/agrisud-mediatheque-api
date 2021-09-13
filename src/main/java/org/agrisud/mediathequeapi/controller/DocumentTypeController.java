@@ -42,4 +42,8 @@ public class DocumentTypeController {
 	public List<DocumentType> getAllDocumentType() {
 		return documentTypeService.getAllDocumentType();
 	}
+	@GetMapping(path = "/{id}")
+	public DocumentType getDocumentTypeById(@PathVariable("id") Long id) {
+		return documentTypeService.getDocumentTypeById(id);
+	}
 }

@@ -1,5 +1,7 @@
 package org.agrisud.mediathequeapi.dao;
 
+import java.util.List;
+
 import org.agrisud.mediathequeapi.constants.DaoConstant;
 import org.agrisud.mediathequeapi.constants.SqlConstant;
 import org.agrisud.mediathequeapi.model.Category;
@@ -7,11 +9,13 @@ import org.agrisud.mediathequeapi.model.Support;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
 @Repository
 @PropertySource("classpath:sql/support.properties")
@@ -39,5 +43,24 @@ public class SupportDao {
 				.addValue(DaoConstant.LANGUAGE, support.getLanguage())
 				.addValue(DaoConstant.DATE_SUPPORT, support.getDateSupport())
 				.addValue(DaoConstant.DOCUMENT_TYPE_ID, support.getDocumentTypeId());
+	}
+
+	public List<Support> getListSupport() {
+		 
+		 return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT), getRowMapper());
+	}
+	
+	private RowMapper<Support> getRowMapper() {
+		return (rs, rowNum) -> Support.builder()
+				.supportId(rs.getLong(DaoConstant.SUPPORT_ID))
+				.title(rs.getString(DaoConstant.TITLE))
+				.pathSupport(rs.getString(DaoConstant.PATH_SUPPORT))
+				.pathImage(rs.getString(DaoConstant.PATH_IMAGE))
+				.urlImage(rs.getString(DaoConstant.URL_IMAGE))
+				.urlSupport(rs.getString(DaoConstant.URL_SUPPORT))
+				.dateSupport(rs.getString(DaoConstant.DATE_SUPPORT))
+				.documentTypeId(rs.getLong(DaoConstant.DOCUMENT_TYPE_ID))
+				.language(rs.getString(DaoConstant.LANGUAGE))
+				.build();
 	}
 }

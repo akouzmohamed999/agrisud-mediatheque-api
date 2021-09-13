@@ -8,9 +8,11 @@ import org.agrisud.mediathequeapi.constants.DaoConstant;
 import org.agrisud.mediathequeapi.constants.SqlConstant;
 import org.agrisud.mediathequeapi.model.Category;
 import org.agrisud.mediathequeapi.model.Thematic;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -46,6 +48,23 @@ public class ThematicDao {
 
 	public List<Thematic> getAllThematic() {
 		return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_ALL_THEMATIC), Thematic::baseMapper);
+	}
+
+	public Thematic getThematicById(Long id) {
+		Map<String, Object> params = new HashMap<>();
+		params.put(DaoConstant.THEMATIC_ID, id);
+		try {
+			return jdbcTemplate.queryForObject(environment.getProperty(SqlConstant.SELECT_THEMATIC_BY_ID),
+					new MapSqlParameterSource(params), getRowMapper());
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
+	private RowMapper<Thematic> getRowMapper() {
+		return (rs, rowNum) -> Thematic.builder()
+				.thematicId(rs.getLong(DaoConstant.THEMATIC_ID))
+				.title(rs.getString(DaoConstant.TITLE))
+				.build();
 	}
 	
 }
