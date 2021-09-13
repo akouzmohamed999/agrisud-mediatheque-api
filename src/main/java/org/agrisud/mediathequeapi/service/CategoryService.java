@@ -35,15 +35,14 @@ public class CategoryService {
 //		}
 		//if(!isFileExiste) {
 			eventCloudService.createFolder(category.getPathFolder());
+			
 			category.setUrlImage(eventCloudService.doShared(category.getPathImage()) + "/preview");
 			categoryDao.addCategory(category);
 		//}
 		
 	}
 	
-	public void createFolder(Category category) {
-		
-	}
+	
 	public String uploadFile(MultipartFile multipartFile, String path) {
 		String generatedKey = util.generateKey(32);
 		return eventCloudService.uploadFile(multipartFile,path , generatedKey);

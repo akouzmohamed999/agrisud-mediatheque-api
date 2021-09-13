@@ -31,4 +31,10 @@ public class SqlConstant {
 	public static final String DELETE_VIDEO_TYPE_BY_ID = "delete_video_type_by_id";
 	public static final String UPDATE_VIDEO_TYPE = "update_video_type";
 	public static final String SELECT_ALL_VIDEO_TYPE = "select_all_video_type";
+	
+	public static final String INSERT_LIST_THEMATIC_SUPPORT = "insert_list_thematic_support";
+	
+	public static final String INSERT_LIST_COUNTRY_SUPPORT = "insert_list_country_support";
+	
+	public static final String INSERT_SUPPORT = "insert_support";
 }

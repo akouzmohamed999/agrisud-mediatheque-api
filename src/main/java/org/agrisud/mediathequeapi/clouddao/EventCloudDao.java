@@ -11,6 +11,7 @@ import org.aarboard.nextcloud.api.filesharing.SharePermissions;
 import org.aarboard.nextcloud.api.filesharing.SharePermissions.SingleRight;
 import org.aarboard.nextcloud.api.filesharing.ShareType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -32,7 +33,6 @@ public class EventCloudDao {
 	public InputStream getFile(String path) throws IOException {
 		return connector.downloadFile( path);
 	}
-	
 	public void upLoadFile(File file, String path) {
         connector.uploadFile(file, path);
     }
@@ -50,9 +50,10 @@ public class EventCloudDao {
 	}
 
 	public String doShared(String path) {
-		SharePermissions permissions = new SharePermissions(SingleRight.READ);
-		Share share = connector.doShare(path, ShareType.PUBLIC_LINK, null, false, null, permissions);
-		return share.getUrl();
+//		SharePermissions permissions = new SharePermissions(SingleRight.READ);
+//		Share share = connector.doShare(path, ShareType.PUBLIC_LINK, null, false, null, permissions);
+//		return share.getUrl();
+		return connector.doShare(path, ShareType.PUBLIC_LINK, null, false, null, new SharePermissions(SingleRight.READ)).getUrl();
 	}
 	public void renameFile(String oldPath, String newPath) {
 		connector.renameFile(oldPath, newPath, false);
