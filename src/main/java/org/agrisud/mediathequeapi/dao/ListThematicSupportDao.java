@@ -7,6 +7,8 @@ import java.util.Map;
 import org.agrisud.mediathequeapi.constants.DaoConstant;
 import org.agrisud.mediathequeapi.constants.SqlConstant;
 import org.agrisud.mediathequeapi.model.Category;
+import org.agrisud.mediathequeapi.constants.DaoConstant;
+import org.agrisud.mediathequeapi.constants.SqlConstant;
 import org.agrisud.mediathequeapi.model.ListThematicSupport;
 import org.agrisud.mediathequeapi.model.Thematic;
 import org.springframework.beans.factory.annotation.Autowired;
