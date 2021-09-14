@@ -7,6 +7,7 @@ import java.util.Map;
 import org.agrisud.mediathequeapi.constants.DaoConstant;
 import org.agrisud.mediathequeapi.constants.SqlConstant;
 import org.agrisud.mediathequeapi.model.DocumentType;
+import org.agrisud.mediathequeapi.model.Support;
 import org.agrisud.mediathequeapi.model.Thematic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -68,4 +69,5 @@ public class DocumentTypeDao {
 				.title(rs.getString(DaoConstant.TITLE))
 				.build();
 	}
+
 }

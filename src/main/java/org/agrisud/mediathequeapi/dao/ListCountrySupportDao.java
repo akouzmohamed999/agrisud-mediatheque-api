@@ -51,4 +51,10 @@ public class ListCountrySupportDao {
 				
 	}
 
+	public void deleteListCounrtyBySupportId(Long supportId) {
+		Map<String, Object> params = new HashMap<>();
+		params.put(DaoConstant.SUPPORT_ID, supportId);
+		jdbcTemplate.update(environment.getProperty(SqlConstant.DELETE_LIST_COUTRY_BY_SUPPORT_ID), new MapSqlParameterSource(params));
+	}
+
 }

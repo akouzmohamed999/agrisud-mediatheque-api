@@ -1,6 +1,8 @@
 package org.agrisud.mediathequeapi.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.agrisud.mediathequeapi.constants.DaoConstant;
 import org.agrisud.mediathequeapi.constants.SqlConstant;
@@ -9,6 +11,7 @@ import org.agrisud.mediathequeapi.model.Support;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -62,5 +65,27 @@ public class SupportDao {
 				.documentTypeId(rs.getLong(DaoConstant.DOCUMENT_TYPE_ID))
 				.language(rs.getString(DaoConstant.LANGUAGE))
 				.build();
+	}
+
+	public Support getSupportById(Long id) {
+		Map<String, Object> params = new HashMap<>();
+		params.put(DaoConstant.SUPPORT_ID, id);
+		try {
+			return jdbcTemplate.queryForObject(environment.getProperty(SqlConstant.SELECT_SUPPORT_BY_ID),
+					new MapSqlParameterSource(params), getRowMapper());
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
+
+	public void deleteSupport(Long id) {
+		Map<String, Object> params = new HashMap<>();
+		params.put(DaoConstant.SUPPORT_ID, id);
+		jdbcTemplate.update(environment.getProperty(SqlConstant.DELET_SUPPORT_BY_ID), new MapSqlParameterSource(params));
+	}
+
+	public void updateSupport(Support support) {
+		 jdbcTemplate.update(environment.getProperty(SqlConstant.UPDATE_SUPPORT),
+				getSqlParameterSource(support));
 	}
 }

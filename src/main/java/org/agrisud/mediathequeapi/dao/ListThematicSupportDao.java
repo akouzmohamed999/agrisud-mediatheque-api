@@ -52,5 +52,11 @@ public class ListThematicSupportDao {
 				.listThematicSupportId(rs.getLong(DaoConstant.LIST_THEMATIC_SUPPORT_ID))
 				.build();
 	}
+	
+	public void deleteListThematicBySupportId(Long id) {
+		Map<String, Object> params = new HashMap<>();
+		params.put(DaoConstant.SUPPORT_ID, id);
+		jdbcTemplate.update(environment.getProperty(SqlConstant.DELETE_LIST_THEMATIC_BY_SUPPORT_ID), new MapSqlParameterSource(params));
+	}
 
 }

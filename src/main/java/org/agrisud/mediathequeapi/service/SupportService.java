@@ -71,6 +71,43 @@ public class SupportService {
 		
 		return listSupport;
 	}
+
+
+	public void deleteSupport(Long id) {
+		Support support = supportDao.getSupportById(id);
+		if(support.getPathImage()!= null && !"".equals(support.getPathImage())) {
+			eventCloudDao.deleteFile(support.getPathImage());
+		}
+		if(support.getPathSupport()!= null && support.getPathSupport() != "") {
+			eventCloudDao.deleteFile(support.getPathSupport());
+		}
+		listThematicSupportDao.deleteListThematicBySupportId(support.getSupportId());
+		listCountrySupportDao.deleteListCounrtyBySupportId(support.getSupportId());
+		supportDao.deleteSupport(id);
+	}
+	
+	public void updateSupport(Support support) {
+		Support supportOld = supportDao.getSupportById(support.getSupportId());
+		if(!supportOld.getPathSupport().equals(support.getPathSupport())) {
+			eventCloudDao.deleteFile(supportOld.getPathSupport());
+			support.setPathSupport(eventCloudDao.doShared(support.getPathSupport()));
+		}
+		listThematicSupportDao.deleteListThematicBySupportId(support.getSupportId());
+		listCountrySupportDao.deleteListCounrtyBySupportId(support.getSupportId());
+		for(Thematic thematic : support.getListThematic()) {
+			listThematicSupportDao.addListThematicSupport(
+					ListThematicSupport.builder()
+					.supportId(support.getSupportId())
+					.thematicId(thematic.getThematicId())
+					.build());
+		}
+		for(String country : support.getListCountry()) {
+			listCountrySupportDao.addListCountrySupport(
+					ListCountrySupport.builder().supportId(support.getSupportId()).countryCode(country).build()
+					);
+		}
+		supportDao.updateSupport(support);
+	}
 	
 
 }

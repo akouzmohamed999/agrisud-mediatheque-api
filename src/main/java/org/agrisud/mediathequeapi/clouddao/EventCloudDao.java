@@ -11,6 +11,7 @@ import org.aarboard.nextcloud.api.filesharing.SharePermissions.SingleRight;
 import org.aarboard.nextcloud.api.filesharing.ShareType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -50,7 +51,7 @@ public class EventCloudDao {
     public void deleteFolder(String pathFolder) {
         connector.deleteFolder(pathFolder);
     }
-
+    @Async
     public void deleteFile(String pathFile) {
         connector.removeFile(pathFile);
     }
