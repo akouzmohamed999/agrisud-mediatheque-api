@@ -41,4 +41,9 @@ public class ThematicController {
 	public List<Thematic> getAllThematic() {
 		return thematicService.getAllThematic();
 	}
+	
+	@GetMapping("/{id}")
+	public Thematic getThematicById(@PathVariable("id") Long id) {
+		return thematicService.getThematicById(id);
+	}
 }

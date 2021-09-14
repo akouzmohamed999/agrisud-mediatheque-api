@@ -7,10 +7,13 @@ import java.util.Map;
 import org.agrisud.mediathequeapi.constants.DaoConstant;
 import org.agrisud.mediathequeapi.constants.SqlConstant;
 import org.agrisud.mediathequeapi.model.DocumentType;
+import org.agrisud.mediathequeapi.model.Support;
 import org.agrisud.mediathequeapi.model.Thematic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -49,4 +52,22 @@ public class DocumentTypeDao {
 	public List<DocumentType> getAllDocumentType() {
 		return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_ALL_DOCUMENT_TYPE), DocumentType::baseMapper);
 	}
+
+	public DocumentType getDocumentTypeById(Long id) {
+		Map<String, Object> params = new HashMap<>();
+		params.put(DaoConstant.DOCUMENT_TYPE_ID, id);
+		try {
+			return jdbcTemplate.queryForObject(environment.getProperty(SqlConstant.SELECT_DOCUMENT_TYPE_BY_ID),
+					new MapSqlParameterSource(params), getRowMapper());
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
+	private RowMapper<DocumentType> getRowMapper() {
+		return (rs, rowNum) -> DocumentType.builder()
+				.documentTypeId(rs.getLong(DaoConstant.DOCUMENT_TYPE_ID))
+				.title(rs.getString(DaoConstant.TITLE))
+				.build();
+	}
+
 }

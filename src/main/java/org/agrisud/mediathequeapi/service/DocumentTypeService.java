@@ -24,5 +24,8 @@ public class DocumentTypeService {
 	public List<DocumentType> getAllDocumentType() {
 		return documentTypeDao.getAllDocumentType();
 	}
+	public DocumentType getDocumentTypeById(Long id) {
+		return documentTypeDao.getDocumentTypeById(id);
+	}
 
 }

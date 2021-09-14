@@ -34,4 +34,9 @@ public class ThematicService {
 		return thematicDao.getAllThematic();
 	}
 
+
+	public Thematic getThematicById(Long id) {
+		return thematicDao.getThematicById(id);
+	}
+
 }

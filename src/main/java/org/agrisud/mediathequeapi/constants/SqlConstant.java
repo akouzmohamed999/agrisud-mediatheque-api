@@ -37,4 +37,14 @@ public class SqlConstant {
 	public static final String INSERT_LIST_COUNTRY_SUPPORT = "insert_list_country_support";
 	
 	public static final String INSERT_SUPPORT = "insert_support";
+	public static final String SELECT_SUPPORT = "select_support";
+	public static final String SELECT_LIST_COUNTY_BY_SUPPORT_ID = "select_list_country_by_support_id";
+	public static final String SELECT_THEMATIC_BY_SUPPORT_ID = "select_list_thematic_by_support_id";
+	public static final String SELECT_THEMATIC_BY_ID = "select_thematic_by_id";
+	public static final String SELECT_DOCUMENT_TYPE_BY_ID = "select_document_type_by_id";
+	public static final String SELECT_SUPPORT_BY_ID = "select_support_by_id";
+	public static final String DELETE_LIST_THEMATIC_BY_SUPPORT_ID = "delete_list_thematic_by_support_id";
+	public static final String DELETE_LIST_COUTRY_BY_SUPPORT_ID = "delete_list_country_by_support_id";
+	public static final String DELET_SUPPORT_BY_ID = "delete_support_by_id";
+	public static final String UPDATE_SUPPORT = "update_support";;
 }

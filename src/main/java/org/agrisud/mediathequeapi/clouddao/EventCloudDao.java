@@ -11,6 +11,7 @@ import org.aarboard.nextcloud.api.filesharing.SharePermissions.SingleRight;
 import org.aarboard.nextcloud.api.filesharing.ShareType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -31,15 +32,15 @@ public class EventCloudDao {
         return connector.listFolderContent("/category");
     }
 
-    public void createFolder(String path) {
-        connector.createFolder(path);
-    }
 
-    public InputStream getFile(String path) throws IOException {
-        return connector.downloadFile(path);
-    }
-
-    public void upLoadFile(File file, String path) {
+	public void createFolder(String path) {
+		connector.createFolder(path);
+	}
+	
+	public InputStream getFile(String path) throws IOException {
+		return connector.downloadFile( path);
+	}
+	public void upLoadFile(File file, String path) {
         connector.uploadFile(file, path);
     }
 
@@ -50,20 +51,21 @@ public class EventCloudDao {
     public void deleteFolder(String pathFolder) {
         connector.deleteFolder(pathFolder);
     }
-
+    @Async
     public void deleteFile(String pathFile) {
         connector.removeFile(pathFile);
     }
 
-    public String doShared(String path) {
+	public String doShared(String path) {
 //		SharePermissions permissions = new SharePermissions(SingleRight.READ);
 //		Share share = connector.doShare(path, ShareType.PUBLIC_LINK, null, false, null, permissions);
 //		return share.getUrl();
-        return connector.doShare(path, ShareType.PUBLIC_LINK, null, false, null, new SharePermissions(SingleRight.READ)).getUrl().replace(serverName, downloadUrl);
-    }
+		return connector.doShare(path, ShareType.PUBLIC_LINK, null, false, null, new SharePermissions(SingleRight.READ)).getUrl();
+	}
+	public void renameFile(String oldPath, String newPath) {
+		connector.renameFile(oldPath, newPath, false);
+	}
 
-    public void renameFile(String oldPath, String newPath) {
-        connector.renameFile(oldPath, newPath, false);
-    }
+
 
 }
