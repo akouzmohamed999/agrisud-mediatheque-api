@@ -47,9 +47,9 @@ public class SupportController {
 		return eventCloudService.uploadFile(multipartFile,path,util.generateKey(32));
     }
 	
-	@GetMapping
-	public List<Support> getListSupport() {
-		return supportService.getListSupport();
+	@GetMapping(path = "/{categoryId}")
+	public List<Support> getListSupport(@PathVariable(name = "categoryId") Long categoryId) {
+		return supportService.getListSupport(categoryId);
 	} 
 	
 	@DeleteMapping(path = "/{id}")

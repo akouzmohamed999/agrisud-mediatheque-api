@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.agrisud.mediathequeapi.cloudservice.EventCloudService;
 import org.agrisud.mediathequeapi.dao.CategoryDao;
+import org.agrisud.mediathequeapi.dao.SupportDao;
 import org.agrisud.mediathequeapi.model.Category;
 import org.agrisud.mediathequeapi.util.Utils;
 import org.apache.commons.codec.binary.Base64;
@@ -22,6 +23,8 @@ public class CategoryService {
     CategoryDao categoryDao;
 	@Autowired
     EventCloudService eventCloudService;
+	@Autowired
+	SupportDao supportDao;
 	@Autowired
 	Utils util;
 	
@@ -69,8 +72,10 @@ public class CategoryService {
 			for(Category level : getChildOfLevel(category.get().getPathFolder() + "/")) {
 				eventCloudService.deleteFile(level.getPathImage());
 			}
+			
 			eventCloudService.deleteFolder(category.get().getPathFolder());
 			eventCloudService.deleteFile(category.get().getPathImage());
+			supportDao.deleteSupportByCategoryId(id);
 			return categoryDao.deleteCategory(category.get().getPathFolder(),id);
 		}
 		return 0;

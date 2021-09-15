@@ -56,9 +56,9 @@ public class SupportService {
 	}
 
 
-	public List<Support> getListSupport() {
+	public List<Support> getListSupport(Long categoryId) {
 		List<Thematic> list = new ArrayList<Thematic>();
-		List<Support> listSupport = supportDao.getListSupport();
+		List<Support> listSupport = supportDao.getListSupport(categoryId);
 		for(Support support : listSupport) {
 			list = new ArrayList<>();
 			support.setListCountry(listCountrySupportDao.getListCountryBySupportId(support.getSupportId()));
