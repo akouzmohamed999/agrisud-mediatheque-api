@@ -41,12 +41,14 @@ namespace OCP\AppFramework\Http;
  */
 class ContentSecurityPolicy extends EmptyContentSecurityPolicy {
 	/** @var bool Whether inline JS snippets are allowed */
-	protected $inlineScriptAllowed = false;
+	protected $inlineScriptAllowed = true;
 	/** @var bool Whether eval in JS scripts is allowed */
-	protected $evalScriptAllowed = false;
+	protected $evalScriptAllowed = true;
 	/** @var array Domains from which scripts can get loaded */
 	protected $allowedScriptDomains = [
 		'\'self\'',
+		'localhost:3000',
+        'localhost:3001'
 	];
 	/**
 	 * @var bool Whether inline CSS is allowed
@@ -57,20 +59,28 @@ class ContentSecurityPolicy extends EmptyContentSecurityPolicy {
 	/** @var array Domains from which CSS can get loaded */
 	protected $allowedStyleDomains = [
 		'\'self\'',
+		'localhost:3000',
+        'localhost:3001'
 	];
 	/** @var array Domains from which images can get loaded */
 	protected $allowedImageDomains = [
 		'\'self\'',
 		'data:',
 		'blob:',
+		'localhost:3000',
+        'localhost:3001'
 	];
 	/** @var array Domains to which connections can be done */
 	protected $allowedConnectDomains = [
 		'\'self\'',
+		'localhost:3000',
+        'localhost:3001'
 	];
 	/** @var array Domains from which media elements can be loaded */
 	protected $allowedMediaDomains = [
 		'\'self\'',
+		'localhost:3000',
+        'localhost:3001'
 	];
 	/** @var array Domains from which object elements can be loaded */
 	protected $allowedObjectDomains = [];
@@ -84,9 +94,14 @@ class ContentSecurityPolicy extends EmptyContentSecurityPolicy {
 	protected $allowedFontDomains = [
 		'\'self\'',
 		'data:',
+		'localhost:3000',
+        'localhost:3001'
 	];
 	/** @var array Domains from which web-workers and nested browsing content can load elements */
-	protected $allowedChildSrcDomains = [];
+	protected $allowedChildSrcDomains = [
+	    'localhost:3000',
+        'localhost:3001'
+	];
 
 	/** @var array Domains which can embed this Nextcloud instance */
 	protected $allowedFrameAncestors = [
@@ -96,11 +111,16 @@ class ContentSecurityPolicy extends EmptyContentSecurityPolicy {
 	];
 
 	/** @var array Domains from which web-workers can be loaded */
-	protected $allowedWorkerSrcDomains = [];
+	protected $allowedWorkerSrcDomains = [
+	    'localhost:3000',
+        'localhost:3001'
+	];
 
 	/** @var array Domains which can be used as target for forms */
 	protected $allowedFormActionDomains = [
 		'\'self\'',
+		'localhost:3000',
+        'localhost:3001'
 	];
 
 	/** @var array Locations to report violations to */
