@@ -8,7 +8,10 @@ CREATE TABLE SUPPORT (
     LANGUAGE varchar(100),
     DATE_SUPPORT varchar(100),
     document_type_id bigint,
+    category_id bigint,
     CONSTRAINT fk_document_type_support FOREIGN KEY (document_type_id)
-        REFERENCES DOCUMENT_TYPE (document_type_id)
+        REFERENCES DOCUMENT_TYPE (document_type_id),
+    CONSTRAINT fk_category_support FOREIGN KEY (category_id)
+        REFERENCES CATEGORY (category_id)
     
 );

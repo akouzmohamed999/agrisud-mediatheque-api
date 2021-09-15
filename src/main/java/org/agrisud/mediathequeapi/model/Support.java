@@ -18,6 +18,7 @@ import lombok.Setter;
 @Getter
 public class Support {
 	private Long supportId;
+	private Long categoryId;
     private String title;
     private String pathSupport;
     private String pathImage;
@@ -33,6 +34,7 @@ public class Support {
     public static Support baseMapper(ResultSet resultSet, int rowNumber) throws SQLException {
         Support support = new Support();
         support.setSupportId(resultSet.getLong("support_id"));
+        support.setCategoryId(resultSet.getLong("category_id"));
         support.setTitle(resultSet.getString("title"));
         support.setPathSupport(resultSet.getString("path_support"));
         support.setPathImage(resultSet.getString("path_image"));

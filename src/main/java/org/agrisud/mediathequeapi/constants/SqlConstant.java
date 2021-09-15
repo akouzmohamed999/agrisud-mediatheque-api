@@ -46,5 +46,6 @@ public class SqlConstant {
 	public static final String DELETE_LIST_THEMATIC_BY_SUPPORT_ID = "delete_list_thematic_by_support_id";
 	public static final String DELETE_LIST_COUTRY_BY_SUPPORT_ID = "delete_list_country_by_support_id";
 	public static final String DELET_SUPPORT_BY_ID = "delete_support_by_id";
-	public static final String UPDATE_SUPPORT = "update_support";;
+	public static final String UPDATE_SUPPORT = "update_support";
+	public static final String DELET_SUPPORT_BY_CATEGORY_ID = "delete_support_by_category_id";;
 }

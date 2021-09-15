@@ -38,6 +38,7 @@ public class SupportDao {
 	private MapSqlParameterSource getSqlParameterSource(Support support) {
 		return new MapSqlParameterSource()
 				.addValue(DaoConstant.SUPPORT_ID, support.getSupportId())
+				.addValue(DaoConstant.CATEGORY_ID, support.getCategoryId())
 				.addValue(DaoConstant.TITLE, support.getTitle())
 				.addValue(DaoConstant.PATH_SUPPORT, support.getPathSupport())
 				.addValue(DaoConstant.PATH_IMAGE, support.getPathImage())
@@ -48,9 +49,10 @@ public class SupportDao {
 				.addValue(DaoConstant.DOCUMENT_TYPE_ID, support.getDocumentTypeId());
 	}
 
-	public List<Support> getListSupport() {
-		 
-		 return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT), getRowMapper());
+	public List<Support> getListSupport(Long categoryId) {
+		Map<String, Object> params = new HashMap<>();
+		params.put(DaoConstant.CATEGORY_ID, categoryId);
+		 return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT),new MapSqlParameterSource(params), getRowMapper());
 	}
 	
 	private RowMapper<Support> getRowMapper() {
@@ -87,5 +89,11 @@ public class SupportDao {
 	public void updateSupport(Support support) {
 		 jdbcTemplate.update(environment.getProperty(SqlConstant.UPDATE_SUPPORT),
 				getSqlParameterSource(support));
+	}
+
+	public void deleteSupportByCategoryId(Long id) {
+		Map<String, Object> params = new HashMap<>();
+		params.put(DaoConstant.CATEGORY_ID, id);
+		jdbcTemplate.update(environment.getProperty(SqlConstant.DELET_SUPPORT_BY_CATEGORY_ID), new MapSqlParameterSource(params));
 	}
 }
