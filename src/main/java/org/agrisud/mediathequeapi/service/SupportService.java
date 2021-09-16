@@ -90,7 +90,7 @@ public class SupportService {
 		Support supportOld = supportDao.getSupportById(support.getSupportId());
 		if(!supportOld.getPathSupport().equals(support.getPathSupport())) {
 			eventCloudDao.deleteFile(supportOld.getPathSupport());
-			support.setPathSupport(eventCloudDao.doShared(support.getPathSupport()));
+			support.setUrlSupport(eventCloudDao.doShared(support.getPathSupport()));
 		}
 		listThematicSupportDao.deleteListThematicBySupportId(support.getSupportId());
 		listCountrySupportDao.deleteListCounrtyBySupportId(support.getSupportId());
