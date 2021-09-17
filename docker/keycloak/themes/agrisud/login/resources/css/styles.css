@@ -12,6 +12,10 @@
   margin-top: 1.1em;
 }
 
+.forgot-password-wrapper {
+  margin-left: -5em;;
+}
+
 body {
   background-image: url("../img/background.jpg") !important;
   color: var(--textColor);
