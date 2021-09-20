@@ -9,6 +9,7 @@ import org.agrisud.mediathequeapi.dao.ListCountrySupportDao;
 import org.agrisud.mediathequeapi.dao.ListThematicSupportDao;
 import org.agrisud.mediathequeapi.dao.SupportDao;
 import org.agrisud.mediathequeapi.dao.ThematicDao;
+import org.agrisud.mediathequeapi.enums.SortColumn;
 import org.agrisud.mediathequeapi.model.ListCountrySupport;
 import org.agrisud.mediathequeapi.model.ListThematicSupport;
 import org.agrisud.mediathequeapi.model.Support;
@@ -107,6 +108,29 @@ public class SupportService {
 					);
 		}
 		supportDao.updateSupport(support);
+	}
+
+
+	public List<Support> getSupportByOrder(Long categoryId,SortColumn sortColumn, Boolean asc) {
+		List<Thematic> list = new ArrayList<Thematic>();
+		List<Support> listSupport;
+		if (asc) {
+			listSupport = supportDao.getSupportByOrderASC(categoryId, sortColumn);
+        } else {
+        	listSupport =  supportDao.getSupportByOrderDESC(categoryId, sortColumn);
+        }
+		
+		for(Support support : listSupport) {
+			list = new ArrayList<>();
+			support.setListCountry(listCountrySupportDao.getListCountryBySupportId(support.getSupportId()));
+			for(ListThematicSupport listThematic : listThematicSupportDao.getListThematicBySupportId(support.getSupportId())) {
+				list.add(thematicDao.getThematicById(listThematic.getThematicId()));
+			}
+			support.setListThematic(list);
+			support.setDocumentType(documentTypeDao.getDocumentTypeById(support.getDocumentTypeId()));
+		}
+		
+		return listSupport;
 	}
 	
 

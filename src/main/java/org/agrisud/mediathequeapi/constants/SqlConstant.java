@@ -47,5 +47,11 @@ public class SqlConstant {
 	public static final String DELETE_LIST_COUTRY_BY_SUPPORT_ID = "delete_list_country_by_support_id";
 	public static final String DELET_SUPPORT_BY_ID = "delete_support_by_id";
 	public static final String UPDATE_SUPPORT = "update_support";
-	public static final String DELET_SUPPORT_BY_CATEGORY_ID = "delete_support_by_category_id";;
+	public static final String DELET_SUPPORT_BY_CATEGORY_ID = "delete_support_by_category_id";
+	public static final String SELECT_SUPPORT_ORDER_BY_TITLE_ASC = "select_support_order_by_title_asc";
+	public static final String SELECT_SUPPORT_ORDER_BY_TITLE_DESC = "select_support_order_by_title_desc";
+	public static final String SELECT_SUPPORT_ORDER_BY_DATE_ASC = "select_support_order_by_date_asc";
+	public static final String SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_ASC = "select_support_order_by_document_type_asc";
+	public static final String SELECT_SUPPORT_ORDER_BY_DATE_DESC = "select_support_order_by_date_desc" ;
+	public static final String SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_DESC = "select_support_order_by_document_type_desc";
 }
