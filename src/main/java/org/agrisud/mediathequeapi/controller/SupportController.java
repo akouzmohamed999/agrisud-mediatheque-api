@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.agrisud.mediathequeapi.cloudservice.EventCloudService;
+import org.agrisud.mediathequeapi.enums.SortColumn;
 import org.agrisud.mediathequeapi.model.Support;
 import org.agrisud.mediathequeapi.service.SupportService;
 import org.agrisud.mediathequeapi.util.Utils;
@@ -61,6 +62,15 @@ public class SupportController {
 	public void updateSupport(@RequestBody Support support) {
 		supportService.updateSupport(support);
 	}
+	
+	 @GetMapping("/byOrder")
+	    public List<Support> getSupportByOrder(
+	    									@RequestParam(name = "categoryId") Long categoryId,
+                                            @RequestParam(name = "sortColumn") SortColumn sortColumn,
+                                            @RequestParam(name = "asc") Boolean asc){
+	        return supportService.getSupportByOrder(categoryId,sortColumn, asc);
+	    }
+
 	
 	
 }

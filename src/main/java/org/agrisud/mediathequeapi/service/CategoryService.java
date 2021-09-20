@@ -7,8 +7,11 @@ import java.util.Optional;
 
 import org.agrisud.mediathequeapi.cloudservice.EventCloudService;
 import org.agrisud.mediathequeapi.dao.CategoryDao;
+import org.agrisud.mediathequeapi.dao.ListCountrySupportDao;
+import org.agrisud.mediathequeapi.dao.ListThematicSupportDao;
 import org.agrisud.mediathequeapi.dao.SupportDao;
 import org.agrisud.mediathequeapi.model.Category;
+import org.agrisud.mediathequeapi.model.Support;
 import org.agrisud.mediathequeapi.util.Utils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
@@ -27,6 +30,10 @@ public class CategoryService {
 	SupportDao supportDao;
 	@Autowired
 	Utils util;
+	@Autowired
+	ListThematicSupportDao listThematicSupportDao;
+	@Autowired
+	ListCountrySupportDao listCountrySupportDao;
 	
 	public void addCategory(Category category) {
 		//Boolean isFileExiste =false; 
@@ -75,6 +82,10 @@ public class CategoryService {
 			
 			eventCloudService.deleteFolder(category.get().getPathFolder());
 			eventCloudService.deleteFile(category.get().getPathImage());
+			for(Support support: supportDao.getListSupport(id)) {
+				listThematicSupportDao.deleteListThematicBySupportId(support.getSupportId());
+				listCountrySupportDao.deleteListCounrtyBySupportId(support.getSupportId());
+			}
 			supportDao.deleteSupportByCategoryId(id);
 			return categoryDao.deleteCategory(category.get().getPathFolder(),id);
 		}
