@@ -1,11 +1,13 @@
 package org.agrisud.mediathequeapi.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.agrisud.mediathequeapi.constants.DaoConstant;
 import org.agrisud.mediathequeapi.constants.SqlConstant;
+import org.agrisud.mediathequeapi.enums.SortColumn;
 import org.agrisud.mediathequeapi.model.Category;
 import org.agrisud.mediathequeapi.model.Support;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,5 +97,46 @@ public class SupportDao {
 		Map<String, Object> params = new HashMap<>();
 		params.put(DaoConstant.CATEGORY_ID, id);
 		jdbcTemplate.update(environment.getProperty(SqlConstant.DELET_SUPPORT_BY_CATEGORY_ID), new MapSqlParameterSource(params));
+	}
+
+	public List<Support> getSupportByOrderASC(Long categoryId,SortColumn sortColumn) {
+		Map<String, Object> params = new HashMap<>();
+		params.put(DaoConstant.CATEGORY_ID, categoryId);
+		
+        switch (sortColumn) {
+            case SUPPORT_TITLE -> {
+            	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_ORDER_BY_TITLE_ASC),new MapSqlParameterSource(params), getRowMapper());
+            }
+            case SUPPORT_DATE -> {
+            	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_ORDER_BY_DATE_ASC),new MapSqlParameterSource(params), getRowMapper());
+            }
+            case SUPPORT_DOCUMENT_TYPE-> {
+            	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_ASC),new MapSqlParameterSource(params), getRowMapper());
+            }
+            default -> {
+            	return new ArrayList<Support>();
+            }
+        }
+
+	}
+
+	public List<Support> getSupportByOrderDESC(Long categoryId,SortColumn sortColumn) {
+		Map<String, Object> params = new HashMap<>();
+		params.put(DaoConstant.CATEGORY_ID, categoryId);
+		
+        switch (sortColumn) {
+            case SUPPORT_TITLE -> {
+            	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_ORDER_BY_TITLE_DESC),new MapSqlParameterSource(params), getRowMapper());
+            }
+            case SUPPORT_DATE -> {
+            	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_ORDER_BY_DATE_DESC),new MapSqlParameterSource(params), getRowMapper());
+            }
+            case SUPPORT_DOCUMENT_TYPE-> {
+            	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_DESC),new MapSqlParameterSource(params), getRowMapper());
+            }
+            default -> {
+            	return new ArrayList<Support>();
+            }
+        }
 	}
 }
