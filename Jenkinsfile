@@ -2,7 +2,7 @@ def tagName;
 def dockerTagName;
 def dockerRepoUrl = "harbor.norsys-afrique.ma"
 def dockerImageName = "mediatheque-api"
-def dockerImageTag = "${dockerRepoUrl}/agrisud/${dockerImageName}:${dockerTagName}"
+def dockerImageTag;
 
 pipeline {
    agent any
@@ -37,6 +37,7 @@ pipeline {
          steps {
              script {
                  dockerTagName = tagName.replace("MEDIATHEQUE-API-", "")
+                 dockerImageTag = ${dockerRepoUrl}.concat("/agrisud/").concat(${dockerImageName}).concat(":").concat(${dockerTagName})
              }
             sh("docker tag ${dockerImageName} ${dockerImageTag}")
             sh("docker login -u $DOCKER_USR -p $DOCKER_PSW ${dockerRepoUrl}")
