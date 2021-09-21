@@ -54,4 +54,6 @@ public class SqlConstant {
 	public static final String SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_ASC = "select_support_order_by_document_type_asc";
 	public static final String SELECT_SUPPORT_ORDER_BY_DATE_DESC = "select_support_order_by_date_desc" ;
 	public static final String SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_DESC = "select_support_order_by_document_type_desc";
+	public static final String SELECT_SUPPORT_ORDER_BY_LANGUE_ASC = "select_support_order_by_langue_asc";
+	public static final String SELECT_SUPPORT_ORDER_BY_LANGUE_DESC = "select_support_order_by_langue_desc";
 }

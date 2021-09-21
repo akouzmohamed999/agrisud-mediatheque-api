@@ -113,6 +113,9 @@ public class SupportDao {
             case SUPPORT_DOCUMENT_TYPE-> {
             	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_ASC),new MapSqlParameterSource(params), getRowMapper());
             }
+            case SUPPORT_LANGUE-> {
+            	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_ORDER_BY_LANGUE_ASC),new MapSqlParameterSource(params), getRowMapper());
+            }
             default -> {
             	return new ArrayList<Support>();
             }
@@ -133,6 +136,9 @@ public class SupportDao {
             }
             case SUPPORT_DOCUMENT_TYPE-> {
             	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_DESC),new MapSqlParameterSource(params), getRowMapper());
+            }
+            case SUPPORT_LANGUE-> {
+            	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_ORDER_BY_LANGUE_DESC),new MapSqlParameterSource(params), getRowMapper());
             }
             default -> {
             	return new ArrayList<Support>();
