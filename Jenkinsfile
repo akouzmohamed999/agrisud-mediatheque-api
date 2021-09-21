@@ -35,7 +35,9 @@ pipeline {
             DOCKER = credentials("naf-docker-registry")
          }
          steps {
-            dockerImageName = tagName.replace("MEDIATHEQUE-API-", "");
+             script {
+                    dockerImageName = tagName.replace("MEDIATHEQUE-API-", "");
+             }
             sh("docker tag ${dockerImageName} ${dockerImageTag}")
             sh("docker login -u $DOCKER_USR -p $DOCKER_PSW ${dockerRepoUrl}")
 
