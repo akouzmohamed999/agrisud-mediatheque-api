@@ -36,7 +36,7 @@ pipeline {
          }
          steps {
              script {
-                 dockerImageName = tagName.replace("MEDIATHEQUE-API-", "")
+                 dockerTagName = tagName.replace("MEDIATHEQUE-API-", "")
              }
             sh("docker tag ${dockerImageName} ${dockerImageTag}")
             sh("docker login -u $DOCKER_USR -p $DOCKER_PSW ${dockerRepoUrl}")
