@@ -8,11 +8,15 @@ pipeline {
    agent any
    stages {
       stage('init'){
-        tagName= sh(returnStdout: true, script: 'git describe --tags --abbrev=0').trim()
-        sh("git checkout ${tagName}")
+        steps {
+            script {
+                tagName= sh(returnStdout: true, script: 'git describe --tags --abbrev=0').trim()
+            }
+        }
       }
       stage('Tests') {
          steps {
+            sh("git checkout ${tagName}")
             sh("mvn clean test")
          }
       }
