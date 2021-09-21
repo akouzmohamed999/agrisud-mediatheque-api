@@ -29,7 +29,7 @@ public class EventCloudDao {
 
     public List<String> getEventFolders() {
         // TODO: why this /category is static
-        return connector.listFolderContent("/category");
+        return connector.listFolderContent("/");
     }
 
 
