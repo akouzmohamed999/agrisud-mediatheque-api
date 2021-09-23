@@ -31,6 +31,7 @@ public class SqlConstant {
 	public static final String DELETE_VIDEO_TYPE_BY_ID = "delete_video_type_by_id";
 	public static final String UPDATE_VIDEO_TYPE = "update_video_type";
 	public static final String SELECT_ALL_VIDEO_TYPE = "select_all_video_type";
+	public static final String SELECT_VIDEO_TYPE_BY_ID = "select_video_type_by_id";
 	
 	public static final String INSERT_LIST_THEMATIC_SUPPORT = "insert_list_thematic_support";
 	
@@ -54,4 +55,19 @@ public class SqlConstant {
 	public static final String SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_ASC = "select_support_order_by_document_type_asc";
 	public static final String SELECT_SUPPORT_ORDER_BY_DATE_DESC = "select_support_order_by_date_desc" ;
 	public static final String SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_DESC = "select_support_order_by_document_type_desc";
+	
+	public static final String INSERT_SUPPORT_VIDEO = "insert_support_video";
+	
+	public static final String INSERT_LIST_COUNTRY_SUPPORT_VIDEO = "insert_list_country_support_video";
+	public static final String SELECT_LIST_COUNTY_BY_SUPPORT_VIDEO_ID = "select_list_country_by_support_video_id";
+	public static final String DELETE_LIST_COUTRY_BY_SUPPORT_VIDEO_ID = "delete_list_country_by_support_video_id";
+	public static final String INSERT_LIST_THEMATIC_SUPPORT_VIDEO = "insert_list_thematic_support_video";
+	public static final String SELECT_THEMATIC_BY_SUPPORT_VIDEO_ID = "select_list_thematic_by_support_video_id";
+	public static final String DELETE_LIST_THEMATIC_BY_SUPPORT_VIDEO_ID = "delete_list_thematic_by_support_video_id";
+	public static final String SELECT_SUPPORT_VIDEO_BY_ID = "select_support_video_by_id";
+	public static final String DELETE_SUPPORT_VIDEO_BY_ID = "delete_support_video_by_id";
+	
+	public static final String SELECT_SUPPORT_VIDEO = "select_support_video";
+	public static final String UPDATE_SUPPORT_VIDEO = "update_support_video";
+	
 }
