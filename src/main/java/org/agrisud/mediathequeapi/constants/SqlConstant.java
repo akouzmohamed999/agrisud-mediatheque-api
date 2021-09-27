@@ -69,5 +69,11 @@ public class SqlConstant {
 	
 	public static final String SELECT_SUPPORT_VIDEO = "select_support_video";
 	public static final String UPDATE_SUPPORT_VIDEO = "update_support_video";
+	public static final String SELECT_SUPPORT_VIDEO_ORDER_BY_TITLE_ASC = "select_support_video_order_by_title_asc";
+	public static final String SELECT_SUPPORT_VIDEO_ORDER_BY_DATE_ASC = "select_support_video_order_by_date_asc";
+	public static final String SELECT_SUPPORT_VIDEO_ORDER_BY_VIDEO_TYPE_ASC = "select_support_video_order_by_video_type_asc";
+	public static final String SELECT_SUPPORT_VIDEO_ORDER_BY_TITLE_DESC = "select_support_video_order_by_title_desc";
+	public static final String SELECT_SUPPORT_VIDEO_ORDER_BY_DATE_DESC = "select_support_video_order_by_date_desc";
+	public static final String SELECT_SUPPORT_VIDEO_ORDER_BY_VIDEO_TYPE_DESC = "select_support_video_order_by_video_type_desc";
 	
 }

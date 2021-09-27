@@ -10,6 +10,7 @@ import org.agrisud.mediathequeapi.dao.ListThematicSupportVideoDao;
 import org.agrisud.mediathequeapi.dao.SupportVideoDao;
 import org.agrisud.mediathequeapi.dao.ThematicDao;
 import org.agrisud.mediathequeapi.dao.VideoTypeDao;
+import org.agrisud.mediathequeapi.enums.SortColumn;
 import org.agrisud.mediathequeapi.model.ListCountrySupport;
 import org.agrisud.mediathequeapi.model.ListThematicSupport;
 import org.agrisud.mediathequeapi.model.Support;
@@ -82,9 +83,10 @@ public class SupportVideoService {
 	
 	public void updateSupportVideo(SupportVideo support) {
 		SupportVideo supportOld = supportVideoDao.getSupportVideoById(support.getSupportId());
-		if(supportOld.getPathSupport()!= null ) {
+		if(supportOld.getPathSupport()!= null && !"".equals(supportOld.getPathSupport())) {
 			if(!supportOld.getPathSupport().equals(support.getPathSupport())) {
 				eventCloudDao.deleteFile(supportOld.getPathSupport());
+				if(!"".equals(support.getPathSupport()) && support.getPathSupport() !=null)
 				support.setUrlSupport(eventCloudDao.doShared(support.getPathSupport()));
 			}
 		}else {
@@ -108,6 +110,28 @@ public class SupportVideoService {
 					);
 		}
 		supportVideoDao.updateSupportVideo(support);
+	}
+
+	public List<SupportVideo> getSupportVideoByOrder(Long categoryId, SortColumn sortColumn, Boolean asc) {
+		List<Thematic> list = new ArrayList<Thematic>();
+		List<SupportVideo> listSupportVideo;
+		if (asc) {
+			listSupportVideo = supportVideoDao.getSupportVideoByOrderASC(categoryId, sortColumn);
+        } else {
+        	listSupportVideo =  supportVideoDao.getSupportVideoByOrderDESC(categoryId, sortColumn);
+        }
+		
+		for(SupportVideo supportVideo : listSupportVideo) {
+			list = new ArrayList<>();
+			supportVideo.setListCountry(listCountrySupportVideoDao.getListCountryBySupportVideoId(supportVideo.getSupportId()));
+			for(ListThematicSupport listThematic : listThematicSupportVideoDao.getListThematicBySupportVideoId(supportVideo.getSupportId())) {
+				list.add(thematicDao.getThematicById(listThematic.getThematicId()));
+			}
+			supportVideo.setListThematic(list);
+			supportVideo.setVideoType(videoTypeDao.getVideoTypeById(supportVideo.getVideoTypeId()));
+		}
+		
+		return listSupportVideo;
 	}
 
 }

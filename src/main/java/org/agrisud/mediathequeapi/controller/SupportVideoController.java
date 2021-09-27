@@ -62,12 +62,12 @@ public class SupportVideoController {
 		supportVideoService.updateSupportVideo(support);
 	}
 	
-//	 @GetMapping("/byOrder")
-//	    public List<Support> getSupportByOrder(
-//	    									@RequestParam(name = "categoryId") Long categoryId,
-//                                            @RequestParam(name = "sortColumn") SortColumn sortColumn,
-//                                            @RequestParam(name = "asc") Boolean asc){
-//	        return supportService.getSupportByOrder(categoryId,sortColumn, asc);
-//	    }
+	 @GetMapping("/byOrder")
+	    public List<SupportVideo> getSupportVideoByOrder(
+	    									@RequestParam(name = "categoryId") Long categoryId,
+                                            @RequestParam(name = "sortColumn") SortColumn sortColumn,
+                                            @RequestParam(name = "asc") Boolean asc){
+	        return supportVideoService.getSupportVideoByOrder(categoryId,sortColumn, asc);
+	    }
 
 }
