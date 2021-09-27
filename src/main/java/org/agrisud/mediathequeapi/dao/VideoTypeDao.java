@@ -11,6 +11,7 @@ import org.agrisud.mediathequeapi.model.VideoType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -47,5 +48,16 @@ public class VideoTypeDao {
 
 	public List<VideoType> getAllVideoType() {
 		return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_ALL_VIDEO_TYPE), VideoType::baseMapper);
+	}
+
+	public VideoType getVideoTypeById(Long videoTypeId) {
+		Map<String, Object> params = new HashMap<>();
+		params.put(DaoConstant.VIDEO_TYPE_ID, videoTypeId);
+		try {
+			return jdbcTemplate.queryForObject(environment.getProperty(SqlConstant.SELECT_VIDEO_TYPE_BY_ID),
+					new MapSqlParameterSource(params), VideoType::baseMapper);
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 }

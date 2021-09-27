@@ -21,4 +21,6 @@ public class DaoConstant {
 	public static final String URL_SUPPORT = "url_support";
 	public static final String LANGUAGE = "language";
 	public static final String DATE_SUPPORT = "date_support";
+	public static final String TYPE_CATEGORY = "type_category";
+	public static final String LINK = "link";
 }
