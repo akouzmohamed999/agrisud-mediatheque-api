@@ -39,6 +39,7 @@ public class CategoryDao {
 				.addValue(DaoConstant.PATH_FOLDER, category.getPathFolder())
 				.addValue(DaoConstant.PATH_IMAGE, category.getPathImage())
 				.addValue(DaoConstant.URL_IMAGE, category.getUrlImage())
+				.addValue(DaoConstant.TYPE_CATEGORY, category.getTypeCategory())
 				.addValue(DaoConstant.LAST_LEVEL, category.getLastLevel());
 	}
 
@@ -62,6 +63,7 @@ public class CategoryDao {
 				.pathImage(rs.getString(DaoConstant.PATH_IMAGE))
 				.urlImage(rs.getString(DaoConstant.URL_IMAGE))
 				.lastLevel(rs.getBoolean(DaoConstant.LAST_LEVEL))
+				.typeCategory(rs.getString(DaoConstant.TYPE_CATEGORY))
 				.build();
 	}
 

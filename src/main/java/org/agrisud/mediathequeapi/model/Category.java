@@ -21,6 +21,7 @@ public class Category {
     private String urlImage;
     private String image;
     private Boolean lastLevel;
+    private String typeCategory;
 
     public static Category baseMapper(ResultSet resultSet, int rowNumber) throws SQLException {
         Category category = new Category();
@@ -30,6 +31,7 @@ public class Category {
         category.setPathImage(resultSet.getString("path_image"));
         category.setUrlImage(resultSet.getString("url_image"));
         category.setLastLevel(resultSet.getBoolean("last_level"));
+        category.setTypeCategory(resultSet.getString("type_category"));
         return category;
     }
 }
