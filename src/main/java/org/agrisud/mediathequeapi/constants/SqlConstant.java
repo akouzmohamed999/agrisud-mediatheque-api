@@ -76,4 +76,9 @@ public class SqlConstant {
 	public static final String SELECT_SUPPORT_VIDEO_ORDER_BY_DATE_DESC = "select_support_video_order_by_date_desc";
 	public static final String SELECT_SUPPORT_VIDEO_ORDER_BY_VIDEO_TYPE_DESC = "select_support_video_order_by_video_type_desc";
 	
+	public static final String SELECT_SUPPORT_ORDER_BY_LANGUE_ASC = "select_support_order_by_langue_asc";
+	public static final String SELECT_SUPPORT_ORDER_BY_LANGUE_DESC = "select_support_order_by_langue_desc";
+	public static final String SELECT_SUPPORT_VIDEO_ORDER_BY_LANGUE_DESC = "select_support_video_order_by_langue_desc";
+	public static final String SELECT_SUPPORT_VIDEO_ORDER_BY_LANGUE_ASC = "select_support_video_order_by_langue_asc";
+
 }

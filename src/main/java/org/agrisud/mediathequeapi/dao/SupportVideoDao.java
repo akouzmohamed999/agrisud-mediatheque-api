@@ -104,6 +104,9 @@ public class SupportVideoDao {
             case SUPPORT_VIDEO_TYPE-> {
             	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_VIDEO_ORDER_BY_VIDEO_TYPE_ASC),new MapSqlParameterSource(params), getRowMapper());
             }
+            case SUPPORT_LANGUE-> {
+            	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_VIDEO_ORDER_BY_LANGUE_ASC),new MapSqlParameterSource(params), getRowMapper());
+            }
             default -> {
             	return new ArrayList<SupportVideo>();
             }
@@ -123,6 +126,9 @@ public class SupportVideoDao {
             }
             case SUPPORT_VIDEO_TYPE-> {
             	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_VIDEO_ORDER_BY_VIDEO_TYPE_DESC),new MapSqlParameterSource(params), getRowMapper());
+            }
+            case SUPPORT_LANGUE-> {
+            	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_VIDEO_ORDER_BY_LANGUE_DESC),new MapSqlParameterSource(params), getRowMapper());
             }
             default -> {
             	return new ArrayList<SupportVideo>();
