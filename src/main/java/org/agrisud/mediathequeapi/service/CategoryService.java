@@ -8,10 +8,14 @@ import java.util.Optional;
 import org.agrisud.mediathequeapi.cloudservice.EventCloudService;
 import org.agrisud.mediathequeapi.dao.CategoryDao;
 import org.agrisud.mediathequeapi.dao.ListCountrySupportDao;
+import org.agrisud.mediathequeapi.dao.ListCountrySupportVideoDao;
 import org.agrisud.mediathequeapi.dao.ListThematicSupportDao;
+import org.agrisud.mediathequeapi.dao.ListThematicSupportVideoDao;
 import org.agrisud.mediathequeapi.dao.SupportDao;
+import org.agrisud.mediathequeapi.dao.SupportVideoDao;
 import org.agrisud.mediathequeapi.model.Category;
 import org.agrisud.mediathequeapi.model.Support;
+import org.agrisud.mediathequeapi.model.SupportVideo;
 import org.agrisud.mediathequeapi.util.Utils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
@@ -29,11 +33,17 @@ public class CategoryService {
 	@Autowired
 	SupportDao supportDao;
 	@Autowired
+	SupportVideoDao supportVideoDao;
+	@Autowired
 	Utils util;
 	@Autowired
 	ListThematicSupportDao listThematicSupportDao;
 	@Autowired
 	ListCountrySupportDao listCountrySupportDao;
+	@Autowired
+	ListThematicSupportVideoDao listThematicSupportVideoDao;
+	@Autowired
+	ListCountrySupportVideoDao listCountrySupportVideoDao;
 	
 	public void addCategory(Category category) {
 		//Boolean isFileExiste =false; 
@@ -82,11 +92,21 @@ public class CategoryService {
 			
 			eventCloudService.deleteFolder(category.get().getPathFolder());
 			eventCloudService.deleteFile(category.get().getPathImage());
-			for(Support support: supportDao.getListSupport(id)) {
-				listThematicSupportDao.deleteListThematicBySupportId(support.getSupportId());
-				listCountrySupportDao.deleteListCounrtyBySupportId(support.getSupportId());
+			if("0".equals(category.get().getTypeCategory())) {
+				for(Support support: supportDao.getListSupport(id)) {
+					listThematicSupportDao.deleteListThematicBySupportId(support.getSupportId());
+					listCountrySupportDao.deleteListCounrtyBySupportId(support.getSupportId());
+				}
+				supportDao.deleteSupportByCategoryId(id);
+			}else {
+				for(SupportVideo supportVideo: supportVideoDao.getListSupportVideo(id)) {
+					listThematicSupportVideoDao.deleteListThematicBySupportVideoId(supportVideo.getSupportId());
+					listCountrySupportVideoDao.deleteListCounrtyBySupportVideoId(supportVideo.getSupportId());
+					eventCloudService.deleteFile(supportVideo.getPathSupport());
+				}
+				supportVideoDao.deleteSupportVideoByCategoryId(id);
 			}
-			supportDao.deleteSupportByCategoryId(id);
+			
 			return categoryDao.deleteCategory(category.get().getPathFolder(),id);
 		}
 		return 0;

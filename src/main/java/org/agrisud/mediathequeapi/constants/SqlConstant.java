@@ -80,5 +80,6 @@ public class SqlConstant {
 	public static final String SELECT_SUPPORT_ORDER_BY_LANGUE_DESC = "select_support_order_by_langue_desc";
 	public static final String SELECT_SUPPORT_VIDEO_ORDER_BY_LANGUE_DESC = "select_support_video_order_by_langue_desc";
 	public static final String SELECT_SUPPORT_VIDEO_ORDER_BY_LANGUE_ASC = "select_support_video_order_by_langue_asc";
+	public static final String DELET_SUPPORT_VIDEO_BY_CATEGORY_ID = "delete_support_video_by_category_id";
 
 }

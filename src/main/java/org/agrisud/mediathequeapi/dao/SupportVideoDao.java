@@ -136,4 +136,10 @@ public class SupportVideoDao {
         }
 	}
 
+	public void deleteSupportVideoByCategoryId(Long id) {
+		Map<String, Object> params = new HashMap<>();
+		params.put(DaoConstant.CATEGORY_ID, id);
+		jdbcTemplate.update(environment.getProperty(SqlConstant.DELET_SUPPORT_VIDEO_BY_CATEGORY_ID), new MapSqlParameterSource(params));
+	}
+
 }
