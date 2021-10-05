@@ -9,14 +9,16 @@ pipeline {
          environment {
             OPS = credentials("naf-ops-deploy")
          }
-         script {
-            def remote = [:]
-            remote.name = 'ops'
-            remote.host = '192.168.1.235'
-            remote.user = "$OPS_USR"
-            remote.password = "$OPS_PSW"
-            remote.allowAnyHosts = true
-            sshCommand remote: remote, command: "ls -l"
+         steps {
+            script {
+               def remote = [:]
+               remote.name = 'ops'
+               remote.host = '192.168.1.235'
+               remote.user = "$OPS_USR"
+               remote.password = "$OPS_PSW"
+               remote.allowAnyHosts = true
+               sshCommand remote: remote, command: "ls -l"
+            }
          }
       }
    }
