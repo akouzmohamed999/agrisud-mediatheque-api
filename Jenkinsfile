@@ -17,9 +17,7 @@ pipeline {
                remote.user = "$OPS_USR"
                remote.password = "$OPS_PSW"
                remote.allowAnyHosts = true
-               sshCommand remote: remote, command: "export PATH=$PATH:/var/lib/rancher/rke2/bin"
-               sshCommand remote: remote, command: "export KUBECONFIG=/home/mohamed/int-config"
-               sshCommand remote: remote, command: 'kubectl patch deployment agrisud-mediatheque-api -n agrisud-integration -p "{\"spec\": {\"template\": {\"metadata\": { \"labels\": {  \"redeploy\": \"$(date +%s)\"}}}}}"'
+               sshCommand remote: remote, command: 'export PATH=$PATH:/var/lib/rancher/rke2/bin KUBECONFIG=/home/mohamed/int-config && kubectl patch deployment agrisud-mediatheque-api -n agrisud-integration -p "{\"spec\": {\"template\": {\"metadata\": { \"labels\": {  \"redeploy\": \"$(date +%s)\"}}}}}"'
             }
          }
       }
