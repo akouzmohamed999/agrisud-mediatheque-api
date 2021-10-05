@@ -81,5 +81,11 @@ public class SqlConstant {
 	public static final String SELECT_SUPPORT_VIDEO_ORDER_BY_LANGUE_DESC = "select_support_video_order_by_langue_desc";
 	public static final String SELECT_SUPPORT_VIDEO_ORDER_BY_LANGUE_ASC = "select_support_video_order_by_langue_asc";
 	public static final String DELET_SUPPORT_VIDEO_BY_CATEGORY_ID = "delete_support_video_by_category_id";
+	public static final String DELETE_COUNTRY_BY_ID = "delete_country_by_id";
+	public static final String UPDATE_COUNTRY = "update_country";
+	public static final String SELECT_ALL_COUNTRY = "select_all_country";
+	public static final String SELECT_COUNTRY_BY_ID = "select_country_by_id";
+	public static final String SELECT_CATEGORY_CHECK_TILTLE_FRANCAIS = "select_check_title_francais";
+	public static final String SELECT_CATEGORY_CHECK_TILTLE_ANGLAIS = "select_check_title_anglais";
 
 }

@@ -34,7 +34,10 @@ public class DocumentTypeDao {
 	private MapSqlParameterSource getSqlParameterSource(DocumentType documentType) {
 		return new MapSqlParameterSource()
 				.addValue(DaoConstant.DOCUMENT_TYPE_ID, documentType.getDocumentTypeId())
-				.addValue(DaoConstant.TITLE, documentType.getTitle());
+				.addValue(DaoConstant.TITLE_ANGLAIS, documentType.getTitleAnglais())
+				.addValue(DaoConstant.TITLE_FRANCAIS, documentType.getTitleFrancais())
+				.addValue(DaoConstant.PATH_IMAGE, documentType.getPathImage())
+				.addValue(DaoConstant.URL_IMAGE, documentType.getUrlImage());
 	}
 
 	public int deleteDocumentType(Long id) {
@@ -66,7 +69,10 @@ public class DocumentTypeDao {
 	private RowMapper<DocumentType> getRowMapper() {
 		return (rs, rowNum) -> DocumentType.builder()
 				.documentTypeId(rs.getLong(DaoConstant.DOCUMENT_TYPE_ID))
-				.title(rs.getString(DaoConstant.TITLE))
+				.titleAnglais(rs.getString(DaoConstant.TITLE_ANGLAIS))
+				.titleFrancais(rs.getString(DaoConstant.TITLE_FRANCAIS))
+				.pathImage(rs.getString(DaoConstant.PATH_IMAGE))
+				.urlImage(rs.getString(DaoConstant.URL_IMAGE))
 				.build();
 	}
 

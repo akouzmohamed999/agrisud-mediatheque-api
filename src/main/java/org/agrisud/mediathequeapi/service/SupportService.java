@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.agrisud.mediathequeapi.clouddao.EventCloudDao;
+import org.agrisud.mediathequeapi.dao.CountryDao;
 import org.agrisud.mediathequeapi.dao.DocumentTypeDao;
 import org.agrisud.mediathequeapi.dao.ListCountrySupportDao;
 import org.agrisud.mediathequeapi.dao.ListThematicSupportDao;
 import org.agrisud.mediathequeapi.dao.SupportDao;
 import org.agrisud.mediathequeapi.dao.ThematicDao;
 import org.agrisud.mediathequeapi.enums.SortColumn;
+import org.agrisud.mediathequeapi.model.Country;
 import org.agrisud.mediathequeapi.model.ListCountrySupport;
 import org.agrisud.mediathequeapi.model.ListThematicSupport;
 import org.agrisud.mediathequeapi.model.Support;
@@ -30,6 +32,8 @@ public class SupportService {
 	ThematicDao thematicDao;
 	@Autowired
 	DocumentTypeDao documentTypeDao;
+	@Autowired
+	CountryDao countryDao;
 	
 	
 	public Long addSupport(Support support) {
@@ -45,8 +49,8 @@ public class SupportService {
 		listThematicSupport.setSupportId(supportId);
 		
 		
-		for(String country : support.getListCountry()) {
-			listCountrySupport.setCountryCode(country);
+		for(Country country : support.getListCountry()) {
+			listCountrySupport.setCountryId(country.getCountryId());
 			listCountrySupportDao.addListCountrySupport(listCountrySupport);
 		}
 		for(Thematic thematic : support.getListThematic()) {
@@ -59,14 +63,18 @@ public class SupportService {
 
 	public List<Support> getListSupport(Long categoryId) {
 		List<Thematic> list = new ArrayList<Thematic>();
+		List<Country> listPays = new ArrayList<Country>();
 		List<Support> listSupport = supportDao.getListSupport(categoryId);
 		for(Support support : listSupport) {
 			list = new ArrayList<>();
-			support.setListCountry(listCountrySupportDao.getListCountryBySupportId(support.getSupportId()));
+			for(ListCountrySupport listCountry: listCountrySupportDao.getListCountryBySupportId(support.getSupportId())) {
+				listPays.add(countryDao.getCountryById(listCountry.getCountryId()));
+			}
 			for(ListThematicSupport listThematic : listThematicSupportDao.getListThematicBySupportId(support.getSupportId())) {
 				list.add(thematicDao.getThematicById(listThematic.getThematicId()));
 			}
 			support.setListThematic(list);
+			support.setListCountry(listPays);
 			support.setDocumentType(documentTypeDao.getDocumentTypeById(support.getDocumentTypeId()));
 		}
 		
@@ -102,9 +110,9 @@ public class SupportService {
 					.thematicId(thematic.getThematicId())
 					.build());
 		}
-		for(String country : support.getListCountry()) {
+		for(Country country : support.getListCountry()) {
 			listCountrySupportDao.addListCountrySupport(
-					ListCountrySupport.builder().supportId(support.getSupportId()).countryCode(country).build()
+					ListCountrySupport.builder().supportId(support.getSupportId()).countryId(country.getCountryId()).build()
 					);
 		}
 		supportDao.updateSupport(support);
@@ -113,6 +121,7 @@ public class SupportService {
 
 	public List<Support> getSupportByOrder(Long categoryId,SortColumn sortColumn, Boolean asc) {
 		List<Thematic> list = new ArrayList<Thematic>();
+		List<Country> listPays = new ArrayList<Country>();
 		List<Support> listSupport;
 		if (asc) {
 			listSupport = supportDao.getSupportByOrderASC(categoryId, sortColumn);
@@ -122,10 +131,14 @@ public class SupportService {
 		
 		for(Support support : listSupport) {
 			list = new ArrayList<>();
-			support.setListCountry(listCountrySupportDao.getListCountryBySupportId(support.getSupportId()));
+			listPays = new ArrayList<>();
+			for(ListCountrySupport listCountry: listCountrySupportDao.getListCountryBySupportId(support.getSupportId())) {
+				listPays.add(countryDao.getCountryById(listCountry.getCountryId()));
+			}
 			for(ListThematicSupport listThematic : listThematicSupportDao.getListThematicBySupportId(support.getSupportId())) {
 				list.add(thematicDao.getThematicById(listThematic.getThematicId()));
 			}
+			support.setListCountry(listPays);
 			support.setListThematic(list);
 			support.setDocumentType(documentTypeDao.getDocumentTypeById(support.getDocumentTypeId()));
 		}

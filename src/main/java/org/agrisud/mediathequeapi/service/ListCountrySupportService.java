@@ -16,7 +16,7 @@ public class ListCountrySupportService {
 		listCountrySupportDao.addListCountrySupport(listCountrySupport);
 	}
 
-	public List<String> getListCountryBySupportId(Long supportId) {
+	public List<ListCountrySupport> getListCountryBySupportId(Long supportId) {
 		return  listCountrySupportDao.getListCountryBySupportId(supportId);
 	}
 

@@ -32,7 +32,10 @@ public class VideoTypeDao {
 	private MapSqlParameterSource getSqlParameterSource(VideoType videoType) {
 		return new MapSqlParameterSource()
 				.addValue(DaoConstant.VIDEO_TYPE_ID, videoType.getVideoTypeId())
-				.addValue(DaoConstant.TITLE, videoType.getTitle());
+				.addValue(DaoConstant.TITLE_ANGLAIS, videoType.getTitleAnglais())
+				.addValue(DaoConstant.TITLE_FRANCAIS, videoType.getTitleFrancais())
+				.addValue(DaoConstant.PATH_IMAGE, videoType.getPathImage())
+				.addValue(DaoConstant.URL_IMAGE, videoType.getUrlImage());
 	}
 
 	public int deleteVideoType(Long id) {

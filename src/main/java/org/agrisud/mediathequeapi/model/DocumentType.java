@@ -15,12 +15,18 @@ import lombok.Setter;
 @Getter
 public class DocumentType {
 	private Long documentTypeId;
-    private String title;
+	private String titleAnglais;
+	private String titleFrancais;
+	private String urlImage;
+	private String pathImage;
     
     public static DocumentType baseMapper(ResultSet resultSet, int rowNumber) throws SQLException {
     	DocumentType documentType = new DocumentType();
     	documentType .setDocumentTypeId(resultSet.getLong("document_type_id"));
-    	documentType .setTitle(resultSet.getString("title"));
+    	documentType .setTitleAnglais(resultSet.getString("title_anglais"));
+    	documentType .setTitleFrancais(resultSet.getString("title_francais"));
+    	documentType .setUrlImage(resultSet.getString("url_image"));
+    	documentType .setPathImage(resultSet.getString("path_image"));
         return documentType ;
     }
 }

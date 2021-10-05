@@ -17,7 +17,7 @@ public class ListCountrySupportVideoService {
 		listCountrySupportVideoDao.addListCountrySupportVideo(listCountrySupport);
 	}
 
-	public List<String> getListCountryBySupportVideoId(Long supportId) {
+	public List<ListCountrySupport> getListCountryBySupportVideoId(Long supportId) {
 		return listCountrySupportVideoDao.getListCountryBySupportVideoId(supportId);
 	}
 

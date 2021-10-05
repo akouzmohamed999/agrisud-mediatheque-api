@@ -26,7 +26,7 @@ public class Support {
     private String urlSupport;
     private Long documentTypeId;
     private String language;
-    private List<String> listCountry;
+    private List<Country> listCountry;
     private List<Thematic> listThematic;
     private DocumentType documentType;
     private String dateSupport;
