@@ -9,7 +9,7 @@ pipeline {
          environment {
             OPS = credentials("naf-ops-deploy")
          }
-         steps {
+         script {
             def remote = [:]
             remote.name = 'ops'
             remote.host = '192.168.1.235'
