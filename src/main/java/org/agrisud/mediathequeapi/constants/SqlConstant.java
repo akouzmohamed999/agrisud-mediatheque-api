@@ -52,9 +52,11 @@ public class SqlConstant {
 	public static final String SELECT_SUPPORT_ORDER_BY_TITLE_ASC = "select_support_order_by_title_asc";
 	public static final String SELECT_SUPPORT_ORDER_BY_TITLE_DESC = "select_support_order_by_title_desc";
 	public static final String SELECT_SUPPORT_ORDER_BY_DATE_ASC = "select_support_order_by_date_asc";
-	public static final String SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_ASC = "select_support_order_by_document_type_asc";
+	public static final String SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_FRANCAIS_ASC = "select_support_order_by_document_type_francais_asc";
+	public static final String SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_ANGLAIS_ASC = "select_support_order_by_document_type_anglais_asc";
 	public static final String SELECT_SUPPORT_ORDER_BY_DATE_DESC = "select_support_order_by_date_desc" ;
-	public static final String SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_DESC = "select_support_order_by_document_type_desc";
+	public static final String SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_FRANCAIS_DESC = "select_support_order_by_document_type_francais_desc";
+	public static final String SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_ANGLAIS_DESC = "select_support_order_by_document_type_anglais_desc";
 	
 	public static final String INSERT_SUPPORT_VIDEO = "insert_support_video";
 	

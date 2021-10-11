@@ -65,8 +65,10 @@ public class SupportService {
 		List<Thematic> list = new ArrayList<Thematic>();
 		List<Country> listPays = new ArrayList<Country>();
 		List<Support> listSupport = supportDao.getListSupport(categoryId);
+		List<ListCountrySupport> listPaysd = new ArrayList<ListCountrySupport>();
 		for(Support support : listSupport) {
 			list = new ArrayList<>();
+			listPays = new ArrayList<>();
 			for(ListCountrySupport listCountry: listCountrySupportDao.getListCountryBySupportId(support.getSupportId())) {
 				listPays.add(countryDao.getCountryById(listCountry.getCountryId()));
 			}
@@ -101,6 +103,16 @@ public class SupportService {
 			eventCloudDao.deleteFile(supportOld.getPathSupport());
 			support.setUrlSupport(eventCloudDao.doShared(support.getPathSupport()));
 		}
+		if(supportOld.getPathImage()!=null) {
+			if(!supportOld.getPathImage().equals(support.getPathImage())) {
+				eventCloudDao.deleteFile(supportOld.getPathImage());
+				support.setUrlImage(eventCloudDao.doShared(support.getPathImage()) + "/preview");
+			}
+		}else {
+			if(support.getPathImage() != null && !"".equals(support.getPathImage())) {
+				support.setUrlImage(eventCloudDao.doShared(support.getPathImage()) + "/preview");
+			}
+		}
 		listThematicSupportDao.deleteListThematicBySupportId(support.getSupportId());
 		listCountrySupportDao.deleteListCounrtyBySupportId(support.getSupportId());
 		for(Thematic thematic : support.getListThematic()) {
@@ -119,14 +131,14 @@ public class SupportService {
 	}
 
 
-	public List<Support> getSupportByOrder(Long categoryId,SortColumn sortColumn, Boolean asc) {
+	public List<Support> getSupportByOrder(Long categoryId,SortColumn sortColumn, Boolean asc, String language) {
 		List<Thematic> list = new ArrayList<Thematic>();
 		List<Country> listPays = new ArrayList<Country>();
 		List<Support> listSupport;
 		if (asc) {
-			listSupport = supportDao.getSupportByOrderASC(categoryId, sortColumn);
+			listSupport = supportDao.getSupportByOrderASC(categoryId, sortColumn,language);
         } else {
-        	listSupport =  supportDao.getSupportByOrderDESC(categoryId, sortColumn);
+        	listSupport =  supportDao.getSupportByOrderDESC(categoryId, sortColumn,language);
         }
 		
 		for(Support support : listSupport) {
