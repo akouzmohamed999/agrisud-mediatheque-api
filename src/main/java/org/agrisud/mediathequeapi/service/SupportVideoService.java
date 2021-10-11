@@ -122,14 +122,14 @@ public class SupportVideoService {
 		supportVideoDao.updateSupportVideo(support);
 	}
 
-	public List<SupportVideo> getSupportVideoByOrder(Long categoryId, SortColumn sortColumn, Boolean asc) {
+	public List<SupportVideo> getSupportVideoByOrder(Long categoryId, SortColumn sortColumn, Boolean asc,String language) {
 		List<Thematic> list = new ArrayList<Thematic>();
 		List<Country> listPays = new ArrayList<Country>();
 		List<SupportVideo> listSupportVideo;
 		if (asc) {
-			listSupportVideo = supportVideoDao.getSupportVideoByOrderASC(categoryId, sortColumn);
+			listSupportVideo = supportVideoDao.getSupportVideoByOrderASC(categoryId, sortColumn,language);
         } else {
-        	listSupportVideo =  supportVideoDao.getSupportVideoByOrderDESC(categoryId, sortColumn);
+        	listSupportVideo =  supportVideoDao.getSupportVideoByOrderDESC(categoryId, sortColumn,language);
         }
 		
 		for(SupportVideo supportVideo : listSupportVideo) {
