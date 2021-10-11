@@ -1,6 +1,13 @@
 def dockerRepoUrl = "harbor.norsys-afrique.ma"
-def dockerImageName = "mediatheque-api"
+def dockerImageName = "elearning-web"
 def dockerImageTag = "${dockerRepoUrl}/agrisud/${dockerImageName}:latest"
+
+def keycloakURL = "https://login-agrisud.int.norsys-afrique.ma/auth"
+def keycloakRealm = "agrisud"
+def keycloakClientId = "agrisud-elearning-web"
+def apiUrl = "https://elearningapi-agrisud.int.norsys-afrique.ma"
+
+def rancherHost = "192.168.1.235"
 
 pipeline {
    agent any
@@ -31,6 +38,23 @@ pipeline {
             sh("docker push ${dockerImageTag}")
          }
       }
-   }
-}
+      stage('Deploy') {
+         environment {
+            OPS = credentials("naf-ops-deploy")
+         }
+         steps {
+            script {
+               def remote = [: ]
+               remote.name = 'ops'
+               remote.host = "$rancherHost"
+               remote.user = "$OPS_USR"
+               remote.password = "$OPS_PSW"
+               remote.allowAnyHosts = true
+               sshCommand remote: remote, command: 'export PATH=$PATH:/var/lib/rancher/rke2/bin KUBECONFIG=int-config && kubectl patch deployment agrisud-mediatheque-api -n agrisud-integration -p "{\\"spec\\": {\\"template\\": {\\"metadata\\": { \\"labels\\": {  \\"redeploy\\": \\"$(date +%s)\\"}}}}}"'
+            }
+         }
+      }
 
+   }
+
+}
