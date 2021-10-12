@@ -32,7 +32,10 @@ public class ThematicDao {
 	private MapSqlParameterSource getSqlParameterSource(Thematic thematic) {
 		return new MapSqlParameterSource()
 				.addValue(DaoConstant.THEMATIC_ID, thematic.getThematicId())
-				.addValue(DaoConstant.TITLE, thematic.getTitle());
+				.addValue(DaoConstant.TITLE_ANGLAIS, thematic.getTitleAnglais())
+				.addValue(DaoConstant.TITLE_FRANCAIS, thematic.getTitleFrancais())
+				.addValue(DaoConstant.PATH_IMAGE, thematic.getPathImage())
+				.addValue(DaoConstant.URL_IMAGE, thematic.getUrlImage());
 	}
 
 	public int deleteThematic(Long id) {
@@ -63,7 +66,10 @@ public class ThematicDao {
 	private RowMapper<Thematic> getRowMapper() {
 		return (rs, rowNum) -> Thematic.builder()
 				.thematicId(rs.getLong(DaoConstant.THEMATIC_ID))
-				.title(rs.getString(DaoConstant.TITLE))
+				.titleAnglais(rs.getString(DaoConstant.TITLE_ANGLAIS))
+				.titleFrancais(rs.getString(DaoConstant.TITLE_FRANCAIS))
+				.pathImage(rs.getString(DaoConstant.PATH_IMAGE))
+				.urlImage(rs.getString(DaoConstant.URL_IMAGE))
 				.build();
 	}
 	

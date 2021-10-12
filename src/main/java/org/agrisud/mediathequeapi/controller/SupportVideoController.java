@@ -66,8 +66,9 @@ public class SupportVideoController {
 	    public List<SupportVideo> getSupportVideoByOrder(
 	    									@RequestParam(name = "categoryId") Long categoryId,
                                             @RequestParam(name = "sortColumn") SortColumn sortColumn,
-                                            @RequestParam(name = "asc") Boolean asc){
-	        return supportVideoService.getSupportVideoByOrder(categoryId,sortColumn, asc);
+                                            @RequestParam(name = "asc") Boolean asc,
+                                            @RequestParam(name="language") String language){
+	        return supportVideoService.getSupportVideoByOrder(categoryId,sortColumn, asc,language);
 	    }
 
 }

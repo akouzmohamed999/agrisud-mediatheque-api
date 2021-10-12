@@ -99,7 +99,7 @@ public class SupportDao {
 		jdbcTemplate.update(environment.getProperty(SqlConstant.DELET_SUPPORT_BY_CATEGORY_ID), new MapSqlParameterSource(params));
 	}
 
-	public List<Support> getSupportByOrderASC(Long categoryId,SortColumn sortColumn) {
+	public List<Support> getSupportByOrderASC(Long categoryId,SortColumn sortColumn,String language) {
 		Map<String, Object> params = new HashMap<>();
 		params.put(DaoConstant.CATEGORY_ID, categoryId);
 		
@@ -111,7 +111,12 @@ public class SupportDao {
             	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_ORDER_BY_DATE_ASC),new MapSqlParameterSource(params), getRowMapper());
             }
             case SUPPORT_DOCUMENT_TYPE-> {
-            	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_ASC),new MapSqlParameterSource(params), getRowMapper());
+            	if("en".equals(language)) {
+            		return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_ANGLAIS_ASC),new MapSqlParameterSource(params), getRowMapper());
+            	}else {
+            		return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_FRANCAIS_ASC),new MapSqlParameterSource(params), getRowMapper());
+            	}
+            	
             }
             case SUPPORT_LANGUE-> {
             	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_ORDER_BY_LANGUE_ASC),new MapSqlParameterSource(params), getRowMapper());
@@ -123,7 +128,7 @@ public class SupportDao {
 
 	}
 
-	public List<Support> getSupportByOrderDESC(Long categoryId,SortColumn sortColumn) {
+	public List<Support> getSupportByOrderDESC(Long categoryId,SortColumn sortColumn,String language) {
 		Map<String, Object> params = new HashMap<>();
 		params.put(DaoConstant.CATEGORY_ID, categoryId);
 		
@@ -135,7 +140,12 @@ public class SupportDao {
             	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_ORDER_BY_DATE_DESC),new MapSqlParameterSource(params), getRowMapper());
             }
             case SUPPORT_DOCUMENT_TYPE-> {
-            	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_DESC),new MapSqlParameterSource(params), getRowMapper());
+            	if("en".equals(language)) {
+            		return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_ANGLAIS_DESC),new MapSqlParameterSource(params), getRowMapper());
+            	}else {
+            		return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_FRANCAIS_DESC),new MapSqlParameterSource(params), getRowMapper());
+            	}
+            	
             }
             case SUPPORT_LANGUE-> {
             	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_ORDER_BY_LANGUE_DESC),new MapSqlParameterSource(params), getRowMapper());

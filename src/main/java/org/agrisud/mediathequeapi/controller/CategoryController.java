@@ -64,8 +64,9 @@ public class CategoryController {
 	}
 	@GetMapping(path="/title")
 	public Boolean checkTitleIfExist(@RequestParam("pathFolder") String pathFolder,
-							  @RequestParam("title") String title) {
-		return categoryService.checkTitleIfExist(pathFolder,title);
+							  @RequestParam("title") String title,
+							  @RequestParam("type") String type) {
+		return categoryService.checkTitleIfExist(pathFolder,title,type);
 	}
 	@GetMapping(path="/child")
 	public List<Category> getChildOfLevel(@RequestParam("pathFolder") String pathFolder) {

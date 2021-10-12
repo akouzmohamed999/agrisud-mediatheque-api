@@ -16,12 +16,18 @@ import lombok.Setter;
 @Getter
 public class VideoType {
 	private Long videoTypeId;
-    private String title;
+	private String titleAnglais;
+	private String titleFrancais;
+	private String urlImage;
+	private String pathImage;
     
     public static VideoType baseMapper(ResultSet resultSet, int rowNumber) throws SQLException {
     	VideoType videoType = new VideoType();
     	videoType.setVideoTypeId(resultSet.getLong("video_type_id"));
-    	videoType.setTitle(resultSet.getString("title"));
+    	videoType.setTitleAnglais(resultSet.getString("title_anglais"));
+    	videoType.setTitleFrancais(resultSet.getString("title_francais"));
+    	videoType.setPathImage(resultSet.getString("path_image"));
+    	videoType.setUrlImage(resultSet.getString("url_image"));
         return videoType ;
     }
 }

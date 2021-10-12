@@ -23,7 +23,7 @@ public class ListCountrySupportVideoController {
 	}
 	
 	@GetMapping
-	public List<String> getListCountryBySupportVideoId(@RequestParam(name ="supportId") Long supportId) {
+	public List<ListCountrySupport> getListCountryBySupportVideoId(@RequestParam(name ="supportId") Long supportId) {
 		return listCountrySupportVideoService.getListCountryBySupportVideoId(supportId);
 	}
 }

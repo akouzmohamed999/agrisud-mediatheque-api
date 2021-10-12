@@ -27,7 +27,7 @@ public class ListCountrySupportController {
 	}
 	
 	@GetMapping
-	public List<String> getListCountryBySupportId(@RequestParam(name ="supportId") Long supportId) {
+	public List<ListCountrySupport> getListCountryBySupportId(@RequestParam(name ="supportId") Long supportId) {
 		return listCountrySupportService.getListCountryBySupportId(supportId);
 	}
 }
