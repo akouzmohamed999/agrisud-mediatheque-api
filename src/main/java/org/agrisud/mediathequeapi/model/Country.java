@@ -16,18 +16,18 @@ import lombok.Setter;
 @Getter
 public class Country {
 	private Long countryId;
-	private String countryName;
-	private String codeAlpha;
+	private String titleAnglais;
+	private String titleFrancais;
 	private String urlImage;
 	private String pathImage;
 	
 	public static Country baseMapper(ResultSet resultSet, int rowNumber) throws SQLException {
 		Country country = new Country();
 		country.setCountryId(resultSet.getLong("country_id"));
-        country.setCountryName(resultSet.getString("country_name"));
-        country.setCodeAlpha(resultSet.getString("code_alpha"));
-        country.setPathImage(resultSet.getString("path_image"));
-        country.setUrlImage(resultSet.getString("url_image"));
+		country.setTitleAnglais(resultSet.getString("title_anglais"));
+		country.setTitleFrancais(resultSet.getString("title_francais"));
+		country.setPathImage(resultSet.getString("path_image"));
+		country.setUrlImage(resultSet.getString("url_image"));
         return country;
     }
 }

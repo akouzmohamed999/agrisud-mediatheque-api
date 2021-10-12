@@ -90,7 +90,7 @@ public class SupportVideoDao {
 				getSqlParameterSource(support));
 	}
 
-	public List<SupportVideo> getSupportVideoByOrderASC(Long categoryId, SortColumn sortColumn) {
+	public List<SupportVideo> getSupportVideoByOrderASC(Long categoryId, SortColumn sortColumn, String language) {
 		Map<String, Object> params = new HashMap<>();
 		params.put(DaoConstant.CATEGORY_ID, categoryId);
 		
@@ -102,7 +102,11 @@ public class SupportVideoDao {
             	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_VIDEO_ORDER_BY_DATE_ASC),new MapSqlParameterSource(params), getRowMapper());
             }
             case SUPPORT_VIDEO_TYPE-> {
-            	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_VIDEO_ORDER_BY_VIDEO_TYPE_ASC),new MapSqlParameterSource(params), getRowMapper());
+            	if("en".equals(language)) {
+            		return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_VIDEO_ORDER_BY_VIDEO_TYPE_ANGLAIS_ASC),new MapSqlParameterSource(params), getRowMapper());
+            	}else {
+            		return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_VIDEO_ORDER_BY_VIDEO_TYPE_FRANCAIS_ASC),new MapSqlParameterSource(params), getRowMapper());
+            	}
             }
             case SUPPORT_LANGUE-> {
             	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_VIDEO_ORDER_BY_LANGUE_ASC),new MapSqlParameterSource(params), getRowMapper());
@@ -113,7 +117,7 @@ public class SupportVideoDao {
         }
 	}
 
-	public List<SupportVideo> getSupportVideoByOrderDESC(Long categoryId, SortColumn sortColumn) {
+	public List<SupportVideo> getSupportVideoByOrderDESC(Long categoryId, SortColumn sortColumn,String language) {
 		Map<String, Object> params = new HashMap<>();
 		params.put(DaoConstant.CATEGORY_ID, categoryId);
 		
@@ -125,7 +129,11 @@ public class SupportVideoDao {
             	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_VIDEO_ORDER_BY_DATE_DESC),new MapSqlParameterSource(params), getRowMapper());
             }
             case SUPPORT_VIDEO_TYPE-> {
-            	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_VIDEO_ORDER_BY_VIDEO_TYPE_DESC),new MapSqlParameterSource(params), getRowMapper());
+            	if("en".equals(language)) {
+            		return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_VIDEO_ORDER_BY_VIDEO_TYPE_ANGLAIS_DESC),new MapSqlParameterSource(params), getRowMapper());
+            	}else {
+            		return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_VIDEO_ORDER_BY_VIDEO_TYPE_FRANCAIS_DESC),new MapSqlParameterSource(params), getRowMapper());
+            	}
             }
             case SUPPORT_LANGUE-> {
             	return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_VIDEO_ORDER_BY_LANGUE_DESC),new MapSqlParameterSource(params), getRowMapper());
@@ -134,6 +142,12 @@ public class SupportVideoDao {
             	return new ArrayList<SupportVideo>();
             }
         }
+	}
+
+	public void deleteSupportVideoByCategoryId(Long id) {
+		Map<String, Object> params = new HashMap<>();
+		params.put(DaoConstant.CATEGORY_ID, id);
+		jdbcTemplate.update(environment.getProperty(SqlConstant.DELET_SUPPORT_VIDEO_BY_CATEGORY_ID), new MapSqlParameterSource(params));
 	}
 
 }

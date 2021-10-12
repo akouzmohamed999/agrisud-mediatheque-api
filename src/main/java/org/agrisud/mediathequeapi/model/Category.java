@@ -15,7 +15,8 @@ import java.sql.SQLException;
 @Getter
 public class Category {
 	private Long categoryId;
-    private String title;
+    private String titleFrancais;
+    private String titleAnglais;
     private String pathFolder;
     private String pathImage;
     private String urlImage;
@@ -26,7 +27,8 @@ public class Category {
     public static Category baseMapper(ResultSet resultSet, int rowNumber) throws SQLException {
         Category category = new Category();
         category.setCategoryId(resultSet.getLong("category_id"));
-        category.setTitle(resultSet.getString("title"));
+        category.setTitleAnglais(resultSet.getString("title_anglais"));
+        category.setTitleFrancais(resultSet.getString("title_francais"));
         category.setPathFolder(resultSet.getString("path_folder"));
         category.setPathImage(resultSet.getString("path_image"));
         category.setUrlImage(resultSet.getString("url_image"));

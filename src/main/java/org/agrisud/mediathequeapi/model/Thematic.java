@@ -16,12 +16,18 @@ import lombok.Setter;
 @Getter
 public class Thematic {
 	private Long thematicId;
-	private String title;
+	private String titleAnglais;
+	private String titleFrancais;
+	private String urlImage;
+	private String pathImage;
 	
 	public static Thematic baseMapper(ResultSet resultSet, int rowNumber) throws SQLException {
 		Thematic thematic = new Thematic();
 		thematic.setThematicId(resultSet.getLong("thematic_id"));
-		thematic.setTitle(resultSet.getString("title"));
+		thematic.setTitleAnglais(resultSet.getString("title_anglais"));
+		thematic.setTitleFrancais(resultSet.getString("title_francais"));
+		thematic.setPathImage(resultSet.getString("path_image"));
+		thematic.setUrlImage(resultSet.getString("url_image"));
         return thematic;
     }
 }

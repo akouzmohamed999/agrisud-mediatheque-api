@@ -23,4 +23,7 @@ public class DaoConstant {
 	public static final String DATE_SUPPORT = "date_support";
 	public static final String TYPE_CATEGORY = "type_category";
 	public static final String LINK = "link";
+	public static final String TITLE_ANGLAIS = "title_anglais";
+	public static final String TITLE_FRANCAIS = "title_francais";
+	public static final String COUNTRY_ID = "country_id";
 }

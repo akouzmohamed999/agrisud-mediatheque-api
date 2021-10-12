@@ -67,8 +67,9 @@ public class SupportController {
 	    public List<Support> getSupportByOrder(
 	    									@RequestParam(name = "categoryId") Long categoryId,
                                             @RequestParam(name = "sortColumn") SortColumn sortColumn,
+                                            @RequestParam(name= "language") String language,
                                             @RequestParam(name = "asc") Boolean asc){
-	        return supportService.getSupportByOrder(categoryId,sortColumn, asc);
+	        return supportService.getSupportByOrder(categoryId,sortColumn, asc,language);
 	    }
 
 	

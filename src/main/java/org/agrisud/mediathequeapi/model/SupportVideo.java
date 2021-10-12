@@ -24,7 +24,7 @@ public class SupportVideo {
     private String urlSupport;
     private Long videoTypeId;
     private String language;
-    private List<String> listCountry;
+    private List<Country> listCountry;
     private List<Thematic> listThematic;
     private VideoType videoType;
     private String dateSupport;
