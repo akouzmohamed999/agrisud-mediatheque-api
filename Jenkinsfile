@@ -1,11 +1,11 @@
 def dockerRepoUrl = "harbor.norsys-afrique.ma"
-def dockerImageName = "elearning-web"
+def dockerImageName = "mediatheque-api"
 def dockerImageTag = "${dockerRepoUrl}/agrisud/${dockerImageName}:latest"
 
 def keycloakURL = "https://login-agrisud.int.norsys-afrique.ma/auth"
 def keycloakRealm = "agrisud"
-def keycloakClientId = "agrisud-elearning-web"
-def apiUrl = "https://elearningapi-agrisud.int.norsys-afrique.ma"
+def keycloakClientId = "agrisud-mediatheque-api"
+def apiUrl = "https://mediathequeapi-agrisud.int.norsys-afrique.ma"
 
 def rancherHost = "192.168.1.235"
 
