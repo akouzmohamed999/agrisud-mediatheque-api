@@ -30,6 +30,7 @@ public class Support {
     private List<Thematic> listThematic;
     private DocumentType documentType;
     private String dateSupport;
+    private boolean download;
     
     public static Support baseMapper(ResultSet resultSet, int rowNumber) throws SQLException {
         Support support = new Support();
@@ -45,6 +46,7 @@ public class Support {
         support.setListCountry(new ArrayList<>());
         support.setListThematic(new ArrayList<>());
         support.setDateSupport(resultSet.getString("date_support"));
+        support.setDownload(resultSet.getBoolean("download"));
         return support;
     }
     

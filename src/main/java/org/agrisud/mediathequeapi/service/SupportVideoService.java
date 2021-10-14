@@ -134,6 +134,7 @@ public class SupportVideoService {
 		
 		for(SupportVideo supportVideo : listSupportVideo) {
 			list = new ArrayList<>();
+			listPays = new ArrayList<>();
 			for(ListCountrySupport listCountry : listCountrySupportVideoDao.getListCountryBySupportVideoId(supportVideo.getSupportId())) {
 				listPays.add(countryDao.getCountryById(listCountry.getCountryId()));
 			}

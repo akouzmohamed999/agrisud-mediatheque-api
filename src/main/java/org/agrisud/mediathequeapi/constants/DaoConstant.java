@@ -26,4 +26,5 @@ public class DaoConstant {
 	public static final String TITLE_ANGLAIS = "title_anglais";
 	public static final String TITLE_FRANCAIS = "title_francais";
 	public static final String COUNTRY_ID = "country_id";
+	public static final String DOWNLOAD = "download";
 }

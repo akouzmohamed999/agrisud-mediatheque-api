@@ -48,6 +48,7 @@ public class SupportDao {
 				.addValue(DaoConstant.URL_SUPPORT, support.getUrlSupport())
 				.addValue(DaoConstant.LANGUAGE, support.getLanguage())
 				.addValue(DaoConstant.DATE_SUPPORT, support.getDateSupport())
+				.addValue(DaoConstant.DOWNLOAD, support.isDownload())
 				.addValue(DaoConstant.DOCUMENT_TYPE_ID, support.getDocumentTypeId());
 	}
 
@@ -68,6 +69,7 @@ public class SupportDao {
 				.dateSupport(rs.getString(DaoConstant.DATE_SUPPORT))
 				.documentTypeId(rs.getLong(DaoConstant.DOCUMENT_TYPE_ID))
 				.language(rs.getString(DaoConstant.LANGUAGE))
+				.download(rs.getBoolean(DaoConstant.DOWNLOAD))
 				.build();
 	}
 
