@@ -39,4 +39,7 @@ public class ThematicService {
 		return thematicDao.getThematicById(id);
 	}
 
+	public List<Thematic> getListThematicByExpositionId(Long expositionId) {
+		return thematicDao.getListThematicByExpositionId(expositionId);
+	}
 }
