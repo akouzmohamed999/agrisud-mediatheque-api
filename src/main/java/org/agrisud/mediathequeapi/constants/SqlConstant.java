@@ -53,10 +53,13 @@ public class SqlConstant {
 	public static final String SELECT_SUPPORT_ORDER_BY_TITLE_ASC = "select_support_order_by_title_asc";
 	public static final String SELECT_SUPPORT_ORDER_BY_TITLE_DESC = "select_support_order_by_title_desc";
 	public static final String SELECT_SUPPORT_ORDER_BY_DATE_ASC = "select_support_order_by_date_asc";
-	public static final String SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_ASC = "select_support_order_by_document_type_asc";
+	public static final String SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_FRANCAIS_ASC = "select_support_order_by_document_type_francais_asc";
+	public static final String SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_ANGLAIS_ASC = "select_support_order_by_document_type_anglais_asc";
 	public static final String SELECT_SUPPORT_ORDER_BY_DATE_DESC = "select_support_order_by_date_desc" ;
 	public static final String SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_DESC = "select_support_order_by_document_type_desc";
-	
+	public static final String SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_FRANCAIS_DESC = "select_support_order_by_document_type_francais_desc";
+	public static final String SELECT_SUPPORT_ORDER_BY_DOCUMENT_TYPE_ANGLAIS_DESC = "select_support_order_by_document_type_anglais_desc";
+
 	public static final String INSERT_SUPPORT_VIDEO = "insert_support_video";
 	
 	public static final String INSERT_LIST_COUNTRY_SUPPORT_VIDEO = "insert_list_country_support_video";
@@ -72,10 +75,12 @@ public class SqlConstant {
 	public static final String UPDATE_SUPPORT_VIDEO = "update_support_video";
 	public static final String SELECT_SUPPORT_VIDEO_ORDER_BY_TITLE_ASC = "select_support_video_order_by_title_asc";
 	public static final String SELECT_SUPPORT_VIDEO_ORDER_BY_DATE_ASC = "select_support_video_order_by_date_asc";
-	public static final String SELECT_SUPPORT_VIDEO_ORDER_BY_VIDEO_TYPE_ASC = "select_support_video_order_by_video_type_asc";
+	public static final String SELECT_SUPPORT_VIDEO_ORDER_BY_VIDEO_TYPE_FRANCAIS_ASC = "select_support_video_order_by_video_type_francais_asc";
+	public static final String SELECT_SUPPORT_VIDEO_ORDER_BY_VIDEO_TYPE_ANGLAIS_ASC = "select_support_video_order_by_video_type_anglais_asc";
 	public static final String SELECT_SUPPORT_VIDEO_ORDER_BY_TITLE_DESC = "select_support_video_order_by_title_desc";
 	public static final String SELECT_SUPPORT_VIDEO_ORDER_BY_DATE_DESC = "select_support_video_order_by_date_desc";
-	public static final String SELECT_SUPPORT_VIDEO_ORDER_BY_VIDEO_TYPE_DESC = "select_support_video_order_by_video_type_desc";
+	public static final String SELECT_SUPPORT_VIDEO_ORDER_BY_VIDEO_TYPE_FRANCAIS_DESC = "select_support_video_order_by_video_type_francais_desc";
+	public static final String SELECT_SUPPORT_VIDEO_ORDER_BY_VIDEO_TYPE_ANGLAIS_DESC = "select_support_video_order_by_video_type_anglais_desc";
 	
 	public static final String SELECT_SUPPORT_ORDER_BY_LANGUE_ASC = "select_support_order_by_langue_asc";
 	public static final String SELECT_SUPPORT_ORDER_BY_LANGUE_DESC = "select_support_order_by_langue_desc";
@@ -105,5 +110,12 @@ public class SqlConstant {
 	public static final String DELETE_EXPOSITION = "delete_exposition";
 	public static final String SELECT_EXPOSITION_BY_ID = "select_exposition_by_id";
 	public static final String SELECT_EXPOSITION_ALL_BY_CATEGORY_ID = "select_exposition_all_by_category_id";
+
+	public static final String DELETE_COUNTRY_BY_ID = "delete_country_by_id";
+	public static final String UPDATE_COUNTRY = "update_country";
+	public static final String SELECT_ALL_COUNTRY = "select_all_country";
+	public static final String SELECT_COUNTRY_BY_ID = "select_country_by_id";
+	public static final String SELECT_CATEGORY_CHECK_TILTLE_FRANCAIS = "select_check_title_francais";
+	public static final String SELECT_CATEGORY_CHECK_TILTLE_ANGLAIS = "select_check_title_anglais";
 
 }

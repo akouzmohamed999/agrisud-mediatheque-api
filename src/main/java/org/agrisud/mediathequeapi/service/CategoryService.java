@@ -121,9 +121,8 @@ public class CategoryService {
 		return list;
 	}
 
-	public Boolean checkTitleIfExist(String pathFolder, String title) {
-		List<Category> list = categoryDao.checkTitleIfExist(pathFolder,title);
-		if(categoryDao.checkTitleIfExist(pathFolder,title).size() == 0) {
+	public Boolean checkTitleIfExist(String pathFolder, String title,String type) {
+		if(categoryDao.checkTitleIfExist(pathFolder,title,type).size() == 0) {
 			return false;
 		}
 		return true;
@@ -145,11 +144,11 @@ public class CategoryService {
 		for(int i=1; i< name.length - 1;i++) {
 			path+=name[i]+ "/";
 		}
-		if(!category.getPathFolder().equals(path + category.getTitle())) {
-			eventCloudService.renameFile(category.getPathFolder(), path + category.getTitle());
+		if(!category.getPathFolder().equals(path + category.getTitleAnglais())) {
+			eventCloudService.renameFile(category.getPathFolder(), path + category.getTitleAnglais());
 		}
 		
-		category.setPathFolder(path + category.getTitle());
+		category.setPathFolder(path + category.getTitleAnglais());
 		return categoryDao.updateCategory(category);
 	}
 }

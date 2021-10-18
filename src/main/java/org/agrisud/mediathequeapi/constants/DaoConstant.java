@@ -36,4 +36,8 @@ public class DaoConstant {
 	public static final String LIST_THEMATIC_EXPOSITION_ID = "list_thematic_exposition_id";
 	public static final String LIST_EXPOSITION_IMAGE_ID = "list_exposition_image_id";
 	public static final String RANK = "rank_img";
+	public static final String TITLE_ANGLAIS = "title_anglais";
+	public static final String TITLE_FRANCAIS = "title_francais";
+	public static final String COUNTRY_ID = "country_id";
+	public static final String DOWNLOAD = "download";
 }

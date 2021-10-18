@@ -33,41 +33,42 @@ public class SupportVideoController {
 	@Autowired
 	Utils util;
 	@Autowired
-    EventCloudService eventCloudService;
-	
-	
+	EventCloudService eventCloudService;
+
+
 	@PostMapping
 	public Long addSupportVideo(@RequestBody SupportVideo support) {
 		return supportVideoService.addSupportVideo(support);
 	}
-	
+
 //	@PostMapping(path = "/files" ,consumes = { MediaType.APPLICATION_JSON_VALUE, "multipart/form-data" })
 //	@ResponseStatus(HttpStatus.OK)
 //	public String uploadFile(@RequestParam("file") MultipartFile multipartFile,@RequestParam("path") String path) throws IOException {
 //		return eventCloudService.uploadFile(multipartFile,path,util.generateKey(32));
 //    }
-	
+
 	@GetMapping(path = "/{categoryId}")
 	public List<SupportVideo> getListSupport(@PathVariable(name = "categoryId") Long categoryId) {
 		return supportVideoService.getListSupportVideo(categoryId);
-	} 
-	
+	}
+
 	@DeleteMapping(path = "/{id}")
 	public void deleteSupportVideo(@PathVariable(name = "id") Long id) {
 		supportVideoService.deleteSupportVideo(id);
 	}
-	
+
 	@PutMapping
 	public void updateSupport(@RequestBody SupportVideo support) {
 		supportVideoService.updateSupportVideo(support);
 	}
-	
-	 @GetMapping("/byOrder")
-	    public List<SupportVideo> getSupportVideoByOrder(
-	    									@RequestParam(name = "categoryId") Long categoryId,
-                                            @RequestParam(name = "sortColumn") SortColumn sortColumn,
-                                            @RequestParam(name = "asc") Boolean asc){
-	        return supportVideoService.getSupportVideoByOrder(categoryId,sortColumn, asc);
-	    }
+
+	@GetMapping("/byOrder")
+	public List<SupportVideo> getSupportVideoByOrder(
+			@RequestParam(name = "categoryId") Long categoryId,
+			@RequestParam(name = "sortColumn") SortColumn sortColumn,
+			@RequestParam(name = "asc") Boolean asc,
+			@RequestParam(name="language") String language){
+		return supportVideoService.getSupportVideoByOrder(categoryId,sortColumn, asc,language);
+	}
 
 }

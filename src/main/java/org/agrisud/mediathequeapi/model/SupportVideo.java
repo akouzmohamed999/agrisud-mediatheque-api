@@ -17,19 +17,19 @@ import lombok.Setter;
 @Setter
 @Getter
 public class SupportVideo {
-	private Long supportId;
-	private Long categoryId;
+    private Long supportId;
+    private Long categoryId;
     private String title;
     private String pathSupport;
     private String urlSupport;
     private Long videoTypeId;
     private String language;
-    private List<String> listCountry;
+    private List<Country> listCountry;
     private List<Thematic> listThematic;
     private VideoType videoType;
     private String dateSupport;
     private String link;
-    
+
     public static SupportVideo baseMapper(ResultSet resultSet, int rowNumber) throws SQLException {
         SupportVideo support = new SupportVideo();
         support.setSupportId(resultSet.getLong("support_id"));
@@ -45,5 +45,5 @@ public class SupportVideo {
         support.setLink(resultSet.getString("link"));
         return support;
     }
-    
+
 }

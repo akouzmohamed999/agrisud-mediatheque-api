@@ -2,6 +2,7 @@ package org.agrisud.mediathequeapi.service;
 
 import java.util.List;
 
+import org.agrisud.mediathequeapi.clouddao.EventCloudDao;
 import org.agrisud.mediathequeapi.cloudservice.EventCloudService;
 import org.agrisud.mediathequeapi.dao.ThematicDao;
 import org.agrisud.mediathequeapi.model.Thematic;
@@ -12,10 +13,11 @@ import org.springframework.stereotype.Service;
 public class ThematicService {
 	@Autowired
 	ThematicDao thematicDao;
-	
+	@Autowired
+	EventCloudDao eventCloudDao;
 	
 	public int addThematic(Thematic thematic) {
-		
+		thematic.setUrlImage(eventCloudDao.doShared(thematic.getPathImage()));
 		return thematicDao.addThematic(thematic);
 	}
 
@@ -26,6 +28,11 @@ public class ThematicService {
 
 
 	public int updateThematic(Thematic thematic) {
+		Thematic thematicOld = thematicDao.getThematicById(thematic.getThematicId());
+		if(!thematicOld.getPathImage().equals(thematic.getPathImage())) {
+			eventCloudDao.deleteFile(thematicOld.getPathImage());
+			thematic.setUrlImage(eventCloudDao.doShared(thematic.getPathImage()));
+		}
 		return thematicDao.updateThematic(thematic);
 	}
 

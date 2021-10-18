@@ -21,7 +21,8 @@ public class Exposition {
     private String dateExposition;
     private String descriptionFr;
     private String descriptionEn;
-    private String country;
+    private Long countryId;
+    //private Country country;
     private List<Thematic> listThematic;
     private List<ExpositionImage> listExpositionImage;
 
@@ -34,9 +35,10 @@ public class Exposition {
         exposition.setDateExposition(resultSet.getString("date_exposition"));
         exposition.setDescriptionFr(resultSet.getString("description_fr"));
         exposition.setDescriptionEn(resultSet.getString("description_en"));
-        exposition.setCountry(resultSet.getString("country"));
+        exposition.setCountryId(resultSet.getLong("country_id"));
         exposition.setListThematic(new ArrayList<>());
         exposition.setListExpositionImage(new ArrayList<>());
+        //exposition.setCountry(null);
         return exposition;
     }
 

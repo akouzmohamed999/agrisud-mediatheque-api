@@ -11,13 +11,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class ListCountrySupportVideoService {
 	@Autowired
-	ListCountrySupportVideoDao listCountrySupportVideoDao; 
-	
+	ListCountrySupportVideoDao listCountrySupportVideoDao;
+
 	public void addListCountrySupportVideo(ListCountrySupport listCountrySupport) {
 		listCountrySupportVideoDao.addListCountrySupportVideo(listCountrySupport);
 	}
 
-	public List<String> getListCountryBySupportVideoId(Long supportId) {
+	public List<ListCountrySupport> getListCountryBySupportVideoId(Long supportId) {
 		return listCountrySupportVideoDao.getListCountryBySupportVideoId(supportId);
 	}
 

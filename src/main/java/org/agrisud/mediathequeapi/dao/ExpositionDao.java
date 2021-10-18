@@ -45,7 +45,7 @@ public class ExpositionDao {
                 .addValue(DaoConstant.TITLE_FR, exposition.getTitleFr())
                 .addValue(DaoConstant.TITLE_EN, exposition.getTitleEn())
                 .addValue(DaoConstant.DATE_EXPOSITION, exposition.getDateExposition())
-                .addValue(DaoConstant.COUNTRY, exposition.getCountry())
+                .addValue(DaoConstant.COUNTRY_ID, exposition.getCountryId())
                 .addValue(DaoConstant.DESCRIPTION_FR, exposition.getDescriptionFr())
                 .addValue(DaoConstant.DESCRIPTION_EN, exposition.getDescriptionEn());
     }
@@ -63,7 +63,7 @@ public class ExpositionDao {
                 .titleFr(rs.getString(DaoConstant.TITLE_FR))
                 .titleEn(rs.getString(DaoConstant.TITLE_EN))
                 .dateExposition(rs.getString(DaoConstant.DATE_EXPOSITION))
-                .country(rs.getString(DaoConstant.COUNTRY))
+                .countryId(rs.getLong(DaoConstant.COUNTRY_ID))
                 .descriptionEn(rs.getString(DaoConstant.DESCRIPTION_EN))
                 .descriptionFr(rs.getString(DaoConstant.DESCRIPTION_FR))
                 .build();

@@ -19,6 +19,8 @@ public class ExpositionService {
     ListThematicExpositionDao listThematicExpositionDao;
     @Autowired
     ThematicDao thematicDao;
+    @Autowired
+    CountryDao countryDao;
 
     public Long addExposition(Exposition exposition) {
         ListExpositionImage listExpositionImage = new ListExpositionImage();
@@ -73,6 +75,7 @@ public class ExpositionService {
     public List<Exposition> getAllExpositionByCategory(Long idCategory) {
         List<Exposition> expositionList = expositionDao.getListExpositionByCategory(idCategory);
         expositionList.forEach(exposition -> {
+            //exposition.setCountry(countryDao.getCountryById(exposition.getCountryId()));
             exposition.setListExpositionImage(expositionImageDao.getListExpositionImageByExpositionId(exposition.getExpositionId()));
             exposition.setListThematic(thematicDao.getListThematicByExpositionId(exposition.getExpositionId()));
         });

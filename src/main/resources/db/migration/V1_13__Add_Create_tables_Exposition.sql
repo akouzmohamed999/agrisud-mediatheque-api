@@ -15,8 +15,10 @@ CREATE TABLE EXPOSITION
     date_exposition varchar(20),
     description_fr  text,
     description_en  text,
-    country         varchar(100),
-    CONSTRAINT fk_category_exposition FOREIGN KEY (category_id)
+    country_id      bigint,
+    CONSTRAINT fk_country_exposition FOREIGN KEY (country_id)
+        REFERENCES COUNTRY (country_id),
+        CONSTRAINT fk_category_exposition FOREIGN KEY (category_id)
         REFERENCES CATEGORY (category_id)
 );
 CREATE TABLE LIST_THEMATIC_EXPOSITION
