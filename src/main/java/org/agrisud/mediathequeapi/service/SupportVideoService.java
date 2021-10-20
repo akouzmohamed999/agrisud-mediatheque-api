@@ -148,5 +148,21 @@ public class SupportVideoService {
 		
 		return listSupportVideo;
 	}
+	
+	public SupportVideo getSupportVideoById(Long supportId) {
+		List<Thematic> list = new ArrayList<Thematic>();
+		List<Country> listPays = new ArrayList<Country>();
+		SupportVideo supportVideo = supportVideoDao.getSupportVideoById(supportId);
+		for(ListCountrySupport listCountry : listCountrySupportVideoDao.getListCountryBySupportVideoId(supportVideo.getSupportId())) {
+			listPays.add(countryDao.getCountryById(listCountry.getCountryId()));
+		}
+		for(ListThematicSupport listThematic : listThematicSupportVideoDao.getListThematicBySupportVideoId(supportVideo.getSupportId())) {
+			list.add(thematicDao.getThematicById(listThematic.getThematicId()));
+		}
+		supportVideo.setListCountry(listPays);
+		supportVideo.setListThematic(list);
+		supportVideo.setVideoType(videoTypeDao.getVideoTypeById(supportVideo.getVideoTypeId()));
+		return supportVideo;
+	}
 
 }

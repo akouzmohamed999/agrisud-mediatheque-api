@@ -17,6 +17,8 @@ import org.agrisud.mediathequeapi.model.ListThematicSupport;
 import org.agrisud.mediathequeapi.model.Support;
 import org.agrisud.mediathequeapi.model.Thematic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 @Service
 public class SupportService {
@@ -61,10 +63,11 @@ public class SupportService {
 	}
 
 
-	public List<Support> getListSupport(Long categoryId) {
+	public Page<Support> getListSupport(Long categoryId, int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
 		List<Thematic> list = new ArrayList<Thematic>();
 		List<Country> listPays = new ArrayList<Country>();
-		List<Support> listSupport = supportDao.getListSupport(categoryId);
+		Page<Support> listSupport = supportDao.getListSupport(categoryId,pageRequest);
 		List<ListCountrySupport> listPaysd = new ArrayList<ListCountrySupport>();
 		for(Support support : listSupport) {
 			list = new ArrayList<>();
@@ -156,6 +159,24 @@ public class SupportService {
 		}
 		
 		return listSupport;
+	}
+
+
+	public Support getSupportById(Long supportId) {
+		Support support = supportDao.getSupportById(supportId);
+		List<Thematic> list = new ArrayList<Thematic>();
+		List<Country> listPays = new ArrayList<Country>();
+		for(ListCountrySupport listCountry: listCountrySupportDao.getListCountryBySupportId(support.getSupportId())) {
+			listPays.add(countryDao.getCountryById(listCountry.getCountryId()));
+		}
+		for(ListThematicSupport listThematic : listThematicSupportDao.getListThematicBySupportId(support.getSupportId())) {
+			list.add(thematicDao.getThematicById(listThematic.getThematicId()));
+		}
+		support.setListCountry(listPays);
+		support.setListThematic(list);
+		support.setDocumentType(documentTypeDao.getDocumentTypeById(support.getDocumentTypeId()));
+		return support;
+		
 	}
 	
 

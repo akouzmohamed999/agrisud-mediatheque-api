@@ -92,5 +92,6 @@ public class SqlConstant {
 	public static final String SELECT_COUNTRY_BY_ID = "select_country_by_id";
 	public static final String SELECT_CATEGORY_CHECK_TILTLE_FRANCAIS = "select_check_title_francais";
 	public static final String SELECT_CATEGORY_CHECK_TILTLE_ANGLAIS = "select_check_title_anglais";
+	public static final String SELECT_ALL_NEWS = "select_all_news";
 
 }
