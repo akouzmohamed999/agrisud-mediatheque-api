@@ -1,6 +1,5 @@
 package org.agrisud.mediathequeapi.cloudservice;
 
-import org.agrisud.mediathequeapi.clouddao.EventCloudDao;
 import org.agrisud.mediathequeapi.clouddao.ExpositionCloudDao;
 import org.agrisud.mediathequeapi.util.CloudFileHelper;
 import org.agrisud.mediathequeapi.util.Utils;
@@ -15,15 +14,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class ExpositionCloudService {
 	@Autowired
     ExpositionCloudDao expositionCloudDao;
-	
-	@Autowired
-	Utils util;
 
     public List<String> getFolders() {
         return expositionCloudDao.getEventFolders();
@@ -72,7 +67,7 @@ public class ExpositionCloudService {
 
     private String getFileName(String originalFilename, String expositionName) {
         String folderName = "/Mediatheque/ExpositionsImages/" + expositionName;
-        String fileName = originalFilename.substring(0, originalFilename.indexOf('.')) + util.generateKey(32);
+        String fileName = originalFilename.substring(0, originalFilename.indexOf('.')) + new Utils().generateKey(32);
         return folderName + fileName + originalFilename.substring(originalFilename.indexOf('.'));
     }
 
