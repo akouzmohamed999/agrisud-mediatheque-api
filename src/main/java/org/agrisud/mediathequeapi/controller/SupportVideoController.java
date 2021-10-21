@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.agrisud.mediathequeapi.cloudservice.EventCloudService;
 import org.agrisud.mediathequeapi.enums.SortColumn;
+import org.agrisud.mediathequeapi.model.News;
 import org.agrisud.mediathequeapi.model.Support;
 import org.agrisud.mediathequeapi.model.SupportVideo;
+import org.agrisud.mediathequeapi.service.NewsService;
 import org.agrisud.mediathequeapi.service.SupportService;
 import org.agrisud.mediathequeapi.service.SupportVideoService;
 import org.agrisud.mediathequeapi.util.Utils;
@@ -34,32 +36,37 @@ public class SupportVideoController {
 	Utils util;
 	@Autowired
     EventCloudService eventCloudService;
-	
+	@Autowired
+	NewsService newsService;
 	
 	@PostMapping
 	public Long addSupportVideo(@RequestBody SupportVideo support) {
-		return supportVideoService.addSupportVideo(support);
+		Long supportId = supportVideoService.addSupportVideo(support);
+		newsService.addNews(News.builder().supportId(supportId).typeCategory("1").build());
+		return supportId;
 	}
-	
+
 //	@PostMapping(path = "/files" ,consumes = { MediaType.APPLICATION_JSON_VALUE, "multipart/form-data" })
 //	@ResponseStatus(HttpStatus.OK)
 //	public String uploadFile(@RequestParam("file") MultipartFile multipartFile,@RequestParam("path") String path) throws IOException {
 //		return eventCloudService.uploadFile(multipartFile,path,util.generateKey(32));
 //    }
-	
+
 	@GetMapping(path = "/{categoryId}")
 	public List<SupportVideo> getListSupport(@PathVariable(name = "categoryId") Long categoryId) {
 		return supportVideoService.getListSupportVideo(categoryId);
-	} 
-	
+	}
+
 	@DeleteMapping(path = "/{id}")
 	public void deleteSupportVideo(@PathVariable(name = "id") Long id) {
 		supportVideoService.deleteSupportVideo(id);
+		newsService.deleteNewsBySupportId(id,"1");
 	}
-	
+
 	@PutMapping
 	public void updateSupport(@RequestBody SupportVideo support) {
 		supportVideoService.updateSupportVideo(support);
+		newsService.addNews(News.builder().supportId(support.getSupportId()).typeCategory("1").build());
 	}
 	
 	 @GetMapping("/byOrder")
@@ -70,5 +77,6 @@ public class SupportVideoController {
                                             @RequestParam(name="language") String language){
 	        return supportVideoService.getSupportVideoByOrder(categoryId,sortColumn, asc,language);
 	    }
+
 
 }

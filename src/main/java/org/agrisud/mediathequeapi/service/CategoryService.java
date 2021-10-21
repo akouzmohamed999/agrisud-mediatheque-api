@@ -93,7 +93,7 @@ public class CategoryService {
 			eventCloudService.deleteFolder(category.get().getPathFolder());
 			eventCloudService.deleteFile(category.get().getPathImage());
 			if("0".equals(category.get().getTypeCategory())) {
-				for(Support support: supportDao.getListSupport(id)) {
+				for(Support support: supportDao.getListAllSupport(id)) {
 					listThematicSupportDao.deleteListThematicBySupportId(support.getSupportId());
 					listCountrySupportDao.deleteListCounrtyBySupportId(support.getSupportId());
 				}

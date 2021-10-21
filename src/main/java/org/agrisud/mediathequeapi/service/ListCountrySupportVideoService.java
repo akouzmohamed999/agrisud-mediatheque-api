@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ListCountrySupportVideoService {
 	@Autowired
-	ListCountrySupportVideoDao listCountrySupportVideoDao; 
-	
+	ListCountrySupportVideoDao listCountrySupportVideoDao;
+
 	public void addListCountrySupportVideo(ListCountrySupport listCountrySupport) {
 		listCountrySupportVideoDao.addListCountrySupportVideo(listCountrySupport);
 	}

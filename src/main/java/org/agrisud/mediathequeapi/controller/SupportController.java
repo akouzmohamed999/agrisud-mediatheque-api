@@ -5,10 +5,13 @@ import java.util.List;
 
 import org.agrisud.mediathequeapi.cloudservice.EventCloudService;
 import org.agrisud.mediathequeapi.enums.SortColumn;
+import org.agrisud.mediathequeapi.model.News;
 import org.agrisud.mediathequeapi.model.Support;
+import org.agrisud.mediathequeapi.service.NewsService;
 import org.agrisud.mediathequeapi.service.SupportService;
 import org.agrisud.mediathequeapi.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,11 +38,15 @@ public class SupportController {
 	Utils util;
 	@Autowired
     EventCloudService eventCloudService;
+	@Autowired
+	NewsService newsService;
 	
 	
 	@PostMapping
 	public Long addSupport(@RequestBody Support support) {
-		return supportService.addSupport(support);
+		Long supportId =  supportService.addSupport(support);
+		newsService.addNews(News.builder().supportId(supportId).typeCategory("0").build());
+		return supportId;
 	}
 	
 	@PostMapping(path = "/files" ,consumes = { MediaType.APPLICATION_JSON_VALUE, "multipart/form-data" })
@@ -49,17 +56,22 @@ public class SupportController {
     }
 	
 	@GetMapping(path = "/{categoryId}")
-	public List<Support> getListSupport(@PathVariable(name = "categoryId") Long categoryId) {
-		return supportService.getListSupport(categoryId);
+	public Page<Support> getListSupport(@PathVariable(name = "categoryId") Long categoryId,
+										@RequestParam(name = "page", defaultValue = PAGE) int page,
+										@RequestParam(name = "size", defaultValue = SIZE) int size
+) {
+		return supportService.getListSupport(categoryId,page,size);
 	} 
 	
 	@DeleteMapping(path = "/{id}")
 	public void deleteSupport(@PathVariable(name = "id") Long id) {
 		supportService.deleteSupport(id);
+		newsService.deleteNewsBySupportId(id,"0");
 	}
 	
 	@PutMapping
 	public void updateSupport(@RequestBody Support support) {
+		newsService.addNews(News.builder().supportId(support.getSupportId()).typeCategory("0").build());
 		supportService.updateSupport(support);
 	}
 	
