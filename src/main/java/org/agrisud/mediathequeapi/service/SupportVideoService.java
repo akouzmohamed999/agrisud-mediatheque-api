@@ -37,18 +37,15 @@ public class SupportVideoService {
 	VideoTypeDao videoTypeDao;
 	@Autowired
 	CountryDao countryDao;
-	
 	public Long addSupportVideo(SupportVideo support) {
 		ListCountrySupport listCountrySupport = new ListCountrySupport();
 		ListThematicSupport listThematicSupport = new ListThematicSupport();
 		if(support.getPathSupport()!= null)
-		support.setUrlSupport(eventCloudDao.doShared(support.getPathSupport()));
+			support.setUrlSupport(eventCloudDao.doShared(support.getPathSupport()));
 		Long supportId =  supportVideoDao.addSupport(support);
-		
+
 		listCountrySupport.setSupportId(supportId);
 		listThematicSupport.setSupportId(supportId);
-		
-		
 		for(Country country : support.getListCountry()) {
 			listCountrySupport.setCountryId(country.getCountryId());
 			listCountrySupportVideoDao.addListCountrySupportVideo(listCountrySupport);
@@ -59,7 +56,7 @@ public class SupportVideoService {
 		}
 		return supportId;
 	}
-	
+
 	public void deleteSupportVideo(Long id) {
 		SupportVideo support = supportVideoDao.getSupportVideoById(id);
 		if(support.getPathSupport()!= null && support.getPathSupport() != "") {
@@ -87,32 +84,32 @@ public class SupportVideoService {
 			support.setListThematic(list);
 			support.setVideoType(videoTypeDao.getVideoTypeById(support.getVideoTypeId()));
 		}
-		
+
 		return listSupport;
 	}
-	
+
 	public void updateSupportVideo(SupportVideo support) {
 		SupportVideo supportOld = supportVideoDao.getSupportVideoById(support.getSupportId());
 		if(supportOld.getPathSupport()!= null && !"".equals(supportOld.getPathSupport())) {
 			if(!supportOld.getPathSupport().equals(support.getPathSupport())) {
 				eventCloudDao.deleteFile(supportOld.getPathSupport());
 				if(!"".equals(support.getPathSupport()) && support.getPathSupport() !=null)
-				support.setUrlSupport(eventCloudDao.doShared(support.getPathSupport()));
+					support.setUrlSupport(eventCloudDao.doShared(support.getPathSupport()));
 			}
 		}else {
 			if(support.getPathSupport()!=null && !"".equals(support.getPathSupport())) {
 				support.setUrlSupport(eventCloudDao.doShared(support.getPathSupport()));
 			}
 		}
-		
+
 		listThematicSupportVideoDao.deleteListThematicBySupportVideoId(support.getSupportId());
 		listCountrySupportVideoDao.deleteListCounrtyBySupportVideoId(support.getSupportId());
 		for(Thematic thematic : support.getListThematic()) {
 			listThematicSupportVideoDao.addListThematicSupportVideo(
 					ListThematicSupport.builder()
-					.supportId(support.getSupportId())
-					.thematicId(thematic.getThematicId())
-					.build());
+							.supportId(support.getSupportId())
+							.thematicId(thematic.getThematicId())
+							.build());
 		}
 		for(Country country : support.getListCountry()) {
 			listCountrySupportVideoDao.addListCountrySupportVideo(
@@ -145,7 +142,7 @@ public class SupportVideoService {
 			supportVideo.setListThematic(list);
 			supportVideo.setVideoType(videoTypeDao.getVideoTypeById(supportVideo.getVideoTypeId()));
 		}
-		
+
 		return listSupportVideo;
 	}
 	
@@ -163,6 +160,10 @@ public class SupportVideoService {
 		supportVideo.setListThematic(list);
 		supportVideo.setVideoType(videoTypeDao.getVideoTypeById(supportVideo.getVideoTypeId()));
 		return supportVideo;
+	}
+
+	public SupportVideo getLastNews() {
+		return supportVideoDao.getLastNews();
 	}
 
 }

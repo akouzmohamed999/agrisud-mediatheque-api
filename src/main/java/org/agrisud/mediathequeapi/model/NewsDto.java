@@ -26,4 +26,6 @@ public class NewsDto {
     private VideoType videoType;
     private String dateSupport;
     private boolean download;
+    private List<ExpositionImage> listExpositionImage;
+    private String typeCategory;
 }

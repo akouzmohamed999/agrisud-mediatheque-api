@@ -178,6 +178,12 @@ public class SupportService {
 		return support;
 		
 	}
+
+
+	public Support getLastNews() {
+		return supportDao.getLastNews();
+		
+	}
 	
 
 }

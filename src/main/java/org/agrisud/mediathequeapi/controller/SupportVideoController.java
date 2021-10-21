@@ -45,24 +45,24 @@ public class SupportVideoController {
 		newsService.addNews(News.builder().supportId(supportId).typeCategory("1").build());
 		return supportId;
 	}
-	
+
 //	@PostMapping(path = "/files" ,consumes = { MediaType.APPLICATION_JSON_VALUE, "multipart/form-data" })
 //	@ResponseStatus(HttpStatus.OK)
 //	public String uploadFile(@RequestParam("file") MultipartFile multipartFile,@RequestParam("path") String path) throws IOException {
 //		return eventCloudService.uploadFile(multipartFile,path,util.generateKey(32));
 //    }
-	
+
 	@GetMapping(path = "/{categoryId}")
 	public List<SupportVideo> getListSupport(@PathVariable(name = "categoryId") Long categoryId) {
 		return supportVideoService.getListSupportVideo(categoryId);
-	} 
-	
+	}
+
 	@DeleteMapping(path = "/{id}")
 	public void deleteSupportVideo(@PathVariable(name = "id") Long id) {
 		supportVideoService.deleteSupportVideo(id);
-		newsService.deleteNewsBySupportId(id);
+		newsService.deleteNewsBySupportId(id,"1");
 	}
-	
+
 	@PutMapping
 	public void updateSupport(@RequestBody SupportVideo support) {
 		supportVideoService.updateSupportVideo(support);
@@ -77,5 +77,6 @@ public class SupportVideoController {
                                             @RequestParam(name="language") String language){
 	        return supportVideoService.getSupportVideoByOrder(categoryId,sortColumn, asc,language);
 	    }
+
 
 }

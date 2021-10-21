@@ -86,6 +86,7 @@ public class SupportDao {
 				.documentTypeId(rs.getLong(DaoConstant.DOCUMENT_TYPE_ID))
 				.language(rs.getString(DaoConstant.LANGUAGE))
 				.download(rs.getBoolean(DaoConstant.DOWNLOAD))
+				.updateAt(rs.getTimestamp("updated_at"))
 				.build();
 	}
 
@@ -172,5 +173,14 @@ public class SupportDao {
             	return new ArrayList<Support>();
             }
         }
+	}
+
+	public Support getLastNews() {
+		try {
+			return jdbcTemplate.queryForObject(environment.getProperty(SqlConstant.SELECT_SUPPORT_LAST_NEWS),
+					new MapSqlParameterSource(), getRowMapper());
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 }

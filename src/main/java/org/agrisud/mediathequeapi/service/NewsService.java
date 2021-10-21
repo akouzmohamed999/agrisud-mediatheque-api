@@ -6,6 +6,7 @@ import java.util.List;
 import org.agrisud.mediathequeapi.dao.NewsDao;
 import org.agrisud.mediathequeapi.model.Country;
 import org.agrisud.mediathequeapi.model.DocumentType;
+import org.agrisud.mediathequeapi.model.Exposition;
 import org.agrisud.mediathequeapi.model.News;
 import org.agrisud.mediathequeapi.model.NewsDto;
 import org.agrisud.mediathequeapi.model.Support;
@@ -24,17 +25,33 @@ public class NewsService {
 	SupportService supportService;
 	@Autowired
 	SupportVideoService supportVideoService;
+	@Autowired
+    ExpositionService expositionService;
 	
 	public void addNews(News news) {
 		int total = newsDao.getCountNews();
-		if(total >= 4) {
+		if(total >= 3) {
 			newsDao.deleteFirstNews();
 		}
 			newsDao.addNews(news);
 	}
 	
-	public void deleteNewsBySupportId(Long supportId) {
-		newsDao.deleteNewsBySupportId(supportId);
+	public void deleteNewsBySupportId(Long supportId,String typeCategory) {
+		newsDao.deleteNewsBySupportId(supportId,typeCategory);
+		checkNews();
+	}
+	
+	public void checkNews() {
+		Support support = supportService.getLastNews();
+		SupportVideo supportVideo = supportVideoService.getLastNews();
+		Exposition exposition  = expositionService.getLastNews();
+		if(support.getUpdateAt().after(supportVideo.getUpdateAt()) && support.getUpdateAt().after(exposition.getUpdateAt())) {
+			addNews(News.builder().supportId(support.getSupportId()).typeCategory("0").build());
+		}else if(supportVideo.getUpdateAt().after(support.getUpdateAt()) && supportVideo.getUpdateAt().after(exposition.getUpdateAt())){
+			addNews(News.builder().supportId(supportVideo.getSupportId()).typeCategory("1").build());
+		}else {
+			addNews(News.builder().supportId(exposition.getExpositionId()).typeCategory("2").build());
+		}
 	}
 	
 	public List<NewsDto> getListNews(){
@@ -42,6 +59,7 @@ public class NewsService {
 		NewsDto newsDto = new NewsDto();
 		for(News news : newsDao.getListNews()) {
 			newsDto = new NewsDto();
+			newsDto.setTypeCategory(news.getTypeCategory());
 			if("0".equals(news.getTypeCategory() ) ) {
 				Support support = supportService.getSupportById(news.getSupportId());
 				newsDto.setSupportId(support.getSupportId());
@@ -56,7 +74,8 @@ public class NewsService {
 			    newsDto.setDocumentType(support.getDocumentType());
 			    newsDto.setDateSupport(support.getDateSupport());
 			    newsDto.setDownload(support.isDownload());
-			}else {
+			    
+			}else if("1".equals(news.getTypeCategory() )) {
 				SupportVideo support = supportVideoService.getSupportVideoById(news.getSupportId());
 				newsDto.setSupportId(support.getSupportId());
 			    newsDto.setTitle(support.getTitle());
@@ -68,6 +87,16 @@ public class NewsService {
 			    newsDto.setListThematic(support.getListThematic());
 			    newsDto.setVideoType(support.getVideoType());
 			    newsDto.setDateSupport(support.getDateSupport());
+			}else {
+				Exposition exposition = expositionService.getExpositionById(news.getSupportId());
+				newsDto.setSupportId(exposition.getExpositionId());
+				newsDto.setTitle(exposition.getTitleEn());
+				newsDto.setListCountry(exposition.getListCountry());
+				newsDto.setListThematic(exposition.getListThematic());
+				newsDto.setDateSupport(exposition.getDateExposition());
+				newsDto.setListExpositionImage(exposition.getListExpositionImage());
+				newsDto.setUrlImage(exposition.getListExpositionImage().get(0).getUrlImage());
+				
 			}
 			listNewsDto.add(newsDto);
 		}

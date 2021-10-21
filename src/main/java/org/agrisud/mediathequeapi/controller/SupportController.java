@@ -66,7 +66,7 @@ public class SupportController {
 	@DeleteMapping(path = "/{id}")
 	public void deleteSupport(@PathVariable(name = "id") Long id) {
 		supportService.deleteSupport(id);
-		newsService.deleteNewsBySupportId(id);
+		newsService.deleteNewsBySupportId(id,"0");
 	}
 	
 	@PutMapping

@@ -24,17 +24,17 @@ import org.springframework.stereotype.Repository;
 @PropertySource("classpath:sql/support_video.properties")
 public class SupportVideoDao {
 	@Autowired
-    NamedParameterJdbcTemplate jdbcTemplate;
+	NamedParameterJdbcTemplate jdbcTemplate;
 
 	@Autowired
 	Environment environment;
-	
+
 	public Long addSupport(SupportVideo support) {
 		KeyHolder holder = new GeneratedKeyHolder();
 		jdbcTemplate.update(environment.getProperty(SqlConstant.INSERT_SUPPORT_VIDEO), getSqlParameterSource(support),holder);
 		return holder.getKey().longValue();
 	}
-	
+
 	private MapSqlParameterSource getSqlParameterSource(SupportVideo support) {
 		return new MapSqlParameterSource()
 				.addValue(DaoConstant.SUPPORT_ID, support.getSupportId())
@@ -58,7 +58,7 @@ public class SupportVideoDao {
 			return null;
 		}
 	}
-	
+
 	private RowMapper<SupportVideo> getRowMapper() {
 		return (rs, rowNum) -> SupportVideo.builder()
 				.supportId(rs.getLong(DaoConstant.SUPPORT_ID))
@@ -69,6 +69,7 @@ public class SupportVideoDao {
 				.videoTypeId(rs.getLong(DaoConstant.VIDEO_TYPE_ID))
 				.language(rs.getString(DaoConstant.LANGUAGE))
 				.link(rs.getString(DaoConstant.LINK))
+				.updateAt(rs.getTimestamp("updated_at"))
 				.build();
 	}
 
@@ -76,13 +77,13 @@ public class SupportVideoDao {
 		Map<String, Object> params = new HashMap<>();
 		params.put(DaoConstant.SUPPORT_ID, id);
 		jdbcTemplate.update(environment.getProperty(SqlConstant.DELETE_SUPPORT_VIDEO_BY_ID), new MapSqlParameterSource(params));
-		
+
 	}
 
 	public List<SupportVideo> getListSupportVideo(Long categoryId) {
 		Map<String, Object> params = new HashMap<>();
 		params.put(DaoConstant.CATEGORY_ID, categoryId);
-		 return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_VIDEO),new MapSqlParameterSource(params), getRowMapper());
+		return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_SUPPORT_VIDEO),new MapSqlParameterSource(params), getRowMapper());
 	}
 
 	public void updateSupportVideo(SupportVideo support) {
@@ -148,6 +149,15 @@ public class SupportVideoDao {
 		Map<String, Object> params = new HashMap<>();
 		params.put(DaoConstant.CATEGORY_ID, id);
 		jdbcTemplate.update(environment.getProperty(SqlConstant.DELET_SUPPORT_VIDEO_BY_CATEGORY_ID), new MapSqlParameterSource(params));
+	}
+
+	public SupportVideo getLastNews() {
+		try {
+			return jdbcTemplate.queryForObject(environment.getProperty(SqlConstant.SELECT_SUPPORT_VIDEO_LAST_NEWS),
+					new MapSqlParameterSource(), getRowMapper());
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 
 }
