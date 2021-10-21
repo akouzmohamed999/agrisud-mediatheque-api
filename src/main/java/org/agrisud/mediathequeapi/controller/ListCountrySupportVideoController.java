@@ -21,7 +21,7 @@ public class ListCountrySupportVideoController {
 	public void addListCountrySupportVideo(@RequestBody ListCountrySupport listCountrySupport) {
 		listCountrySupportVideoService.addListCountrySupportVideo(listCountrySupport);
 	}
-	
+
 	@GetMapping
 	public List<ListCountrySupport> getListCountryBySupportVideoId(@RequestParam(name ="supportId") Long supportId) {
 		return listCountrySupportVideoService.getListCountryBySupportVideoId(supportId);

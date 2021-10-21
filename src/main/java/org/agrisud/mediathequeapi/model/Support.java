@@ -2,6 +2,7 @@ package org.agrisud.mediathequeapi.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class Support {
     private DocumentType documentType;
     private String dateSupport;
     private boolean download;
+    private Timestamp updateAt;
     
     public static Support baseMapper(ResultSet resultSet, int rowNumber) throws SQLException {
         Support support = new Support();
