@@ -3,6 +3,7 @@ package org.agrisud.mediathequeapi.cloudservice;
 import org.agrisud.mediathequeapi.clouddao.ExpositionCloudDao;
 import org.agrisud.mediathequeapi.util.CloudFileHelper;
 import org.agrisud.mediathequeapi.util.Utils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +17,7 @@ import java.util.Objects;
 
 @Service
 public class ExpositionCloudService {
+	@Autowired
     ExpositionCloudDao expositionCloudDao;
 
     public List<String> getFolders() {
@@ -27,12 +29,12 @@ public class ExpositionCloudService {
         expositionCloudDao.createFolder(path);
     }
 
-    public ExpositionCloudService(ExpositionCloudDao expositionCloudDao) {
-        this.expositionCloudDao = expositionCloudDao;
-        if (!isFolderExist("/Mediatheque/ExpositionsImages/")) {
-            this.createFolder("/Mediatheque/ExpositionsImages/");
-        }
-    }
+//    public ExpositionCloudService(ExpositionCloudDao expositionCloudDao) {
+//        this.expositionCloudDao = expositionCloudDao;
+//        if (!isFolderExist("/Mediatheque/ExpositionsImages/")) {
+//            this.createFolder("/Mediatheque/ExpositionsImages/");
+//        }
+//    }
 
     public List<String> uploadFile(MultipartFile multipartFile, String expositionName) {
         File file = CloudFileHelper.getTempFileFromMultiPartFile(multipartFile);
