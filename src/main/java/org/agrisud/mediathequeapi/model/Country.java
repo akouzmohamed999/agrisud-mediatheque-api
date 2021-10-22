@@ -8,15 +8,25 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Setter
 @Getter
+@Document(indexName = "mediatheque")
 public class Country {
+	@Id
+	private String countryESId;
+	@Field(type = FieldType.Long)
 	private Long countryId;
+	@Field(type = FieldType.Text)
 	private String titleAnglais;
+	@Field(type = FieldType.Text)
 	private String titleFrancais;
 	private String urlImage;
 	private String pathImage;

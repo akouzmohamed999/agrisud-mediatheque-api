@@ -37,4 +37,7 @@ keycloak:
   resource: agrisud-mediatheque-api
   allowed-origin: http://localhost:3001
 
+elasticsearch:
+  url: localhost:9200
+
 
