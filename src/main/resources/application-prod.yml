@@ -35,4 +35,7 @@ keycloak:
   resource: ${KEYCLOAK_CLIENT_ID}
   allowed-origin: ${ALLOWED_ORIGIN}
 
+elasticsearch:
+  url: ${ELASTICSEARCH_URL}
+
 

@@ -2,6 +2,7 @@ package org.agrisud.mediathequeapi.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.agrisud.mediathequeapi.clouddao.EventCloudDao;
 import org.agrisud.mediathequeapi.dao.CountryDao;
@@ -16,7 +17,15 @@ import org.agrisud.mediathequeapi.model.ListCountrySupport;
 import org.agrisud.mediathequeapi.model.ListThematicSupport;
 import org.agrisud.mediathequeapi.model.Support;
 import org.agrisud.mediathequeapi.model.Thematic;
+import org.agrisud.mediathequeapi.search.SupportSearchQueries;
+import org.agrisud.mediathequeapi.search.SupportSearchRepository;
+import org.agrisud.mediathequeapi.search.SupportSearchQueries;
+import org.agrisud.mediathequeapi.search.SupportSearchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.elasticsearch.core.SearchPage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -36,6 +45,10 @@ public class SupportService {
 	DocumentTypeDao documentTypeDao;
 	@Autowired
 	CountryDao countryDao;
+	@Autowired
+	SupportSearchRepository supportSearchRepository;
+	@Autowired
+	SupportSearchQueries supportSearchQueries;
 	
 	
 	public Long addSupport(Support support) {
@@ -59,8 +72,18 @@ public class SupportService {
 			listThematicSupport.setThematicId(thematic.getThematicId());
 			listThematicSupportDao.addListThematicSupport(listThematicSupport);
 		}
+		support.setSupportId(supportId);
+		supportSearchRepository.save(support);
 		return supportId;
 	}
+
+    public SearchPage<Support> getSupportBySearchCriteria(Map<String, Object> searchParams) {
+        Sort sort = Sort.by("ASC" .equals(searchParams.get("sortDirection")) ? Sort.Direction.ASC : Sort.Direction.DESC, (String) searchParams.get("sortColumn"));
+        PageRequest pageRequest = PageRequest.of(Integer.parseInt((String) searchParams.get("page")), Integer.parseInt((String) searchParams.get("size")), sort);
+
+        return supportSearchQueries.advancedSearch((String) searchParams.get("title"), Long.parseLong((String) searchParams.get("countryId")), Long.parseLong((String) searchParams.get("documentTypeId")),
+                Long.parseLong((String) searchParams.get("thematicId")), (String) searchParams.get("language"), (String) searchParams.get("dateSupport"), pageRequest);
+    }
 
 
 	public Page<Support> getListSupport(Long categoryId, int page, int size) {
@@ -98,6 +121,7 @@ public class SupportService {
 		listThematicSupportDao.deleteListThematicBySupportId(support.getSupportId());
 		listCountrySupportDao.deleteListCounrtyBySupportId(support.getSupportId());
 		supportDao.deleteSupport(id);
+		supportSearchRepository.delete(supportSearchRepository.findOneBySupportId(id));
 	}
 	
 	public void updateSupport(Support support) {
@@ -130,6 +154,7 @@ public class SupportService {
 					ListCountrySupport.builder().supportId(support.getSupportId()).countryId(country.getCountryId()).build()
 					);
 		}
+		supportSearchRepository.save(support);
 		supportDao.updateSupport(support);
 	}
 
@@ -176,14 +201,14 @@ public class SupportService {
 		support.setListThematic(list);
 		support.setDocumentType(documentTypeDao.getDocumentTypeById(support.getDocumentTypeId()));
 		return support;
-		
+
 	}
 
 
 	public Support getLastNews() {
 		return supportDao.getLastNews();
-		
+
 	}
-	
+
 
 }
