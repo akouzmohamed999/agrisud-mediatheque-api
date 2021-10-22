@@ -72,6 +72,8 @@ public class SupportService {
 			listThematicSupport.setThematicId(thematic.getThematicId());
 			listThematicSupportDao.addListThematicSupport(listThematicSupport);
 		}
+		support.setSupportId(supportId);
+		supportSearchRepository.save(support);
 		return supportId;
 	}
 
@@ -119,6 +121,7 @@ public class SupportService {
 		listThematicSupportDao.deleteListThematicBySupportId(support.getSupportId());
 		listCountrySupportDao.deleteListCounrtyBySupportId(support.getSupportId());
 		supportDao.deleteSupport(id);
+		supportSearchRepository.delete(supportSearchRepository.findOneBySupportId(id));
 	}
 	
 	public void updateSupport(Support support) {
@@ -151,6 +154,7 @@ public class SupportService {
 					ListCountrySupport.builder().supportId(support.getSupportId()).countryId(country.getCountryId()).build()
 					);
 		}
+		supportSearchRepository.save(support);
 		supportDao.updateSupport(support);
 	}
 
