@@ -30,7 +30,7 @@ public class ESConfig {
         return RestClients.create(clientConfiguration).rest();
     }
 
-    @Bean
+    @Bean(name = { "elasticsearchOperations", "elasticsearchRestTemplate" })
     public ElasticsearchOperations elasticsearchTemplate() {
         return new ElasticsearchRestTemplate(client());
     }
