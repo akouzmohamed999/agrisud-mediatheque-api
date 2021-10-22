@@ -31,7 +31,7 @@ public class ESConfig {
     }
 
     @Bean(name = { "elasticsearchOperations", "elasticsearchTemplate", "elasticsearchRestTemplate" })
-    public ElasticsearchOperations elasticsearchTemplate() {
+    public ElasticsearchOperations elasticsearchRestTemplate() {
         return new ElasticsearchRestTemplate(client());
     }
 }
