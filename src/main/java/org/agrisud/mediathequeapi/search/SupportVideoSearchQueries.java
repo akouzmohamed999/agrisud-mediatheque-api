@@ -1,6 +1,7 @@
 package org.agrisud.mediathequeapi.search;
 
 import org.agrisud.mediathequeapi.model.Support;
+import org.agrisud.mediathequeapi.model.SupportVideo;
 import org.agrisud.mediathequeapi.util.Utils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -14,21 +15,21 @@ import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class SupportSearchQueries {
+public class SupportVideoSearchQueries {
 
     @Autowired
     ElasticsearchRestTemplate elasticsearchRestTemplate;
 
-    public SearchPage<Support> advancedSearch(String title, String countryId, String documentTypeId, String thematicId, String language, String dateSupport,Long categoryId, Pageable pageable) {
-        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+    public SearchPage<SupportVideo> advancedSearch(String title, String countryId, String videoTypeId, String thematicId, String language, String dateSupport,Long categoryId, Pageable pageable) {
+    	BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
         if (title != null && !"".equals(title)) {
             boolQueryBuilder.must(QueryBuilders.matchQuery("title", "*" + Utils.removeFrChars(title) + "*"));
         }
         if (countryId != null && !"".equals(countryId)) {
             boolQueryBuilder.must(QueryBuilders.matchQuery("listCountry.countryId", Long.parseLong(countryId)));
         }
-        if (documentTypeId != null && !"".equals(documentTypeId)) {
-            boolQueryBuilder.must(QueryBuilders.matchQuery("documentTypeId", Long.parseLong(documentTypeId)));
+        if (videoTypeId != null && !"".equals(videoTypeId)) {
+            boolQueryBuilder.must(QueryBuilders.matchQuery("videoTypeId", Long.parseLong(videoTypeId)));
         }
         if(thematicId != null && !"".equals(thematicId)){
             boolQueryBuilder.must(QueryBuilders.matchQuery("listThematic.thematicId", Long.parseLong(thematicId)));
@@ -45,7 +46,7 @@ public class SupportSearchQueries {
         Query searchQuery = new NativeSearchQueryBuilder()
                 .withQuery(boolQueryBuilder)
                 .build();
-        return SearchHitSupport.searchPageFor(elasticsearchRestTemplate.search(searchQuery, Support.class), pageable);
-        
+
+        return SearchHitSupport.searchPageFor(elasticsearchRestTemplate.search(searchQuery, SupportVideo.class), pageable);
     }
 }

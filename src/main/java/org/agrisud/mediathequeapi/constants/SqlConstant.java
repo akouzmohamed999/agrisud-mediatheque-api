@@ -123,5 +123,6 @@ public class SqlConstant {
 	public static final String SELECT_SUPPORT_LAST_NEWS = "select_support_last_news";
 	public static final String SELECT_SUPPORT_VIDEO_LAST_NEWS = "select_support_video_last_news";
 	public static final String SELECT_EXPOSITION_LAST_NEWS = "select_exposition_last_news";
+	public static final String SELECT_LAST_NEWS = "select_last_news";
 
 }
