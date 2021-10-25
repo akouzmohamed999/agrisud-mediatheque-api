@@ -3,6 +3,7 @@ package org.agrisud.mediathequeapi.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.agrisud.mediathequeapi.clouddao.EventCloudDao;
 import org.agrisud.mediathequeapi.dao.CountryDao;
@@ -25,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchPage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -77,13 +79,22 @@ public class SupportService {
 		return supportId;
 	}
 
-    public SearchPage<Support> getSupportBySearchCriteria(Map<String, Object> searchParams) {
-        Sort sort = Sort.by("ASC" .equals(searchParams.get("sortDirection")) ? Sort.Direction.ASC : Sort.Direction.DESC, (String) searchParams.get("sortColumn"));
-        PageRequest pageRequest = PageRequest.of(Integer.parseInt((String) searchParams.get("page")), Integer.parseInt((String) searchParams.get("size")), sort);
-
-        return supportSearchQueries.advancedSearch((String) searchParams.get("title"), Long.parseLong((String) searchParams.get("countryId")), Long.parseLong((String) searchParams.get("documentTypeId")),
-                Long.parseLong((String) searchParams.get("thematicId")), (String) searchParams.get("language"), (String) searchParams.get("dateSupport"), pageRequest);
-    }
+	public SearchPage<Support> getSupportBySearchCriteria(Map<String, Object> searchParams) {
+	    Sort sort = Sort.by("ASC" .equals(searchParams.get("sortDirection")) ? Sort.Direction.ASC : Sort.Direction.DESC, (String) searchParams.get("sortColumn"));
+	    PageRequest pageRequest = PageRequest.of(Integer.parseInt((String) searchParams.get("page")), Integer.parseInt((String) searchParams.get("size")), sort);
+	    String title = Optional.ofNullable((String) searchParams.get("title")).orElse(null);
+	    String countryId = Optional.ofNullable((String) searchParams.get("countryId")).orElse(null);
+	    String documentTypeId = Optional.ofNullable((String) searchParams.get("documentTypeId")).orElse(null);
+	    String thematicId = Optional.ofNullable((String) searchParams.get("thematicId")).orElse(null);
+	    String language = Optional.ofNullable((String) searchParams.get("language")).orElse(null);
+	    String dateSupport = Optional.ofNullable((String) searchParams.get("dateSupport")).orElse(null);
+	    Long categoryId = Optional.ofNullable((String) searchParams.get("categoryId")).map(Long::parseLong).orElse(null);
+	    SearchPage<Support> listSupport = supportSearchQueries.advancedSearch(title, countryId, documentTypeId, thematicId, language, dateSupport,categoryId, pageRequest);
+	    for(SearchHit<Support> support : listSupport.getContent()) {
+	    	support.getContent().setDocumentType(documentTypeDao.getDocumentTypeById(support.getContent().getDocumentTypeId()));
+	    }
+	    return listSupport ;
+	}
 
 
 	public Page<Support> getListSupport(Long categoryId, int page, int size) {
@@ -154,6 +165,7 @@ public class SupportService {
 					ListCountrySupport.builder().supportId(support.getSupportId()).countryId(country.getCountryId()).build()
 					);
 		}
+//		supportSearchRepository.delete(supportSearchRepository.findOneBySupportId(support.getSupportId()));
 		supportSearchRepository.save(support);
 		supportDao.updateSupport(support);
 	}

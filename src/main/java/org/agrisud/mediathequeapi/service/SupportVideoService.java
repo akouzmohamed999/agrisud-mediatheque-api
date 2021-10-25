@@ -2,11 +2,12 @@ package org.agrisud.mediathequeapi.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.agrisud.mediathequeapi.clouddao.EventCloudDao;
 import org.agrisud.mediathequeapi.dao.CountryDao;
 import org.agrisud.mediathequeapi.dao.ListCountrySupportVideoDao;
-import org.agrisud.mediathequeapi.dao.ListThematicSupportDao;
 import org.agrisud.mediathequeapi.dao.ListThematicSupportVideoDao;
 import org.agrisud.mediathequeapi.dao.SupportVideoDao;
 import org.agrisud.mediathequeapi.dao.ThematicDao;
@@ -18,7 +19,13 @@ import org.agrisud.mediathequeapi.model.ListThematicSupport;
 import org.agrisud.mediathequeapi.model.Support;
 import org.agrisud.mediathequeapi.model.SupportVideo;
 import org.agrisud.mediathequeapi.model.Thematic;
+import org.agrisud.mediathequeapi.search.SupportVideoSearchQueries;
+import org.agrisud.mediathequeapi.search.SupportVideoSearchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.elasticsearch.core.SearchHit;
+import org.springframework.data.elasticsearch.core.SearchPage;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -37,6 +44,11 @@ public class SupportVideoService {
 	VideoTypeDao videoTypeDao;
 	@Autowired
 	CountryDao countryDao;
+	@Autowired
+	SupportVideoSearchRepository supportVideoSearchRepository;
+	@Autowired
+	SupportVideoSearchQueries supportVideoSearchQueries;
+	
 	public Long addSupportVideo(SupportVideo support) {
 		ListCountrySupport listCountrySupport = new ListCountrySupport();
 		ListThematicSupport listThematicSupport = new ListThematicSupport();
@@ -54,8 +66,27 @@ public class SupportVideoService {
 			listThematicSupport.setThematicId(thematic.getThematicId());
 			listThematicSupportVideoDao.addListThematicSupportVideo(listThematicSupport);
 		}
+		support.setSupportId(supportId);
+		supportVideoSearchRepository.save(support);
 		return supportId;
 	}
+	
+	public SearchPage<SupportVideo> getSupportVideoBySearchCriteria(Map<String, Object> searchParams) {
+		Sort sort = Sort.by("ASC" .equals(searchParams.get("sortDirection")) ? Sort.Direction.ASC : Sort.Direction.DESC, (String) searchParams.get("sortColumn"));
+	    PageRequest pageRequest = PageRequest.of(Integer.parseInt((String) searchParams.get("page")), Integer.parseInt((String) searchParams.get("size")), sort);
+	    String title = Optional.ofNullable((String) searchParams.get("title")).orElse(null);
+	    String countryId = Optional.ofNullable((String) searchParams.get("countryId")).orElse(null);
+	    String videoTypeId = Optional.ofNullable((String) searchParams.get("videoTypeId")).orElse(null);
+	    String thematicId = Optional.ofNullable((String) searchParams.get("thematicId")).orElse(null);
+	    String language = Optional.ofNullable((String) searchParams.get("language")).orElse(null);
+	    String dateSupport = Optional.ofNullable((String) searchParams.get("dateSupport")).orElse(null);
+	    Long categoryId = Optional.ofNullable((String) searchParams.get("categoryId")).map(Long::parseLong).orElse(null);
+	    SearchPage<SupportVideo> listSupport = supportVideoSearchQueries.advancedSearch(title, countryId, videoTypeId, thematicId, language, dateSupport,categoryId, pageRequest);
+	    for(SearchHit<SupportVideo> support : listSupport.getContent()) {
+	    	support.getContent().setVideoType(videoTypeDao.getVideoTypeById(support.getContent().getVideoTypeId()));
+	    }
+	    return listSupport ;
+    }
 
 	public void deleteSupportVideo(Long id) {
 		SupportVideo support = supportVideoDao.getSupportVideoById(id);
@@ -65,6 +96,7 @@ public class SupportVideoService {
 		listThematicSupportVideoDao.deleteListThematicBySupportVideoId(support.getSupportId());
 		listCountrySupportVideoDao.deleteListCounrtyBySupportVideoId(support.getSupportId());
 		supportVideoDao.deleteSupportVideo(id);
+		supportVideoSearchRepository.delete(supportVideoSearchRepository.findOneBySupportId(id));
 	}
 
 	public List<SupportVideo> getListSupportVideo(Long categoryId) {
@@ -116,6 +148,7 @@ public class SupportVideoService {
 					ListCountrySupport.builder().supportId(support.getSupportId()).countryId(country.getCountryId()).build()
 					);
 		}
+		supportVideoSearchRepository.save(support);
 		supportVideoDao.updateSupportVideo(support);
 	}
 
