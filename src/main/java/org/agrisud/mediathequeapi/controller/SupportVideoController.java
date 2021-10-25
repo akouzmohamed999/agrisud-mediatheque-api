@@ -2,6 +2,7 @@ package org.agrisud.mediathequeapi.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.agrisud.mediathequeapi.cloudservice.EventCloudService;
 import org.agrisud.mediathequeapi.enums.SortColumn;
@@ -13,6 +14,7 @@ import org.agrisud.mediathequeapi.service.SupportService;
 import org.agrisud.mediathequeapi.service.SupportVideoService;
 import org.agrisud.mediathequeapi.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.SearchPage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -76,6 +78,11 @@ public class SupportVideoController {
                                             @RequestParam(name = "asc") Boolean asc,
                                             @RequestParam(name="language") String language){
 	        return supportVideoService.getSupportVideoByOrder(categoryId,sortColumn, asc,language);
+	    }
+	 
+	 @GetMapping("/search")
+	    public SearchPage<SupportVideo> getSupportVideoBySearchCriteria(@RequestParam Map<String, Object> params) {
+	        return supportVideoService.getSupportVideoBySearchCriteria(params);
 	    }
 
 

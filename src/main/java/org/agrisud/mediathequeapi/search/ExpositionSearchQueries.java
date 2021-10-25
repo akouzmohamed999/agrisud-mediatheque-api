@@ -1,5 +1,6 @@
 package org.agrisud.mediathequeapi.search;
 
+import org.agrisud.mediathequeapi.model.Exposition;
 import org.agrisud.mediathequeapi.model.Support;
 import org.agrisud.mediathequeapi.util.Utils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -14,27 +15,23 @@ import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class SupportSearchQueries {
-
-    @Autowired
+public class ExpositionSearchQueries {
+	@Autowired
     ElasticsearchRestTemplate elasticsearchRestTemplate;
 
-    public SearchPage<Support> advancedSearch(String title, String countryId, String documentTypeId, String thematicId, String language, String dateSupport,Long categoryId, Pageable pageable) {
+    public SearchPage<Exposition> advancedSearch(String titleFr,String titleEn, String countryId, String thematicId, String dateSupport,Long categoryId, Pageable pageable) {
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-        if (title != null && !"".equals(title)) {
-            boolQueryBuilder.must(QueryBuilders.matchQuery("title", "*" + Utils.removeFrChars(title) + "*"));
+        if (titleFr != null && !"".equals(titleFr)) {
+            boolQueryBuilder.must(QueryBuilders.matchQuery("titleFr", "*" + Utils.removeFrChars(titleFr) + "*"));
+        }
+        if (titleEn != null && !"".equals(titleEn)) {
+            boolQueryBuilder.must(QueryBuilders.matchQuery("titleEn", "*" + Utils.removeFrChars(titleEn) + "*"));
         }
         if (countryId != null && !"".equals(countryId)) {
-            boolQueryBuilder.must(QueryBuilders.matchQuery("listCountry.countryId", Long.parseLong(countryId)));
-        }
-        if (documentTypeId != null && !"".equals(documentTypeId)) {
-            boolQueryBuilder.must(QueryBuilders.matchQuery("documentTypeId", Long.parseLong(documentTypeId)));
+            boolQueryBuilder.must(QueryBuilders.matchQuery("countryId", Long.parseLong(countryId)));
         }
         if(thematicId != null && !"".equals(thematicId)){
             boolQueryBuilder.must(QueryBuilders.matchQuery("listThematic.thematicId", Long.parseLong(thematicId)));
-        }
-        if(language != null && !"".equals(language)) {
-            boolQueryBuilder.must(QueryBuilders.matchQuery("language", language));
         }
         if(dateSupport != null && !"".equals(dateSupport) ){
             boolQueryBuilder.must(QueryBuilders.matchQuery("dateSupport", dateSupport));
@@ -45,7 +42,6 @@ public class SupportSearchQueries {
         Query searchQuery = new NativeSearchQueryBuilder()
                 .withQuery(boolQueryBuilder)
                 .build();
-        return SearchHitSupport.searchPageFor(elasticsearchRestTemplate.search(searchQuery, Support.class), pageable);
-        
+        return SearchHitSupport.searchPageFor(elasticsearchRestTemplate.search(searchQuery, Exposition.class), pageable);
     }
 }

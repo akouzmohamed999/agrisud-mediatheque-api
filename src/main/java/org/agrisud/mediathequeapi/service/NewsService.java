@@ -2,6 +2,7 @@ package org.agrisud.mediathequeapi.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.agrisud.mediathequeapi.dao.NewsDao;
 import org.agrisud.mediathequeapi.model.Country;
@@ -42,15 +43,19 @@ public class NewsService {
 	}
 	
 	public void checkNews() {
-		Support support = supportService.getLastNews();
-		SupportVideo supportVideo = supportVideoService.getLastNews();
-		Exposition exposition  = expositionService.getLastNews();
-		if(support.getUpdateAt().after(supportVideo.getUpdateAt()) && support.getUpdateAt().after(exposition.getUpdateAt())) {
-			addNews(News.builder().supportId(support.getSupportId()).typeCategory("0").build());
-		}else if(supportVideo.getUpdateAt().after(support.getUpdateAt()) && supportVideo.getUpdateAt().after(exposition.getUpdateAt())){
-			addNews(News.builder().supportId(supportVideo.getSupportId()).typeCategory("1").build());
-		}else {
-			addNews(News.builder().supportId(exposition.getExpositionId()).typeCategory("2").build());
+//		Support support = supportService.getLastNews();
+//		SupportVideo supportVideo = supportVideoService.getLastNews();
+//		Exposition exposition  = expositionService.getLastNews();
+//		if(support.getUpdateAt().after(supportVideo.getUpdateAt()) && support.getUpdateAt().after(exposition.getUpdateAt())) {
+//			addNews(News.builder().supportId(support.getSupportId()).typeCategory("0").build());
+//		}else if(supportVideo.getUpdateAt().after(support.getUpdateAt()) && supportVideo.getUpdateAt().after(exposition.getUpdateAt())){
+//			addNews(News.builder().supportId(supportVideo.getSupportId()).typeCategory("1").build());
+//		}else {
+//			addNews(News.builder().supportId(exposition.getExpositionId()).typeCategory("2").build());
+//		}
+		Optional<News> lastNews = newsDao.getLastNews();
+		if(lastNews.isPresent()) {
+			addNews(lastNews.get());
 		}
 	}
 	
