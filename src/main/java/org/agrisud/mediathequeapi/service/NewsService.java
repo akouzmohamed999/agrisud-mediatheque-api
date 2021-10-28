@@ -31,8 +31,16 @@ public class NewsService {
 	
 	public void addNews(News news) {
 		int total = newsDao.getCountNews();
+		boolean isExist = false;
 		if(total >= 3) {
-			newsDao.deleteFirstNews();
+			for(News newsDto : newsDao.getListNews()) {
+				if(newsDto.getSupportId() == news.getSupportId() && newsDto.getTypeCategory() == news.getTypeCategory()) {
+					isExist =true;
+				}
+			}
+			if(!isExist) {
+				newsDao.deleteFirstNews();
+			}
 		}
 			newsDao.addNews(news);
 	}
