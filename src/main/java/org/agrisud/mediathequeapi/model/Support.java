@@ -15,20 +15,22 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.Setting;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Setter
 @Getter
-@Document(indexName = "mediatheque")
+@Document(indexName = "support")
+@Setting(settingPath = "es/settings.json")
 public class Support {
     @Id
     private String supportESId;
     @Field(type = FieldType.Long)
-	private Long supportId;
-	private Long categoryId;
-	@Field(type = FieldType.Text)
+    private Long supportId;
+    private Long categoryId;
+    @Field(type = FieldType.Text, analyzer = "ngram_analyzer")
     private String title;
     private String pathSupport;
     private String pathImage;
