@@ -39,7 +39,7 @@ public class NewsDao {
 
 	public void addNews(News news) {
 		KeyHolder holder = new GeneratedKeyHolder();
-		deleteNewsBySupportId(news.getSupportId(),news.getTypeCategory());
+//		deleteNewsBySupportId(news.getSupportId(),news.getTypeCategory());
 		jdbcTemplate.update(environment.getProperty("insert_news"), getSqlParameterSource(news),holder);
 	}
 	
@@ -54,11 +54,11 @@ public class NewsDao {
 		jdbcTemplate.update(environment.getProperty("delete_first_news"), new MapSqlParameterSource());
 	}
 
-	public void deleteNewsBySupportId(Long supportId, String typeCategory) {
+	public int deleteNewsBySupportId(Long supportId, String typeCategory) {
 		Map<String, Object> params = new HashMap<>();
 		params.put(DaoConstant.SUPPORT_ID, supportId);
 		params.put(DaoConstant.TYPE_CATEGORY, typeCategory );
-		jdbcTemplate.update(environment.getProperty("delete_news_by_support_id"), new MapSqlParameterSource(params));
+		return jdbcTemplate.update(environment.getProperty("delete_news_by_support_id"), new MapSqlParameterSource(params));
 	}
 
 	public List<News> getListNews() {

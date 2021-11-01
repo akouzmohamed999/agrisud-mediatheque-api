@@ -32,13 +32,14 @@ public class NewsService {
 	public void addNews(News news) {
 		int total = newsDao.getCountNews();
 		boolean isExist = false;
+		int isNewsExist  = newsDao.deleteNewsBySupportId(news.getSupportId(), news.getTypeCategory());
 		if(total >= 3) {
-			for(News newsDto : newsDao.getListNews()) {
-				if(newsDto.getSupportId() == news.getSupportId() && newsDto.getTypeCategory() == news.getTypeCategory()) {
-					isExist =true;
-				}
-			}
-			if(!isExist) {
+//			for(News newsDto : newsDao.getListNews()) {
+//				if(newsDto.getSupportId() == news.getSupportId() && newsDto.getTypeCategory() == news.getTypeCategory()) {
+//					isExist =true;
+//				}
+//			}
+			if(isNewsExist == 0) {
 				newsDao.deleteFirstNews();
 			}
 		}
