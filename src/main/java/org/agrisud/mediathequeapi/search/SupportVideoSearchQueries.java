@@ -20,28 +20,28 @@ public class SupportVideoSearchQueries {
     @Autowired
     ElasticsearchRestTemplate elasticsearchRestTemplate;
 
-    public SearchPage<SupportVideo> advancedSearch(String title, String countryId, String videoTypeId, String thematicId, String language, String dateSupport,Long categoryId, Pageable pageable) {
-    	BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-        if (title != null && !"".equals(title)) {
-            boolQueryBuilder.must(QueryBuilders.matchQuery("title", "*" + Utils.removeFrChars(title) + "*"));
+    public SearchPage<SupportVideo> advancedSearch(String title, String countryId, String videoTypeId, String thematicId, String language, String dateSupport, Long categoryId, Pageable pageable) {
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+        if (title != null && !"" .equals(title)) {
+            boolQueryBuilder.must(QueryBuilders.matchQuery("title", Utils.removeFrChars(title)));
         }
-        if (countryId != null && !"".equals(countryId)) {
+        if (countryId != null && !"" .equals(countryId)) {
             boolQueryBuilder.must(QueryBuilders.matchQuery("listCountry.countryId", Long.parseLong(countryId)));
         }
-        if (videoTypeId != null && !"".equals(videoTypeId)) {
+        if (videoTypeId != null && !"" .equals(videoTypeId)) {
             boolQueryBuilder.must(QueryBuilders.matchQuery("videoTypeId", Long.parseLong(videoTypeId)));
         }
-        if(thematicId != null && !"".equals(thematicId)){
+        if (thematicId != null && !"" .equals(thematicId)) {
             boolQueryBuilder.must(QueryBuilders.matchQuery("listThematic.thematicId", Long.parseLong(thematicId)));
         }
-        if(language != null && !"".equals(language)) {
+        if (language != null && !"" .equals(language)) {
             boolQueryBuilder.must(QueryBuilders.matchQuery("language", language));
         }
-        if(dateSupport != null && !"".equals(dateSupport) ){
+        if (dateSupport != null && !"" .equals(dateSupport)) {
             boolQueryBuilder.must(QueryBuilders.matchQuery("dateSupport", dateSupport));
         }
-        if(categoryId != null && categoryId != 0) {
-        	boolQueryBuilder.must(QueryBuilders.matchQuery("categoryId",categoryId));
+        if (categoryId != null && categoryId != 0) {
+            boolQueryBuilder.must(QueryBuilders.matchQuery("categoryId", categoryId));
         }
         Query searchQuery = new NativeSearchQueryBuilder()
                 .withQuery(boolQueryBuilder)
