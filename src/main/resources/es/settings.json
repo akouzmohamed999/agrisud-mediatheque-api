@@ -5,6 +5,10 @@
         "type": "edge_ngram",
         "min_gram": 2,
         "max_gram": 40
+      },
+      "stop_fr": {
+        "type": "stop",
+        "stopwords": "_french_"
       }
     },
     "analyzer": {
@@ -13,7 +17,9 @@
         "tokenizer": "standard",
         "filter": [
           "lowercase",
-          "ngram_filter"
+          "asciifolding",
+          "ngram_filter",
+          "stop_fr"
         ]
       }
     }
