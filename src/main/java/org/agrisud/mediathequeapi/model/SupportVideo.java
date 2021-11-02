@@ -11,6 +11,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.Setting;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,13 +25,14 @@ import lombok.Setter;
 @Setter
 @Getter
 @Document(indexName = "video")
+@Setting(settingPath = "es/settings.json")
 public class SupportVideo {
 	@Id
     private String supportVideoESId;
 	@Field(type = FieldType.Long)
     private Long supportId;
     private Long categoryId;
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Text, analyzer = "ngram_analyzer")
     private String title;
     private String pathSupport;
     private String urlSupport;

@@ -13,6 +13,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.Setting;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,15 +22,16 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @Getter
 @ToString
 @Document(indexName = "exposition")
+@Setting(settingPath = "es/settings.json")
 public class Exposition {
 	@Id
     private String expositionESId;
 	@Field(type = FieldType.Long)
     private Long expositionId;
     private Long categoryId;
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Text, analyzer = "ngram_analyzer")
     private String titleFr;
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Text, analyzer = "ngram_analyzer")
     private String titleEn;
     private String dateExposition;
     private String descriptionFr;
