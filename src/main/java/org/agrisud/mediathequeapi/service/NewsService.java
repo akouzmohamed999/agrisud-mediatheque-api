@@ -31,14 +31,8 @@ public class NewsService {
 	
 	public void addNews(News news) {
 		int total = newsDao.getCountNews();
-		boolean isExist = false;
 		int isNewsExist  = newsDao.deleteNewsBySupportId(news.getSupportId(), news.getTypeCategory());
-		if(total >= 3) {
-//			for(News newsDto : newsDao.getListNews()) {
-//				if(newsDto.getSupportId() == news.getSupportId() && newsDto.getTypeCategory() == news.getTypeCategory()) {
-//					isExist =true;
-//				}
-//			}
+		if(total >= 4) {
 			if(isNewsExist == 0) {
 				newsDao.deleteFirstNews();
 			}
@@ -52,16 +46,7 @@ public class NewsService {
 	}
 	
 	public void checkNews() {
-//		Support support = supportService.getLastNews();
-//		SupportVideo supportVideo = supportVideoService.getLastNews();
-//		Exposition exposition  = expositionService.getLastNews();
-//		if(support.getUpdateAt().after(supportVideo.getUpdateAt()) && support.getUpdateAt().after(exposition.getUpdateAt())) {
-//			addNews(News.builder().supportId(support.getSupportId()).typeCategory("0").build());
-//		}else if(supportVideo.getUpdateAt().after(support.getUpdateAt()) && supportVideo.getUpdateAt().after(exposition.getUpdateAt())){
-//			addNews(News.builder().supportId(supportVideo.getSupportId()).typeCategory("1").build());
-//		}else {
-//			addNews(News.builder().supportId(exposition.getExpositionId()).typeCategory("2").build());
-//		}
+
 		Optional<News> lastNews = newsDao.getLastNews();
 		if(lastNews.isPresent()) {
 			addNews(lastNews.get());
