@@ -9,11 +9,13 @@ import org.agrisud.mediathequeapi.cloudservice.EventCloudService;
 import org.agrisud.mediathequeapi.dao.CategoryDao;
 import org.agrisud.mediathequeapi.dao.ListCountrySupportDao;
 import org.agrisud.mediathequeapi.dao.ListCountrySupportVideoDao;
+import org.agrisud.mediathequeapi.dao.ListThematicExpositionDao;
 import org.agrisud.mediathequeapi.dao.ListThematicSupportDao;
 import org.agrisud.mediathequeapi.dao.ListThematicSupportVideoDao;
 import org.agrisud.mediathequeapi.dao.SupportDao;
 import org.agrisud.mediathequeapi.dao.SupportVideoDao;
 import org.agrisud.mediathequeapi.model.Category;
+import org.agrisud.mediathequeapi.model.Exposition;
 import org.agrisud.mediathequeapi.model.Support;
 import org.agrisud.mediathequeapi.model.SupportVideo;
 import org.agrisud.mediathequeapi.util.Utils;
@@ -35,6 +37,8 @@ public class CategoryService {
 	@Autowired
 	SupportVideoDao supportVideoDao;
 	@Autowired
+	ExpositionService expositionService;
+	@Autowired
 	Utils util;
 	@Autowired
 	ListThematicSupportDao listThematicSupportDao;
@@ -44,6 +48,10 @@ public class CategoryService {
 	ListThematicSupportVideoDao listThematicSupportVideoDao;
 	@Autowired
 	ListCountrySupportVideoDao listCountrySupportVideoDao;
+	@Autowired
+	ListThematicExpositionDao listThematicExpositionDao;
+	@Autowired
+	ExpositionImageService expositionImageService;
 	
 	public void addCategory(Category category) {
 		//Boolean isFileExiste =false; 
@@ -98,13 +106,18 @@ public class CategoryService {
 					listCountrySupportDao.deleteListCounrtyBySupportId(support.getSupportId());
 				}
 				supportDao.deleteSupportByCategoryId(id);
-			}else {
+			}else if("1".equals(category.get().getTypeCategory())) {
 				for(SupportVideo supportVideo: supportVideoDao.getListSupportVideo(id)) {
 					listThematicSupportVideoDao.deleteListThematicBySupportVideoId(supportVideo.getSupportId());
 					listCountrySupportVideoDao.deleteListCounrtyBySupportVideoId(supportVideo.getSupportId());
 					eventCloudService.deleteFile(supportVideo.getPathSupport());
 				}
 				supportVideoDao.deleteSupportVideoByCategoryId(id);
+			}else {
+				for(Exposition exposition : expositionService.getAllExpositionByCategory(id)) {
+					listThematicExpositionDao.deleteListThematicByExpositionId(exposition.getExpositionId());
+					expositionService.deleteExposition(exposition.getExpositionId());
+				}
 			}
 			
 			return categoryDao.deleteCategory(category.get().getPathFolder(),id);
