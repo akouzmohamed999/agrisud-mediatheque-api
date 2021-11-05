@@ -44,7 +44,7 @@ public class SupportVideoController {
 	@PostMapping
 	public Long addSupportVideo(@RequestBody SupportVideo support) {
 		Long supportId = supportVideoService.addSupportVideo(support);
-		newsService.addNews(News.builder().supportId(supportId).typeCategory("1").build());
+//		newsService.addNews(News.builder().supportId(supportId).typeCategory("1").build());
 		return supportId;
 	}
 
@@ -62,13 +62,13 @@ public class SupportVideoController {
 	@DeleteMapping(path = "/{id}")
 	public void deleteSupportVideo(@PathVariable(name = "id") Long id) {
 		supportVideoService.deleteSupportVideo(id);
-		newsService.deleteNewsBySupportId(id,"1");
+//		newsService.deleteNewsBySupportId(id,"1");
 	}
 
 	@PutMapping
 	public void updateSupport(@RequestBody SupportVideo support) {
 		supportVideoService.updateSupportVideo(support);
-		newsService.addNews(News.builder().supportId(support.getSupportId()).typeCategory("1").build());
+//		newsService.addNews(News.builder().supportId(support.getSupportId()).typeCategory("1").build());
 	}
 	
 	 @GetMapping("/byOrder")

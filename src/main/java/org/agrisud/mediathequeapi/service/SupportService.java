@@ -122,7 +122,7 @@ public class SupportService {
 
 
 	public void deleteSupport(Long id) {
-		Support support = supportDao.getSupportById(id);
+		Support support = supportDao.getSupportById(id).get();
 		if(support.getPathImage()!= null && !"".equals(support.getPathImage())) {
 			eventCloudDao.deleteFile(support.getPathImage());
 		}
@@ -136,7 +136,7 @@ public class SupportService {
 	}
 	
 	public void updateSupport(Support support) {
-		Support supportOld = supportDao.getSupportById(support.getSupportId());
+		Support supportOld = supportDao.getSupportById(support.getSupportId()).get();
 		if(!supportOld.getPathSupport().equals(support.getPathSupport())) {
 			eventCloudDao.deleteFile(supportOld.getPathSupport());
 			support.setUrlSupport(eventCloudDao.doShared(support.getPathSupport()));
@@ -200,19 +200,24 @@ public class SupportService {
 
 
 	public Support getSupportById(Long supportId) {
-		Support support = supportDao.getSupportById(supportId);
+		Optional<Support> support = supportDao.getSupportById(supportId);
+		if(support.isPresent()) {
 		List<Thematic> list = new ArrayList<Thematic>();
 		List<Country> listPays = new ArrayList<Country>();
-		for(ListCountrySupport listCountry: listCountrySupportDao.getListCountryBySupportId(support.getSupportId())) {
+		for(ListCountrySupport listCountry: listCountrySupportDao.getListCountryBySupportId(support.get().getSupportId())) {
 			listPays.add(countryDao.getCountryById(listCountry.getCountryId()));
 		}
-		for(ListThematicSupport listThematic : listThematicSupportDao.getListThematicBySupportId(support.getSupportId())) {
+		for(ListThematicSupport listThematic : listThematicSupportDao.getListThematicBySupportId(support.get().getSupportId())) {
 			list.add(thematicDao.getThematicById(listThematic.getThematicId()));
 		}
-		support.setListCountry(listPays);
-		support.setListThematic(list);
-		support.setDocumentType(documentTypeDao.getDocumentTypeById(support.getDocumentTypeId()));
-		return support;
+		support.get().setListCountry(listPays);
+		support.get().setListThematic(list);
+		support.get().setDocumentType(documentTypeDao.getDocumentTypeById(support.get().getDocumentTypeId()));
+		return support.get();
+		}
+		else {
+			return null;
+		}
 
 	}
 

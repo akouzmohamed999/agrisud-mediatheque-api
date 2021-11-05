@@ -7,8 +7,10 @@ import java.util.Optional;
 
 import org.agrisud.mediathequeapi.cloudservice.EventCloudService;
 import org.agrisud.mediathequeapi.dao.CategoryDao;
+import org.agrisud.mediathequeapi.dao.ExpositionImageDao;
 import org.agrisud.mediathequeapi.dao.ListCountrySupportDao;
 import org.agrisud.mediathequeapi.dao.ListCountrySupportVideoDao;
+import org.agrisud.mediathequeapi.dao.ListExpositionImageDao;
 import org.agrisud.mediathequeapi.dao.ListThematicExpositionDao;
 import org.agrisud.mediathequeapi.dao.ListThematicSupportDao;
 import org.agrisud.mediathequeapi.dao.ListThematicSupportVideoDao;
@@ -18,6 +20,9 @@ import org.agrisud.mediathequeapi.model.Category;
 import org.agrisud.mediathequeapi.model.Exposition;
 import org.agrisud.mediathequeapi.model.Support;
 import org.agrisud.mediathequeapi.model.SupportVideo;
+import org.agrisud.mediathequeapi.search.ExpositionSearchRepository;
+import org.agrisud.mediathequeapi.search.SupportSearchRepository;
+import org.agrisud.mediathequeapi.search.SupportVideoSearchRepository;
 import org.agrisud.mediathequeapi.util.Utils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
@@ -52,6 +57,16 @@ public class CategoryService {
 	ListThematicExpositionDao listThematicExpositionDao;
 	@Autowired
 	ExpositionImageService expositionImageService;
+	@Autowired
+	SupportSearchRepository supportSearchRepository;
+	@Autowired
+	SupportVideoSearchRepository supportVideoSearchRepository;
+	@Autowired
+	ExpositionImageDao expositionImageDao;
+	@Autowired
+	ListExpositionImageDao listExpositionImageDao;
+	@Autowired
+	ExpositionSearchRepository expositionSearchRepository;
 	
 	public void addCategory(Category category) {
 		//Boolean isFileExiste =false; 
@@ -102,15 +117,22 @@ public class CategoryService {
 			eventCloudService.deleteFile(category.get().getPathImage());
 			if("0".equals(category.get().getTypeCategory())) {
 				for(Support support: supportDao.getListAllSupport(id)) {
+					if(support.getPathImage()!= null && !"".equals(support.getPathImage())) {
+						eventCloudService.deleteFile(support.getPathImage());
+					}
 					listThematicSupportDao.deleteListThematicBySupportId(support.getSupportId());
 					listCountrySupportDao.deleteListCounrtyBySupportId(support.getSupportId());
+					supportSearchRepository.delete(supportSearchRepository.findOneBySupportId(support.getSupportId()));
 				}
 				supportDao.deleteSupportByCategoryId(id);
 			}else if("1".equals(category.get().getTypeCategory())) {
 				for(SupportVideo supportVideo: supportVideoDao.getListSupportVideo(id)) {
+					if(supportVideo.getPathSupport()!= null && supportVideo.getPathSupport() != "") {
+						eventCloudService.deleteFile(supportVideo.getPathSupport());
+					}
 					listThematicSupportVideoDao.deleteListThematicBySupportVideoId(supportVideo.getSupportId());
 					listCountrySupportVideoDao.deleteListCounrtyBySupportVideoId(supportVideo.getSupportId());
-					eventCloudService.deleteFile(supportVideo.getPathSupport());
+					supportVideoSearchRepository.delete(supportVideoSearchRepository.findOneBySupportId(supportVideo.getSupportId()));
 				}
 				supportVideoDao.deleteSupportVideoByCategoryId(id);
 			}else {
