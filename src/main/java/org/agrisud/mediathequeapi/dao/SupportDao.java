@@ -90,15 +90,16 @@ public class SupportDao {
 				.build();
 	}
 
-	public Support getSupportById(Long id) {
+	public Optional<Support> getSupportById(Long id) {
 		Map<String, Object> params = new HashMap<>();
 		params.put(DaoConstant.SUPPORT_ID, id);
 		try {
-			return jdbcTemplate.queryForObject(environment.getProperty(SqlConstant.SELECT_SUPPORT_BY_ID),
-					new MapSqlParameterSource(params), getRowMapper());
+			return Optional.ofNullable(jdbcTemplate.queryForObject(environment.getProperty(SqlConstant.SELECT_SUPPORT_BY_ID),
+					new MapSqlParameterSource(params), getRowMapper()));
 		} catch (EmptyResultDataAccessException e) {
-			return null;
+			return Optional.empty();
 		}
+		 
 	}
 
 	public void deleteSupport(Long id) {
