@@ -39,10 +39,11 @@ public class ExpositionCloudService {
     public List<String> uploadFile(MultipartFile multipartFile, String expositionName) {
         File file = CloudFileHelper.getTempFileFromMultiPartFile(multipartFile);
         List<String> listParams = new ArrayList<>();
-        String expositionImageUrl = expositionCloudDao.upLoadFile(file, getFileName(Objects.requireNonNull(multipartFile.getOriginalFilename()), expositionName));
+        String key = getFileName(Objects.requireNonNull(multipartFile.getOriginalFilename()), expositionName);
+        String expositionImageUrl = expositionCloudDao.upLoadFile(file, key);
         file.delete();
         listParams.add(expositionImageUrl); // return url image
-        listParams.add(getFileName(Objects.requireNonNull(multipartFile.getOriginalFilename()), expositionName));
+        listParams.add(key);
         return listParams;
 
     }

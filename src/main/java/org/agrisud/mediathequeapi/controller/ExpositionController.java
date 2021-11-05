@@ -27,14 +27,14 @@ public class ExpositionController {
     @PostMapping
     public Exposition addExposition(@RequestBody Exposition exposition) {
     	Exposition expositionNew = expositionService.getExpositionById(expositionService.addExposition(exposition));
-    	newsService.addNews(News.builder().supportId(expositionNew.getExpositionId()).typeCategory("2").build());
+//    	newsService.addNews(News.builder().supportId(expositionNew.getExpositionId()).typeCategory("2").build());
         return expositionNew;
     }
 
     @PutMapping
     public Exposition updateExposition(@RequestBody Exposition exposition) {
          expositionService.getExpositionById(expositionService.updateExposition(exposition));
-         newsService.addNews(News.builder().supportId(exposition.getExpositionId()).typeCategory("2").build());
+//         newsService.addNews(News.builder().supportId(exposition.getExpositionId()).typeCategory("2").build());
          return exposition;
     }
 
@@ -46,7 +46,7 @@ public class ExpositionController {
     @DeleteMapping(path ="/{id}")
     public int deleteExposition(@PathVariable("id") Long id) {
         int deleted =  expositionService.deleteExposition(id);
-        newsService.deleteNewsBySupportId(id,"2");
+//        newsService.deleteNewsBySupportId(id,"2");
         return deleted;
     }
     

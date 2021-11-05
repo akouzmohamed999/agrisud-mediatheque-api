@@ -62,7 +62,7 @@ public class NewsDao {
 	}
 
 	public List<News> getListNews() {
-		return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_ALL_NEWS),News::baseMapper );
+		return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_ALL_NEWS),getRowMapper() );
 	}
 
 	public Optional<News> getLastNews() {

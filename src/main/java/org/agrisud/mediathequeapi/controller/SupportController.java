@@ -38,7 +38,7 @@ public class SupportController {
 	@PostMapping
 	public Long addSupport(@RequestBody Support support) {
 		Long supportId =  supportService.addSupport(support);
-		newsService.addNews(News.builder().supportId(supportId).typeCategory("0").build());
+//		newsService.addNews(News.builder().supportId(supportId).typeCategory("0").build());
 		return supportId;
 	}
 	
@@ -59,12 +59,12 @@ public class SupportController {
 	@DeleteMapping(path = "/{id}")
 	public void deleteSupport(@PathVariable(name = "id") Long id) {
 		supportService.deleteSupport(id);
-		newsService.deleteNewsBySupportId(id,"0");
+//		newsService.deleteNewsBySupportId(id,"0");
 	}
 
 	@PutMapping
 	public void updateSupport(@RequestBody Support support) {
-		newsService.addNews(News.builder().supportId(support.getSupportId()).typeCategory("0").build());
+//		newsService.addNews(News.builder().supportId(support.getSupportId()).typeCategory("0").build());
 		supportService.updateSupport(support);
 	}
 	

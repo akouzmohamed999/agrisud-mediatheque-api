@@ -1,5 +1,6 @@
 package org.agrisud.mediathequeapi.service;
 
+import org.agrisud.mediathequeapi.cloudservice.EventCloudService;
 import org.agrisud.mediathequeapi.dao.*;
 import org.agrisud.mediathequeapi.model.*;
 import org.agrisud.mediathequeapi.search.ExpositionSearchQueries;
@@ -35,6 +36,8 @@ public class ExpositionService {
 	ExpositionSearchRepository expositionSearchRepository;
 	@Autowired
 	ExpositionSearchQueries expositionSearchQueries;
+	@Autowired
+	EventCloudService eventCloudService;
 
     public Long addExposition(Exposition exposition) {
         ListExpositionImage listExpositionImage = new ListExpositionImage();
@@ -81,6 +84,9 @@ public class ExpositionService {
     }
 
     public int deleteExposition(Long id) {
+    	for(ExpositionImage expositionImage : expositionImageDao.getListExpositionImageByExpositionId(id)) {
+    		eventCloudService.deleteFile(expositionImage.getPathImage());
+    	}
         expositionImageDao.deleteExpositionImageByIdExposition(id);
         listExpositionImageDao.deleteListExpositionImageByExpositionId(id);
         listThematicExpositionDao.deleteListThematicByExpositionId(id);
@@ -100,10 +106,15 @@ public class ExpositionService {
 
     public Exposition getExpositionById(Long id) {
     	Exposition exposition = expositionDao.getExpositionById(id);
-    	exposition.setListThematic(thematicDao.getListThematicByExpositionId(exposition.getExpositionId()));
-    	exposition.setListCountry(List.of( countryDao.getCountryById(exposition.getCountryId())));
-    	exposition.setListExpositionImage(expositionImageDao.getListExpositionImageByExpositionId(exposition.getExpositionId()));
-        return exposition;
+    	if(exposition != null) {
+    		exposition.setListThematic(thematicDao.getListThematicByExpositionId(exposition.getExpositionId()));
+        	exposition.setListCountry(List.of( countryDao.getCountryById(exposition.getCountryId())));
+        	exposition.setListExpositionImage(expositionImageDao.getListExpositionImageByExpositionId(exposition.getExpositionId()));
+            return exposition;
+    	}else {
+    		return null;
+    	}
+    	
     }
 
 	public Exposition getLastNews() {

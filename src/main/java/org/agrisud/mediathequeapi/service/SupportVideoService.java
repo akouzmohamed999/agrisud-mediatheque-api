@@ -183,16 +183,20 @@ public class SupportVideoService {
 		List<Thematic> list = new ArrayList<Thematic>();
 		List<Country> listPays = new ArrayList<Country>();
 		SupportVideo supportVideo = supportVideoDao.getSupportVideoById(supportId);
-		for(ListCountrySupport listCountry : listCountrySupportVideoDao.getListCountryBySupportVideoId(supportVideo.getSupportId())) {
-			listPays.add(countryDao.getCountryById(listCountry.getCountryId()));
+		if(supportVideo != null) {
+			for(ListCountrySupport listCountry : listCountrySupportVideoDao.getListCountryBySupportVideoId(supportVideo.getSupportId())) {
+				listPays.add(countryDao.getCountryById(listCountry.getCountryId()));
+			}
+			for(ListThematicSupport listThematic : listThematicSupportVideoDao.getListThematicBySupportVideoId(supportVideo.getSupportId())) {
+				list.add(thematicDao.getThematicById(listThematic.getThematicId()));
+			}
+			supportVideo.setListCountry(listPays);
+			supportVideo.setListThematic(list);
+			supportVideo.setVideoType(videoTypeDao.getVideoTypeById(supportVideo.getVideoTypeId()));
+			return supportVideo;
+		}else {
+			return null;
 		}
-		for(ListThematicSupport listThematic : listThematicSupportVideoDao.getListThematicBySupportVideoId(supportVideo.getSupportId())) {
-			list.add(thematicDao.getThematicById(listThematic.getThematicId()));
-		}
-		supportVideo.setListCountry(listPays);
-		supportVideo.setListThematic(list);
-		supportVideo.setVideoType(videoTypeDao.getVideoTypeById(supportVideo.getVideoTypeId()));
-		return supportVideo;
 	}
 
 	public SupportVideo getLastNews() {
