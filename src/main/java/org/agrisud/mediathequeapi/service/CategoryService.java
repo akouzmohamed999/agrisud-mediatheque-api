@@ -24,10 +24,7 @@ import org.agrisud.mediathequeapi.search.ExpositionSearchRepository;
 import org.agrisud.mediathequeapi.search.SupportSearchRepository;
 import org.agrisud.mediathequeapi.search.SupportVideoSearchRepository;
 import org.agrisud.mediathequeapi.util.Utils;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
