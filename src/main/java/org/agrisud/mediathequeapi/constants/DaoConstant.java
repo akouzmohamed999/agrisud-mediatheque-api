@@ -6,6 +6,8 @@ public class DaoConstant {
 	
 	public static final String CATEGORY_ID = "category_id";
 	public static final String TITLE = "title";
+	public static final String TITLE_FR = "title_fr";
+	public static final String TITLE_EN = "title_en";
 	public static final String PATH_FOLDER = "path_folder";
 	public static final String PATH_IMAGE = "path_image";
 	public static final String URL_IMAGE = "url_image";
@@ -21,4 +23,22 @@ public class DaoConstant {
 	public static final String URL_SUPPORT = "url_support";
 	public static final String LANGUAGE = "language";
 	public static final String DATE_SUPPORT = "date_support";
+	public static final String TYPE_CATEGORY = "type_category";
+	public static final String LINK = "link";
+	public static final String EXPOSITION_IMAGE_ID = "exposition_image_id";
+	public static final String NAME = "name";
+	public static final String EXPOSITION_ID = "exposition_id";
+	public static final String DATE_EXPOSITION = "date_exposition";
+	public static final String DESCRIPTION = "description";
+	public static final String DESCRIPTION_FR = "description_fr";
+	public static final String DESCRIPTION_EN = "description_en";
+	public static final String COUNTRY = "country";
+	public static final String LIST_THEMATIC_EXPOSITION_ID = "list_thematic_exposition_id";
+	public static final String LIST_EXPOSITION_IMAGE_ID = "list_exposition_image_id";
+	public static final String RANK = "rank_img";
+	public static final String TITLE_ANGLAIS = "title_anglais";
+	public static final String TITLE_FRANCAIS = "title_francais";
+	public static final String COUNTRY_ID = "country_id";
+	public static final String DOWNLOAD = "download";
+	public static final String NEWS_ID = "news_id";
 }

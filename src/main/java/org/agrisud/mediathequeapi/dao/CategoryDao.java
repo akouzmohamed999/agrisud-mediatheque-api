@@ -35,10 +35,12 @@ public class CategoryDao {
 	private MapSqlParameterSource getSqlParameterSource(Category category) {
 		return new MapSqlParameterSource()
 				.addValue(DaoConstant.CATEGORY_ID, category.getCategoryId())
-				.addValue(DaoConstant.TITLE, category.getTitle())
+				.addValue(DaoConstant.TITLE_ANGLAIS, category.getTitleAnglais())
+				.addValue(DaoConstant.TITLE_FRANCAIS, category.getTitleFrancais())
 				.addValue(DaoConstant.PATH_FOLDER, category.getPathFolder())
 				.addValue(DaoConstant.PATH_IMAGE, category.getPathImage())
 				.addValue(DaoConstant.URL_IMAGE, category.getUrlImage())
+				.addValue(DaoConstant.TYPE_CATEGORY, category.getTypeCategory())
 				.addValue(DaoConstant.LAST_LEVEL, category.getLastLevel());
 	}
 
@@ -57,11 +59,13 @@ public class CategoryDao {
 	private RowMapper<Category> getRowMapper() {
 		return (rs, rowNum) -> Category.builder()
 				.categoryId(rs.getLong(DaoConstant.CATEGORY_ID))
-				.title(rs.getString(DaoConstant.TITLE))
+				.titleFrancais(rs.getString(DaoConstant.TITLE_FRANCAIS))
+				.titleAnglais(rs.getString(DaoConstant.TITLE_ANGLAIS))
 				.pathFolder(rs.getString(DaoConstant.PATH_FOLDER))
 				.pathImage(rs.getString(DaoConstant.PATH_IMAGE))
 				.urlImage(rs.getString(DaoConstant.URL_IMAGE))
 				.lastLevel(rs.getBoolean(DaoConstant.LAST_LEVEL))
+				.typeCategory(rs.getString(DaoConstant.TYPE_CATEGORY))
 				.build();
 	}
 
@@ -80,12 +84,18 @@ public class CategoryDao {
 									new MapSqlParameterSource(params), getRowMapper());
 	}
 
-	public List<Category> checkTitleIfExist(String pathFolder, String title) {
+	public List<Category> checkTitleIfExist(String pathFolder, String title,String type) {
 		Map<String, Object> params = new HashMap<>();
-		params.put(DaoConstant.PATH_FOLDER, pathFolder);
 		params.put(DaoConstant.TITLE,  title );
-		return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_CATEGORY_CHECK_TILTLE),
-									new MapSqlParameterSource(params), getRowMapper());
+		if("francais".equals(type)) {
+			return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_CATEGORY_CHECK_TILTLE_FRANCAIS),
+					new MapSqlParameterSource(params), getRowMapper());
+		}
+		else {
+			return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_CATEGORY_CHECK_TILTLE_ANGLAIS),
+					new MapSqlParameterSource(params), getRowMapper());
+		}
+		
 	}
 
 	public List<Category> getChildOfLevel(String pathFolder) {

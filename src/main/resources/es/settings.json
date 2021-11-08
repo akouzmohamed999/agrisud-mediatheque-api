@@ -1,0 +1,27 @@
+{
+  "analysis": {
+    "filter": {
+      "ngram_filter": {
+        "type": "edge_ngram",
+        "min_gram": 2,
+        "max_gram": 40
+      },
+      "stop_fr": {
+        "type": "stop",
+        "stopwords": "_french_"
+      }
+    },
+    "analyzer": {
+      "ngram_analyzer": {
+        "type": "custom",
+        "tokenizer": "standard",
+        "filter": [
+          "lowercase",
+          "asciifolding",
+          "ngram_filter",
+          "stop_fr"
+        ]
+      }
+    }
+  }
+}

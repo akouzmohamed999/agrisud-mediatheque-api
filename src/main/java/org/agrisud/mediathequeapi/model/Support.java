@@ -2,6 +2,7 @@ package org.agrisud.mediathequeapi.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,15 +11,26 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.Setting;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Setter
 @Getter
+@Document(indexName = "support")
+@Setting(settingPath = "es/settings.json")
 public class Support {
-	private Long supportId;
-	private Long categoryId;
+    @Id
+    private String supportESId;
+    @Field(type = FieldType.Long)
+    private Long supportId;
+    private Long categoryId;
+    @Field(type = FieldType.Text, analyzer = "ngram_analyzer")
     private String title;
     private String pathSupport;
     private String pathImage;
@@ -26,11 +38,17 @@ public class Support {
     private String urlSupport;
     private Long documentTypeId;
     private String language;
-    private List<String> listCountry;
+    @Field(type = FieldType.Nested, includeInParent = true)
+    private List<Country> listCountry;
+    @Field(type = FieldType.Nested, includeInParent = true)
     private List<Thematic> listThematic;
+    @Field(type = FieldType.Object)
     private DocumentType documentType;
     private String dateSupport;
-    
+    private boolean download;
+    private Timestamp updateAt;
+
+
     public static Support baseMapper(ResultSet resultSet, int rowNumber) throws SQLException {
         Support support = new Support();
         support.setSupportId(resultSet.getLong("support_id"));
@@ -45,7 +63,8 @@ public class Support {
         support.setListCountry(new ArrayList<>());
         support.setListThematic(new ArrayList<>());
         support.setDateSupport(resultSet.getString("date_support"));
+        support.setDownload(resultSet.getBoolean("download"));
         return support;
     }
-    
+
 }

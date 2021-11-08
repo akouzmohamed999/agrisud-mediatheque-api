@@ -8,26 +8,36 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Setter
 @Getter
+@Document(indexName = "mediatheque")
 public class Country {
+	@Id
+	private String countryESId;
+	@Field(type = FieldType.Long)
 	private Long countryId;
-	private String countryName;
-	private String codeAlpha;
+	@Field(type = FieldType.Text)
+	private String titleAnglais;
+	@Field(type = FieldType.Text)
+	private String titleFrancais;
 	private String urlImage;
 	private String pathImage;
 	
 	public static Country baseMapper(ResultSet resultSet, int rowNumber) throws SQLException {
 		Country country = new Country();
 		country.setCountryId(resultSet.getLong("country_id"));
-        country.setCountryName(resultSet.getString("country_name"));
-        country.setCodeAlpha(resultSet.getString("code_alpha"));
-        country.setPathImage(resultSet.getString("path_image"));
-        country.setUrlImage(resultSet.getString("url_image"));
+		country.setTitleAnglais(resultSet.getString("title_anglais"));
+		country.setTitleFrancais(resultSet.getString("title_francais"));
+		country.setPathImage(resultSet.getString("path_image"));
+		country.setUrlImage(resultSet.getString("url_image"));
         return country;
     }
 }

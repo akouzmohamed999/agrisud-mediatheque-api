@@ -74,6 +74,19 @@ services:
     networks:
       - agrisud
 
+  elasticsearch:
+    image: elasticsearch:7.6.2
+    container_name: elasticsearch
+    restart: always
+    ports:
+      - 9200:9200
+    volumes:
+        - elasticsearch:/usr/share/elasticsearch/data
+    environment:
+      - "discovery.type=single-node"
+    networks:
+      - agrisud
+
 
 networks:
   agrisud:
@@ -83,3 +96,4 @@ volumes:
   mysql:
   mysql-client:
   nextcloud:
+  elasticsearch:
