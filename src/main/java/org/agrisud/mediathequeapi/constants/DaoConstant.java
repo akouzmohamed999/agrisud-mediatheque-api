@@ -41,4 +41,8 @@ public class DaoConstant {
 	public static final String COUNTRY_ID = "country_id";
 	public static final String DOWNLOAD = "download";
 	public static final String NEWS_ID = "news_id";
+	public static final String PARENT_ID = "parent_id";
+	public static final String THEMATIC_FOLDER_ID = "thematic_folder_id";
+	public static final String THEMATIC_FOLDER_MEDIA_ID = "thematic_folder_media_id";
+	public static final String MEDIA_ID = "media_id";
 }
