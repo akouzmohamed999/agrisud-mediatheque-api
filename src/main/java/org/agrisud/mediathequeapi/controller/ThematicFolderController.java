@@ -39,8 +39,9 @@ public class ThematicFolderController {
     }
 	
 	@GetMapping
-	public List<ThematicFolder> getThematicFolderByParentId(@RequestParam(name = "parentId") Long parentId){
-		return thematicFolderService.getThematicFolderByParentId(parentId);
+	public List<ThematicFolder> getThematicFolderByParentId(@RequestParam(name = "parentId") Long parentId,
+															@RequestParam(name = "categoryId") Long categoryId){
+		return thematicFolderService.getThematicFolderByParentId(parentId,categoryId);
 	}
 	
 	@PutMapping(path = "/files" ,consumes = { MediaType.APPLICATION_JSON_VALUE, "multipart/form-data" })
@@ -61,7 +62,8 @@ public class ThematicFolderController {
 	}
 	
 	@GetMapping(path = "/parent")
-	public List<ThematicFolder> getAllParent(@RequestParam(name="parentId")Long parentId){
-		return thematicFolderService.getAllParent(parentId);
+	public List<ThematicFolder> getAllParent(@RequestParam(name="parentId")Long parentId,
+											 @RequestParam(name="categoryId")Long categoryId){
+		return thematicFolderService.getAllParent(parentId,categoryId);
 	}
 }

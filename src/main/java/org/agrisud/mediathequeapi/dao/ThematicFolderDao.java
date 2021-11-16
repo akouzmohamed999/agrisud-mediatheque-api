@@ -38,12 +38,14 @@ public class ThematicFolderDao {
 				.addValue(DaoConstant.PATH_FOLDER, thematicFolder.getPathFolder())
 				.addValue(DaoConstant.PATH_IMAGE, thematicFolder.getPathImage())
 				.addValue(DaoConstant.URL_IMAGE, thematicFolder.getUrlImage())
+				.addValue(DaoConstant.CATEGORY_ID, thematicFolder.getCategoryId())
 				.addValue(DaoConstant.PARENT_ID, thematicFolder.getParentId());
 	}
 
-	public List<ThematicFolder> getThematicFolderByParentId(Long parentId) {
+	public List<ThematicFolder> getThematicFolderByParentId(Long parentId,Long categoryId) {
 		Map<String, Object> params = new HashMap<>();
         params.put(DaoConstant.PARENT_ID, parentId);
+        params.put(DaoConstant.CATEGORY_ID, categoryId);
 		return jdbcTemplate.query(environment.getProperty(SqlConstant.SELECT_THEMATIC_FOLDER_BY_PARENT_ID),new MapSqlParameterSource(params) ,ThematicFolder::baseMapper);
 	}
 
@@ -67,9 +69,10 @@ public class ThematicFolderDao {
 		return jdbcTemplate.update(environment.getProperty(SqlConstant.DELETE_THEMATIC_FOLDER_BY_ID), new MapSqlParameterSource(params));
 	}
 
-	public List<ThematicFolder> getAllParent(Long parentId) {
+	public List<ThematicFolder> getAllParent(Long parentId,Long categoryId) {
 		Map<String, Object> params = new HashMap<>();
         params.put(DaoConstant.PARENT_ID, parentId);
+        params.put(DaoConstant.CATEGORY_ID, categoryId);
 		return jdbcTemplate.query(environment.getProperty("get_all_parent"),new MapSqlParameterSource(params) ,ThematicFolder::baseMapper);
 	}
 }

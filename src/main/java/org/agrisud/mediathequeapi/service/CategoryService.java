@@ -64,6 +64,8 @@ public class CategoryService {
 	ListExpositionImageDao listExpositionImageDao;
 	@Autowired
 	ExpositionSearchRepository expositionSearchRepository;
+	@Autowired
+	ThematicFolderService thematicFolderService;
 	
 	public void addCategory(Category category) {
 		//Boolean isFileExiste =false; 
@@ -95,11 +97,6 @@ public class CategoryService {
 
 	public List<Category> getAllCategory() throws IOException {
 		List<Category> listCategory = categoryDao.getAllCategory();
-//		for(Category category : listCategory) {
-//			byte[] media =  IOUtils.toByteArray(eventCloudService.getFile(category.getPathImage()));
-//			String imageStr = Base64.encodeBase64String(media);
-//			category.setImage(imageStr);
-//		}
 		return listCategory;
 	}
 
@@ -132,11 +129,16 @@ public class CategoryService {
 					supportVideoSearchRepository.delete(supportVideoSearchRepository.findOneBySupportId(supportVideo.getSupportId()));
 				}
 				supportVideoDao.deleteSupportVideoByCategoryId(id);
-			}else {
+			}else if("2".equals(category.get().getTypeCategory())) {
 				for(Exposition exposition : expositionService.getAllExpositionByCategory(id)) {
 					listThematicExpositionDao.deleteListThematicByExpositionId(exposition.getExpositionId());
 					expositionService.deleteExposition(exposition.getExpositionId());
 				}
+			}else {
+				thematicFolderService.getThematicFolderByParentId(Long.valueOf(0), category.get().getCategoryId())
+					.forEach(folder->{
+						thematicFolderService.deleteThematicFolderById(folder.getThematicFolderId());
+					});
 			}
 			
 			return categoryDao.deleteCategory(category.get().getPathFolder(),id);
