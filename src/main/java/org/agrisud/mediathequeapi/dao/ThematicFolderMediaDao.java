@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.agrisud.mediathequeapi.constants.DaoConstant;
+import org.agrisud.mediathequeapi.constants.SqlConstant;
 import org.agrisud.mediathequeapi.model.ThematicFolder;
 import org.agrisud.mediathequeapi.model.ThematicFolderMedia;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,17 @@ public class ThematicFolderMediaDao {
 		Map<String, Object> params = new HashMap<>();
         params.put(DaoConstant.PARENT_ID, parentId);
 		return jdbcTemplate.query(environment.getProperty("get_all_media_by_parent_id"),new MapSqlParameterSource(params) ,ThematicFolderMedia::baseMapper);
+	}
+
+	public void deleteThematicFolderById(Long thematicFolderMediaId) {
+		Map<String, Object> params = new HashMap<>();
+		params.put(DaoConstant.THEMATIC_FOLDER_MEDIA_ID, thematicFolderMediaId);
+		jdbcTemplate.update(environment.getProperty("delete_thematic_folder_media_by_id"), new MapSqlParameterSource(params));
+	}
+	
+	public void deleteThematicFolderByParentId(Long parentId) {
+		Map<String, Object> params = new HashMap<>();
+		params.put(DaoConstant.PARENT_ID, parentId);
+		jdbcTemplate.update(environment.getProperty("delete_thematic_folder_by_parentId"), new MapSqlParameterSource(params));
 	}
 }

@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.agrisud.mediathequeapi.cloudservice.ThematicFolderCloudService;
 import org.agrisud.mediathequeapi.dao.ThematicFolderDao;
-import org.agrisud.mediathequeapi.model.Category;
+import org.agrisud.mediathequeapi.dao.ThematicFolderMediaDao;
 import org.agrisud.mediathequeapi.model.ThematicFolder;
 import org.agrisud.mediathequeapi.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +18,8 @@ public class ThematicFolderService {
 	ThematicFolderCloudService thematicFolderCloudService;
 	@Autowired
 	ThematicFolderDao thematicFolderDao;
+	@Autowired
+	ThematicFolderMediaDao thematicFolderMediaDao;
 	@Autowired
 	Utils util;
 	
@@ -32,8 +34,8 @@ public class ThematicFolderService {
 		
 	}
 
-	public List<ThematicFolder> getThematicFolderByParentId(Long parentId) {
-		return thematicFolderDao.getThematicFolderByParentId(parentId);
+	public List<ThematicFolder> getThematicFolderByParentId(Long parentId,Long categoryId) {
+		return thematicFolderDao.getThematicFolderByParentId(parentId,categoryId);
 	}
 
 	public String updateFiles(MultipartFile multipartFile, String path) {
@@ -48,14 +50,20 @@ public class ThematicFolderService {
 
 	public int deleteThematicFolderById(Long id) {
 		Optional<ThematicFolder> thematicFolder = thematicFolderDao.getThematicFolderById(id);
+		List<ThematicFolder> listChild = getThematicFolderByParentId(id,thematicFolder.get().getCategoryId());
+		listChild.forEach(child ->{
+			deleteThematicFolderById(child.getThematicFolderId());
+		});
+		
 		if(thematicFolder.isPresent() && !thematicFolder.isEmpty()) {
 			thematicFolderCloudService.deleteFile(thematicFolder.get().getPathImage());
+			thematicFolderMediaDao.deleteThematicFolderByParentId(id);
 			return thematicFolderDao.deleteThematicFolder(id);
 		}
 		return 0;
 	}
 
-	public List<ThematicFolder> getAllParent(Long parentId) {
-		return thematicFolderDao.getAllParent(parentId);
+	public List<ThematicFolder> getAllParent(Long parentId,Long categoryId) {
+		return thematicFolderDao.getAllParent(parentId,categoryId);
 	}
 }

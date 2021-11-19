@@ -6,6 +6,7 @@ import org.agrisud.mediathequeapi.model.ThematicFolder;
 import org.agrisud.mediathequeapi.model.ThematicFolderMedia;
 import org.agrisud.mediathequeapi.service.ThematicFolderMediaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,5 +28,9 @@ public class ThematicFolderMediaController {
 	@GetMapping
 	public List<ThematicFolderMedia> getThematicFolderMediaByParentId(@RequestParam(name="parentId")Long parentId) {
 		return thematicFolderMediaService.getThematicFolderMediaByParentId(parentId);
+	}
+	@DeleteMapping
+	public void deleteThematicFolderById(@RequestParam(name="thematicFolderMediaId")Long thematicFolderMediaId) {
+		thematicFolderMediaService.deleteThematicFolderById(thematicFolderMediaId);
 	}
 }
