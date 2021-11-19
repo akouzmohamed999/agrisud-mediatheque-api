@@ -21,6 +21,7 @@ public class ThematicFolder {
     private String pathFolder;
     private String pathImage;
     private String urlImage;
+    private Long categoryId;
     private Long parentId;
 
     public static ThematicFolder baseMapper(ResultSet resultSet, int rowNumber) throws SQLException {
@@ -32,6 +33,7 @@ public class ThematicFolder {
         thematicFolder.setPathImage(resultSet.getString("path_image"));
         thematicFolder.setUrlImage(resultSet.getString("url_image"));
         thematicFolder.setParentId(resultSet.getLong("parent_id"));
+        thematicFolder.setCategoryId(resultSet.getLong("category_id"));
         return thematicFolder;
     }
 }
