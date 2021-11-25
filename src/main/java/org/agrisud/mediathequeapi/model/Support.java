@@ -47,6 +47,8 @@ public class Support {
     private String dateSupport;
     private boolean download;
     private Timestamp updateAt;
+    private Integer numberView;
+    private Integer numberDownload;
 
 
     public static Support baseMapper(ResultSet resultSet, int rowNumber) throws SQLException {

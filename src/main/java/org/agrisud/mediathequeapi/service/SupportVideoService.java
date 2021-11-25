@@ -9,6 +9,7 @@ import org.agrisud.mediathequeapi.clouddao.EventCloudDao;
 import org.agrisud.mediathequeapi.dao.CountryDao;
 import org.agrisud.mediathequeapi.dao.ListCountrySupportVideoDao;
 import org.agrisud.mediathequeapi.dao.ListThematicSupportVideoDao;
+import org.agrisud.mediathequeapi.dao.StatisticMediaDao;
 import org.agrisud.mediathequeapi.dao.SupportVideoDao;
 import org.agrisud.mediathequeapi.dao.ThematicDao;
 import org.agrisud.mediathequeapi.dao.VideoTypeDao;
@@ -16,6 +17,7 @@ import org.agrisud.mediathequeapi.enums.SortColumn;
 import org.agrisud.mediathequeapi.model.Country;
 import org.agrisud.mediathequeapi.model.ListCountrySupport;
 import org.agrisud.mediathequeapi.model.ListThematicSupport;
+import org.agrisud.mediathequeapi.model.StatiscticCountView;
 import org.agrisud.mediathequeapi.model.Support;
 import org.agrisud.mediathequeapi.model.SupportVideo;
 import org.agrisud.mediathequeapi.model.Thematic;
@@ -48,6 +50,8 @@ public class SupportVideoService {
 	SupportVideoSearchRepository supportVideoSearchRepository;
 	@Autowired
 	SupportVideoSearchQueries supportVideoSearchQueries;
+	@Autowired
+	StatisticMediaDao statisticMediaDao;
 	
 	public Long addSupportVideo(SupportVideo support) {
 		ListCountrySupport listCountrySupport = new ListCountrySupport();
@@ -82,6 +86,16 @@ public class SupportVideoService {
 	    String dateSupport = Optional.ofNullable((String) searchParams.get("dateSupport")).orElse(null);
 	    Long categoryId = Optional.ofNullable((String) searchParams.get("categoryId")).map(Long::parseLong).orElse(null);
 	    SearchPage<SupportVideo> listSupport = supportVideoSearchQueries.advancedSearch(title, countryId, videoTypeId, thematicId, language, dateSupport,categoryId, pageRequest);
+	    listSupport.forEach(support -> {
+	    	Optional<StatiscticCountView> statisticCountView = statisticMediaDao.getCountStatisticBymediaId(support.getContent().getCategoryId(),support.getContent().getSupportId());
+	    	if(statisticCountView.isPresent() && !statisticCountView.isEmpty()) {
+	    		support.getContent().setNumberDownload(statisticCountView.get().getNumberDownload());
+	    		support.getContent().setNumberView(statisticCountView.get().getNumberView());
+	    	}else {
+	    		support.getContent().setNumberDownload(0);
+	    		support.getContent().setNumberView(0);
+	    	}
+	    });
 	    for(SearchHit<SupportVideo> support : listSupport.getContent()) {
 	    	support.getContent().setVideoType(videoTypeDao.getVideoTypeById(support.getContent().getVideoTypeId()));
 	    }
