@@ -45,4 +45,7 @@ public class DaoConstant {
 	public static final String THEMATIC_FOLDER_ID = "thematic_folder_id";
 	public static final String THEMATIC_FOLDER_MEDIA_ID = "thematic_folder_media_id";
 	public static final String MEDIA_ID = "media_id";
+	public static final String STATISTIC_MEDIA_ID = "statistic_media_id";
+	public static final String ACTION = "action";
+	public static final String DATE_ACTION = "date_action";
 }

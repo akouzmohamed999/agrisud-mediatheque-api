@@ -48,6 +48,8 @@ public class SupportVideo {
     private String link;
     @Field(type = FieldType.Text)
     private Timestamp updateAt;
+    private Integer numberView;
+    private Integer numberDownload;
 
     public static SupportVideo baseMapper(ResultSet resultSet, int rowNumber) throws SQLException {
         SupportVideo support = new SupportVideo();

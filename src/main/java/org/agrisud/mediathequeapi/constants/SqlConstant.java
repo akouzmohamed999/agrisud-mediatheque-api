@@ -128,5 +128,9 @@ public class SqlConstant {
 	public static final String UPDATE_THEMATIC_FOLDER = "update_thematic_folder";
 	public static final String SELECT_THEMATIC_FOLDER_BY_ID = "select_thematic_folder_by_id";
 	public static final String DELETE_THEMATIC_FOLDER_BY_ID = "delete_thematic_folder_by_id";
+	public static final String SELECT_COUNT_DOWNLOAD_VIEW = "select_count_download_view" ;
+	public static final String SELECT_COUNT_MEDIA = "select_count_media" ;
+	public static final String SELECT_STATISTIC_GROUP_BY_MONTH = "select_statistic_group_by_month";
+	public static final String SELECT_STATISTIC_GROUP_BY_YEAR = "select_statistic_group_by_year";
 
 }
