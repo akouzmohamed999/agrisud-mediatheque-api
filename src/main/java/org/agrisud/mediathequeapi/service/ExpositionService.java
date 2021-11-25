@@ -38,6 +38,8 @@ public class ExpositionService {
 	ExpositionSearchQueries expositionSearchQueries;
 	@Autowired
 	EventCloudService eventCloudService;
+	@Autowired
+	StatisticMediaDao statisticMediaDao;
 
     public Long addExposition(Exposition exposition) {
         ListExpositionImage listExpositionImage = new ListExpositionImage();
@@ -131,6 +133,16 @@ public class ExpositionService {
 	    String dateSupport = Optional.ofNullable((String) searchParams.get("dateSupport")).orElse(null);
 	    Long categoryId = Optional.ofNullable((String) searchParams.get("categoryId")).map(Long::parseLong).orElse(null);
 	    SearchPage<Exposition> listExposition = expositionSearchQueries.advancedSearch(titleFr,titleEn, countryId, thematicId, dateSupport,categoryId, pageRequest);
+	    listExposition.forEach(exposition -> {
+	    	Optional<StatiscticCountView> statisticCountView = statisticMediaDao.getCountStatisticBymediaId(exposition.getContent().getCategoryId(),exposition.getContent().getExpositionId());
+	    	if(statisticCountView.isPresent() && !statisticCountView.isEmpty()) {
+	    		exposition.getContent().setNumberDownload(statisticCountView.get().getNumberDownload());
+	    		exposition.getContent().setNumberView(statisticCountView.get().getNumberView());
+	    	}else {
+	    		exposition.getContent().setNumberDownload(0);
+	    		exposition.getContent().setNumberView(0);
+	    	}
+	    });
 	    for(SearchHit<Exposition> exposition: listExposition.getContent()) {
 	    	exposition.getContent().setListCountry(List.of(countryDao.getCountryById(exposition.getContent().getCountryId())));
 	    }
