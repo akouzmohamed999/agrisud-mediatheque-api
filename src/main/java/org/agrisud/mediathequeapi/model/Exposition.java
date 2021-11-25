@@ -45,6 +45,8 @@ public class Exposition {
     @Field(type = FieldType.Nested, includeInParent = true)
     private List<ExpositionImage> listExpositionImage;
     private Timestamp updateAt;
+    private Integer numberView;
+    private Integer numberDownload;
 
     public static Exposition baseMapper(ResultSet resultSet, int rowNumber) throws SQLException {
         Exposition exposition = new Exposition();

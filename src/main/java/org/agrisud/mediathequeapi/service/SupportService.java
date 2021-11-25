@@ -10,12 +10,14 @@ import org.agrisud.mediathequeapi.dao.CountryDao;
 import org.agrisud.mediathequeapi.dao.DocumentTypeDao;
 import org.agrisud.mediathequeapi.dao.ListCountrySupportDao;
 import org.agrisud.mediathequeapi.dao.ListThematicSupportDao;
+import org.agrisud.mediathequeapi.dao.StatisticMediaDao;
 import org.agrisud.mediathequeapi.dao.SupportDao;
 import org.agrisud.mediathequeapi.dao.ThematicDao;
 import org.agrisud.mediathequeapi.enums.SortColumn;
 import org.agrisud.mediathequeapi.model.Country;
 import org.agrisud.mediathequeapi.model.ListCountrySupport;
 import org.agrisud.mediathequeapi.model.ListThematicSupport;
+import org.agrisud.mediathequeapi.model.StatiscticCountView;
 import org.agrisud.mediathequeapi.model.Support;
 import org.agrisud.mediathequeapi.model.Thematic;
 import org.agrisud.mediathequeapi.search.SupportSearchQueries;
@@ -51,6 +53,8 @@ public class SupportService {
 	SupportSearchRepository supportSearchRepository;
 	@Autowired
 	SupportSearchQueries supportSearchQueries;
+	@Autowired
+	StatisticMediaDao statisticMediaDao;
 	
 	
 	public Long addSupport(Support support) {
@@ -90,6 +94,16 @@ public class SupportService {
 	    String dateSupport = Optional.ofNullable((String) searchParams.get("dateSupport")).orElse(null);
 	    Long categoryId = Optional.ofNullable((String) searchParams.get("categoryId")).map(Long::parseLong).orElse(null);
 	    SearchPage<Support> listSupport = supportSearchQueries.advancedSearch(title, countryId, documentTypeId, thematicId, language, dateSupport,categoryId, pageRequest);
+	    listSupport.forEach(support -> {
+	    	Optional<StatiscticCountView> statisticCountView = statisticMediaDao.getCountStatisticBymediaId(support.getContent().getCategoryId(),support.getContent().getSupportId());
+	    	if(statisticCountView.isPresent() && !statisticCountView.isEmpty()) {
+	    		support.getContent().setNumberDownload(statisticCountView.get().getNumberDownload());
+	    		support.getContent().setNumberView(statisticCountView.get().getNumberView());
+	    	}else {
+	    		support.getContent().setNumberDownload(0);
+	    		support.getContent().setNumberView(0);
+	    	}
+	    });
 	    for(SearchHit<Support> support : listSupport.getContent()) {
 	    	support.getContent().setDocumentType(documentTypeDao.getDocumentTypeById(support.getContent().getDocumentTypeId()));
 	    }
