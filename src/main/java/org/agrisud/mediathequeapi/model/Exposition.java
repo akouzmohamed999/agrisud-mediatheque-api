@@ -29,9 +29,9 @@ public class Exposition {
 	@Field(type = FieldType.Long)
     private Long expositionId;
     private Long categoryId;
-    @Field(type = FieldType.Text, analyzer = "ngram_analyzer")
+    @Field(type = FieldType.Text, analyzer = "ngram_analyzer", fielddata = true)
     private String titleFr;
-    @Field(type = FieldType.Text, analyzer = "ngram_analyzer")
+    @Field(type = FieldType.Text, analyzer = "ngram_analyzer", fielddata = true)
     private String titleEn;
     private String dateExposition;
     private String descriptionFr;

@@ -124,8 +124,14 @@ public class ExpositionService {
 	}
 
 	public SearchPage<Exposition> getExpositionBySearchCriteria(Map<String, Object> searchParams) {
-		Sort sort = Sort.by("ASC" .equals(searchParams.get("sortDirection")) ? Sort.Direction.ASC : Sort.Direction.DESC, (String) searchParams.get("sortColumn"));
-	    PageRequest pageRequest = PageRequest.of(Integer.parseInt((String) searchParams.get("page")), Integer.parseInt((String) searchParams.get("size")), sort);
+        Optional<String> sortDirection = Optional.ofNullable((String) searchParams.get("sortDirection"));
+        Optional<String> sortColumn = Optional.ofNullable((String) searchParams.get("sortColumn"));
+        Optional<Sort> sort = Optional.empty();
+        if(sortDirection.isPresent() && sortColumn.isPresent()){
+            sort = Optional.of(Sort.by("ASC".equals(searchParams.get("sortDirection")) ? Sort.Direction.ASC : Sort.Direction.DESC, (String) searchParams.get("sortColumn")));
+        }
+        PageRequest pageRequest = sort.map(orders -> PageRequest.of(Integer.parseInt((String) searchParams.get("page")), Integer.parseInt((String) searchParams.get("size")), orders))
+                .orElseGet(() -> PageRequest.of(Integer.parseInt((String) searchParams.get("page")), Integer.parseInt((String) searchParams.get("size"))));
 	    String titleFr = Optional.ofNullable((String) searchParams.get("titleFr")).orElse(null);
 	    String titleEn = Optional.ofNullable((String) searchParams.get("titleEn")).orElse(null);
 	    String countryId = Optional.ofNullable((String) searchParams.get("countryId")).orElse(null);
