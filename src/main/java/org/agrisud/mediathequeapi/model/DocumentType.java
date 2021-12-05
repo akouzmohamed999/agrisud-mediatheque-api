@@ -20,9 +20,9 @@ public class DocumentType {
     private String documentTypeESId;
     @Field(type = FieldType.Long)
     private Long documentTypeId;
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Text, fielddata = true)
     private String titleAnglais;
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Text, fielddata = true)
     private String titleFrancais;
     private String urlImage;
     private String pathImage;

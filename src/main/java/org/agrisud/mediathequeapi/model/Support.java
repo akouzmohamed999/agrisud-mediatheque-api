@@ -30,7 +30,7 @@ public class Support {
     @Field(type = FieldType.Long)
     private Long supportId;
     private Long categoryId;
-    @Field(type = FieldType.Text, analyzer = "ngram_analyzer")
+    @Field(type = FieldType.Text, analyzer = "ngram_analyzer", fielddata = true)
     private String title;
     private String pathSupport;
     private String pathImage;

@@ -44,6 +44,7 @@ public class SupportSearchQueries {
         }
         Query searchQuery = new NativeSearchQueryBuilder()
                 .withQuery(boolQueryBuilder)
+                .withPageable(pageable)
                 .build();
         return SearchHitSupport.searchPageFor(elasticsearchRestTemplate.search(searchQuery, Support.class), pageable);
         
