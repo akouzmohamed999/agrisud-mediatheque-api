@@ -36,53 +36,54 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SupportService {
-    @Autowired
-    ListCountrySupportDao listCountrySupportDao;
-    @Autowired
-    ListThematicSupportDao listThematicSupportDao;
-    @Autowired
-    SupportDao supportDao;
-    @Autowired
-    EventCloudDao eventCloudDao;
-    @Autowired
-    ThematicDao thematicDao;
-    @Autowired
-    DocumentTypeDao documentTypeDao;
-    @Autowired
-    CountryDao countryDao;
-    @Autowired
-    SupportSearchRepository supportSearchRepository;
-    @Autowired
-    SupportSearchQueries supportSearchQueries;
-    @Autowired
-    StatisticMediaDao statisticMediaDao;
+	@Autowired
+	ListCountrySupportDao listCountrySupportDao;
+	@Autowired
+	ListThematicSupportDao listThematicSupportDao;
+	@Autowired
+	SupportDao supportDao;
+	@Autowired
+	EventCloudDao eventCloudDao;
+	@Autowired
+	ThematicDao thematicDao;
+	@Autowired
+	DocumentTypeDao documentTypeDao;
+	@Autowired
+	CountryDao countryDao;
+	@Autowired
+	SupportSearchRepository supportSearchRepository;
+	@Autowired
+	SupportSearchQueries supportSearchQueries;
+	@Autowired
+	StatisticMediaDao statisticMediaDao;
+	
+	
+	public Long addSupport(Support support) {
+		ListCountrySupport listCountrySupport = new ListCountrySupport();
+		ListThematicSupport listThematicSupport = new ListThematicSupport();
+		if(support.getPathImage() != null ) {
+			support.setUrlImage(eventCloudDao.doShared(support.getPathImage())+ "/preview");
+		}
+		support.setUrlSupport(eventCloudDao.doShared(support.getPathSupport()));
+		Long supportId =  supportDao.addSupport(support);
+		
+		listCountrySupport.setSupportId(supportId);
+		listThematicSupport.setSupportId(supportId);
+		
+		
+		for(Country country : support.getListCountry()) {
+			listCountrySupport.setCountryId(country.getCountryId());
+			listCountrySupportDao.addListCountrySupport(listCountrySupport);
+		}
+		for(Thematic thematic : support.getListThematic()) {
+			listThematicSupport.setThematicId(thematic.getThematicId());
+			listThematicSupportDao.addListThematicSupport(listThematicSupport);
+		}
+		support.setSupportId(supportId);
+		supportSearchRepository.save(support);
+		return supportId;
+	}
 
-
-    public Long addSupport(Support support) {
-        ListCountrySupport listCountrySupport = new ListCountrySupport();
-        ListThematicSupport listThematicSupport = new ListThematicSupport();
-        if (support.getPathImage() != null) {
-            support.setUrlImage(eventCloudDao.doShared(support.getPathImage()) + "/preview");
-        }
-        support.setUrlSupport(eventCloudDao.doShared(support.getPathSupport()));
-        Long supportId = supportDao.addSupport(support);
-
-        listCountrySupport.setSupportId(supportId);
-        listThematicSupport.setSupportId(supportId);
-
-
-        for (Country country : support.getListCountry()) {
-            listCountrySupport.setCountryId(country.getCountryId());
-            listCountrySupportDao.addListCountrySupport(listCountrySupport);
-        }
-        for (Thematic thematic : support.getListThematic()) {
-            listThematicSupport.setThematicId(thematic.getThematicId());
-            listThematicSupportDao.addListThematicSupport(listThematicSupport);
-        }
-        support.setSupportId(supportId);
-        supportSearchRepository.save(support);
-        return supportId;
-    }
 
     public SearchPage<Support> getSupportBySearchCriteria(Map<String, Object> searchParams) {
         Optional<String> sortDirection = Optional.ofNullable((String) searchParams.get("sortDirection"));
@@ -102,6 +103,17 @@ public class SupportService {
         Long categoryId = Optional.ofNullable((String) searchParams.get("categoryId")).map(Long::parseLong).orElse(null);
         SearchPage<Support> listSupport = supportSearchQueries.advancedSearch(title, countryId, documentTypeId, thematicId, language, dateSupport, categoryId, pageRequest);
         listSupport.forEach(support -> {
+        	List<Country> listCountry = new ArrayList<Country>();
+	    	List<Thematic> listThematic = new ArrayList<Thematic>();
+	    	support.getContent().getListCountry().forEach(country -> {
+	    		listCountry.add(countryDao.getCountryById(country.getCountryId()));
+	    	});
+	    	support.getContent().setListCountry(listCountry);
+	    	support.getContent().setDocumentType(documentTypeDao.getDocumentTypeById(support.getContent().getDocumentTypeId()));
+	    	support.getContent().getListThematic().forEach(thematic ->{
+	    		listThematic.add(thematicDao.getThematicById(thematic.getThematicId()));
+	    	});
+	    	support.getContent().setListThematic(listThematic);
             Optional<StatiscticCountView> statisticCountView = statisticMediaDao.getCountStatisticBymediaId(support.getContent().getCategoryId(), support.getContent().getSupportId());
             if (statisticCountView.isPresent() && !statisticCountView.isEmpty()) {
                 support.getContent().setNumberDownload(statisticCountView.get().getNumberDownload());
