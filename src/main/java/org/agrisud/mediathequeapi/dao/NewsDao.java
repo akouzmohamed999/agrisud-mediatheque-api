@@ -78,6 +78,7 @@ public class NewsDao {
 		return (rs, rowNum) -> News.builder()
 				.supportId(rs.getLong(DaoConstant.SUPPORT_ID))
 				.typeCategory(rs.getString(DaoConstant.TYPE_CATEGORY))
+				.categoryId(rs.getLong(DaoConstant.CATEGORY_ID))
 				.build();
 	}
 }

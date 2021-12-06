@@ -14,6 +14,7 @@ import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchPage;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -134,6 +135,12 @@ public class ExpositionService {
 	    Long categoryId = Optional.ofNullable((String) searchParams.get("categoryId")).map(Long::parseLong).orElse(null);
 	    SearchPage<Exposition> listExposition = expositionSearchQueries.advancedSearch(titleFr,titleEn, countryId, thematicId, dateSupport,categoryId, pageRequest);
 	    listExposition.forEach(exposition -> {
+	    	List<Country> listCountry = new ArrayList<Country>();
+	    	List<Thematic> listThematic = new ArrayList<Thematic>();
+	    	exposition.getContent().getListThematic().forEach(thematic ->{
+	    		listThematic.add(thematicDao.getThematicById(thematic.getThematicId()));
+	    	});
+	    	exposition.getContent().setListThematic(listThematic);
 	    	Optional<StatiscticCountView> statisticCountView = statisticMediaDao.getCountStatisticBymediaId(exposition.getContent().getCategoryId(),exposition.getContent().getExpositionId());
 	    	if(statisticCountView.isPresent() && !statisticCountView.isEmpty()) {
 	    		exposition.getContent().setNumberDownload(statisticCountView.get().getNumberDownload());

@@ -95,6 +95,17 @@ public class SupportService {
 	    Long categoryId = Optional.ofNullable((String) searchParams.get("categoryId")).map(Long::parseLong).orElse(null);
 	    SearchPage<Support> listSupport = supportSearchQueries.advancedSearch(title, countryId, documentTypeId, thematicId, language, dateSupport,categoryId, pageRequest);
 	    listSupport.forEach(support -> {
+	    	List<Country> listCountry = new ArrayList<Country>();
+	    	List<Thematic> listThematic = new ArrayList<Thematic>();
+	    	support.getContent().getListCountry().forEach(country -> {
+	    		listCountry.add(countryDao.getCountryById(country.getCountryId()));
+	    	});
+	    	support.getContent().setListCountry(listCountry);
+	    	support.getContent().setDocumentType(documentTypeDao.getDocumentTypeById(support.getContent().getDocumentTypeId()));
+	    	support.getContent().getListThematic().forEach(thematic ->{
+	    		listThematic.add(thematicDao.getThematicById(thematic.getThematicId()));
+	    	});
+	    	support.getContent().setListThematic(listThematic);
 	    	Optional<StatiscticCountView> statisticCountView = statisticMediaDao.getCountStatisticBymediaId(support.getContent().getCategoryId(),support.getContent().getSupportId());
 	    	if(statisticCountView.isPresent() && !statisticCountView.isEmpty()) {
 	    		support.getContent().setNumberDownload(statisticCountView.get().getNumberDownload());
