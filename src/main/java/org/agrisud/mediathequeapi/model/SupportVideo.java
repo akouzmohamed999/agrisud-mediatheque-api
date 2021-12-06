@@ -37,6 +37,7 @@ public class SupportVideo {
     private String pathSupport;
     private String urlSupport;
     private Long videoTypeId;
+    @Field(type = FieldType.Text, fielddata = true)
     private String language;
     @Field(type = FieldType.Nested, includeInParent = true)
     private List<Country> listCountry;
@@ -44,6 +45,7 @@ public class SupportVideo {
     private List<Thematic> listThematic;
     @Field(type = FieldType.Object)
     private VideoType videoType;
+    @Field( type = FieldType.Text,fielddata = true)
     private String dateSupport;
     private String link;
     @Field(type = FieldType.Text)

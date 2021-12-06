@@ -39,9 +39,9 @@ public class Support {
     private Long documentTypeId;
     @Field(type = FieldType.Text, fielddata = true)
     private String language;
-    @Field(type = FieldType.Nested, includeInParent = true)
+    @Field(type = FieldType.Nested, includeInParent = true, fielddata = true)
     private List<Country> listCountry;
-    @Field(type = FieldType.Nested, includeInParent = true)
+    @Field(type = FieldType.Nested, includeInParent = true, fielddata = true)
     private List<Thematic> listThematic;
     @Field(type = FieldType.Object)
     private DocumentType documentType;
