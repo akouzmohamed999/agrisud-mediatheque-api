@@ -33,6 +33,7 @@ public class Exposition {
     private String titleFr;
     @Field(type = FieldType.Text, analyzer = "ngram_analyzer", fielddata = true)
     private String titleEn;
+    @Field( type = FieldType.Text,fielddata = true)
     private String dateExposition;
     private String descriptionFr;
     private String descriptionEn;
