@@ -14,6 +14,7 @@ import lombok.Setter;
 @Getter
 public class NewsDto {
 	private Long supportId;
+	private Long categoryId;
     private String title;
     private String pathSupport;
     private String pathImage;
@@ -28,4 +29,6 @@ public class NewsDto {
     private boolean download;
     private List<ExpositionImage> listExpositionImage;
     private String typeCategory;
+    private Integer numberView;
+    private Integer numberDownload;
 }

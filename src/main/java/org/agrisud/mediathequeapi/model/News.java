@@ -17,6 +17,7 @@ import lombok.Setter;
 public class News {
 	private Long newsId;
 	private Long supportId;
+	private Long categoryId;
 	private String typeCategory;
 	
 	public static News baseMapper(ResultSet resultSet, int rowNumber) throws SQLException {
@@ -24,6 +25,7 @@ public class News {
 		news.setNewsId(resultSet.getLong("news_id"));
 		news.setSupportId(resultSet.getLong("support_id"));
 		news.setTypeCategory(resultSet.getString("type_category"));
+		news.setCategoryId(resultSet.getLong("category_id"));
         return news;
     }
 }
