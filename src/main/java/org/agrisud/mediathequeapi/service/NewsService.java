@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.agrisud.mediathequeapi.dao.NewsDao;
+import org.agrisud.mediathequeapi.dao.StatisticMediaDao;
 import org.agrisud.mediathequeapi.model.Country;
 import org.agrisud.mediathequeapi.model.DocumentType;
 import org.agrisud.mediathequeapi.model.Exposition;
 import org.agrisud.mediathequeapi.model.News;
 import org.agrisud.mediathequeapi.model.NewsDto;
+import org.agrisud.mediathequeapi.model.StatiscticCountView;
 import org.agrisud.mediathequeapi.model.Support;
 import org.agrisud.mediathequeapi.model.SupportVideo;
 import org.agrisud.mediathequeapi.model.Thematic;
@@ -28,6 +30,8 @@ public class NewsService {
 	SupportVideoService supportVideoService;
 	@Autowired
     ExpositionService expositionService;
+	@Autowired
+	StatisticMediaDao statisticMediaDao;
 	
 	public void addNews(News news) {
 		int total = newsDao.getCountNews();
@@ -60,7 +64,16 @@ public class NewsService {
 		for(News news : newsDao.getListNews()) {
 			isNewsExist = true;
 			newsDto = new NewsDto();
+			newsDto.setCategoryId(news.getCategoryId());
 			newsDto.setTypeCategory(news.getTypeCategory());
+			Optional<StatiscticCountView> statisticCountView = statisticMediaDao.getCountStatisticBymediaId(news.getCategoryId(),news.getSupportId());
+			if(statisticCountView.isPresent() && !statisticCountView.isEmpty()) {
+		    	newsDto.setNumberDownload(statisticCountView.get().getNumberDownload());
+		    	newsDto.setNumberView(statisticCountView.get().getNumberView());
+		    }else {
+		    	newsDto.setNumberDownload(0);
+		    	newsDto.setNumberView(0);
+		    }
 			if("0".equals(news.getTypeCategory() ) ) {
 				Support support = supportService.getSupportById(news.getSupportId());
 				if(support != null) {
@@ -76,6 +89,7 @@ public class NewsService {
 				    newsDto.setDocumentType(support.getDocumentType());
 				    newsDto.setDateSupport(support.getDateSupport());
 				    newsDto.setDownload(support.isDownload());
+				    
 				}else {
 					isNewsExist = false;
 					newsDao.deleteNewsBySupportId(news.getSupportId(),"1");
