@@ -37,6 +37,7 @@ public class Support {
     private String urlImage;
     private String urlSupport;
     private Long documentTypeId;
+    @Field(type = FieldType.Text, fielddata = true)
     private String language;
     @Field(type = FieldType.Nested, includeInParent = true)
     private List<Country> listCountry;
@@ -44,6 +45,7 @@ public class Support {
     private List<Thematic> listThematic;
     @Field(type = FieldType.Object)
     private DocumentType documentType;
+    @Field( type = FieldType.Text,fielddata = true)
     private String dateSupport;
     private boolean download;
     private Timestamp updateAt;
