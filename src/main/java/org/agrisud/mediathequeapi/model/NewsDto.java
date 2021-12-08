@@ -16,6 +16,7 @@ public class NewsDto {
 	private Long supportId;
 	private Long categoryId;
     private String title;
+    private String titleEn;
     private String pathSupport;
     private String pathImage;
     private String urlImage;
