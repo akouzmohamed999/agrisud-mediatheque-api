@@ -132,5 +132,7 @@ public class SqlConstant {
 	public static final String SELECT_COUNT_MEDIA = "select_count_media" ;
 	public static final String SELECT_STATISTIC_GROUP_BY_MONTH = "select_statistic_group_by_month";
 	public static final String SELECT_STATISTIC_GROUP_BY_YEAR = "select_statistic_group_by_year";
+	public static final String SELECT_STATISTIC_VISITOR_GROUP_BY_MONTH = "select_statistic_visitor_group_by_month";
+	public static final String SELECT_STATISTIC_VISITOR_GROUP_BY_YEAR = "select_statistic_visitor_group_by_year";
 
 }

@@ -8,21 +8,16 @@ import java.util.Optional;
 import org.agrisud.mediathequeapi.constants.DaoConstant;
 import org.agrisud.mediathequeapi.constants.SqlConstant;
 import org.agrisud.mediathequeapi.model.GroupedStatistic;
-import org.agrisud.mediathequeapi.model.News;
 import org.agrisud.mediathequeapi.model.StatiscticCountView;
 import org.agrisud.mediathequeapi.model.StatisticData;
 import org.agrisud.mediathequeapi.model.StatisticMedia;
-import org.agrisud.mediathequeapi.model.Support;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -35,9 +30,7 @@ public class StatisticMediaDao {
 	Environment environment;
 
 	public void addStatisticMedia(StatisticMedia statisticMedia) {
-		KeyHolder holder = new GeneratedKeyHolder();
 		jdbcTemplate.update(environment.getProperty("insert_statistic_media"), getSqlParameterSource(statisticMedia));
-//		return holder.getKey().longValue();
 	}
 	
 	private MapSqlParameterSource getSqlParameterSource(StatisticMedia statisticMedia) {
