@@ -79,6 +79,7 @@ public class NewsService {
 				if(support != null) {
 					newsDto.setSupportId(support.getSupportId());
 				    newsDto.setTitle(support.getTitle());
+				    newsDto.setTitleEn(support.getTitle());
 				    newsDto.setPathSupport(support.getPathSupport());
 				    newsDto.setPathImage(support.getPathImage());
 				    newsDto.setUrlImage(support.getUrlImage());
@@ -101,6 +102,7 @@ public class NewsService {
 				if(support != null) {
 					newsDto.setSupportId(support.getSupportId());
 				    newsDto.setTitle(support.getTitle());
+				    newsDto.setTitleEn(support.getTitle());
 				    newsDto.setPathImage(support.getPathSupport());
 				    newsDto.setUrlImage(support.getUrlSupport());
 				    newsDto.setUrlSupport(support.getLink());
@@ -118,7 +120,8 @@ public class NewsService {
 				Exposition exposition = expositionService.getExpositionById(news.getSupportId());
 				if(exposition != null) {
 					newsDto.setSupportId(exposition.getExpositionId());
-					newsDto.setTitle(exposition.getTitleEn());
+					newsDto.setTitle(exposition.getTitleFr());
+					newsDto.setTitleEn(exposition.getTitleEn());
 					newsDto.setListCountry(exposition.getListCountry());
 					newsDto.setListThematic(exposition.getListThematic());
 					newsDto.setDateSupport(exposition.getDateExposition());
