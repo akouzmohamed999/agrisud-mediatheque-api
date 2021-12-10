@@ -169,7 +169,7 @@ public class SupportService {
     }
 
     public void updateSupport(Support support) {
-        Support supportOld = supportDao.getSupportById(support.getSupportId()).get();
+    	Support supportOld = supportDao.getSupportById(support.getSupportId()).get();
         if (!supportOld.getPathSupport().equals(support.getPathSupport())) {
             eventCloudDao.deleteFile(supportOld.getPathSupport());
             support.setUrlSupport(eventCloudDao.doShared(support.getPathSupport()));
@@ -177,7 +177,10 @@ public class SupportService {
         if (supportOld.getPathImage() != null) {
             if (!supportOld.getPathImage().equals(support.getPathImage())) {
                 eventCloudDao.deleteFile(supportOld.getPathImage());
-                support.setUrlImage(eventCloudDao.doShared(support.getPathImage()) + "/preview");
+                
+                if(!"".equals(support.getPathImage())) {
+                	support.setUrlImage(eventCloudDao.doShared(support.getPathImage()) + "/preview");
+                }
             }
         } else {
             if (support.getPathImage() != null && !"".equals(support.getPathImage())) {
