@@ -54,4 +54,9 @@ public class ThematicFolderMediaDao {
 		params.put(DaoConstant.PARENT_ID, parentId);
 		jdbcTemplate.update(environment.getProperty("delete_thematic_folder_by_parentId"), new MapSqlParameterSource(params));
 	}
+	public void deleteThematicFolderMediaByCategoryId(Long categoryId) {
+		Map<String, Object> params = new HashMap<>();
+		params.put(DaoConstant.CATEGORY_ID, categoryId);
+		jdbcTemplate.update(environment.getProperty("delete_thematic_folder_media_by_catgeory_id"), new MapSqlParameterSource(params));
+	}
 }
