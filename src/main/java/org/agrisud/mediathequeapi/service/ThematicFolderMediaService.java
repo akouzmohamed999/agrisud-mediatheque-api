@@ -60,6 +60,7 @@ public class ThematicFolderMediaService {
 		
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	public List<ThematicFolderMedia> getThematicFolderMediaByParentId(Long parentId) {
 		List<ThematicFolderMedia> listMedia =  thematicFolderDao.getThematicFolderMediaByParentId(parentId);
 		listMedia.forEach(media -> {
@@ -68,59 +69,73 @@ public class ThematicFolderMediaService {
 			Optional<StatiscticCountView> statisticCountView = statisticMediaDao.getCountStatisticBymediaId(media.getCategoryId(),media.getMediaId());
 			if(Integer.parseInt(media.getTypeCategory()) == 0) {
 				Support support = supportDao.getSupportById(media.getMediaId()).get();
-				
-				listCountrySupportDao.getListCountryBySupportId(support.getSupportId()).forEach(country -> {
-		    		listCountry.add(countryDao.getCountryById(country.getCountryId()));
-		    	});
-		    	support.setListCountry(listCountry);
-		    	listThematicSupportDao.getListThematicBySupportId(support.getSupportId()).forEach(thematic ->{
-		    		listThematic.add(thematicDao.getThematicById(thematic.getThematicId()));
-		    	});
-		    	support.setListThematic(listThematic);
-				if(statisticCountView.isPresent() && !statisticCountView.isEmpty()) {
-					support.setNumberDownload(statisticCountView.get().getNumberDownload());
-					support.setNumberView(statisticCountView.get().getNumberView());
+				if(support == null) {
+					thematicFolderDao.deleteThematicFolderById(media.getThematicFolderMediaId());
 				}else {
-					support.setNumberDownload(0);
-					support.setNumberView(0);
+					listCountrySupportDao.getListCountryBySupportId(support.getSupportId()).forEach(country -> {
+			    		listCountry.add(countryDao.getCountryById(country.getCountryId()));
+			    	});
+			    	support.setListCountry(listCountry);
+			    	listThematicSupportDao.getListThematicBySupportId(support.getSupportId()).forEach(thematic ->{
+			    		listThematic.add(thematicDao.getThematicById(thematic.getThematicId()));
+			    	});
+			    	support.setListThematic(listThematic);
+					if(statisticCountView.isPresent() && !statisticCountView.isEmpty()) {
+						support.setNumberDownload(statisticCountView.get().getNumberDownload());
+						support.setNumberView(statisticCountView.get().getNumberView());
+					}else {
+						support.setNumberDownload(0);
+						support.setNumberView(0);
+					}
+					
+					media.setSupport(support);
 				}
-				
-				media.setSupport(support);
 			}else if(Integer.parseInt(media.getTypeCategory()) == 1) {
 				SupportVideo supportVideo = supportVideoDao.getSupportVideoById(media.getMediaId());
-				listCountrySupportVideoDao.getListCountryBySupportVideoId(supportVideo.getSupportId()).forEach(country -> {
-		    		listCountry.add(countryDao.getCountryById(country.getCountryId()));
-		    	});
-				supportVideo.setListCountry(listCountry);
-				listThematicSupportVideoDao.getListThematicBySupportVideoId(supportVideo.getSupportId()).forEach(thematic ->{
-		    		listThematic.add(thematicDao.getThematicById(thematic.getThematicId()));
-		    	});
-				supportVideo.setListThematic(listThematic);
-				if(statisticCountView.isPresent() && !statisticCountView.isEmpty()) {
-					supportVideo.setNumberDownload(statisticCountView.get().getNumberDownload());
-					supportVideo.setNumberView(statisticCountView.get().getNumberView());
+				if(supportVideo == null) {
+					thematicFolderDao.deleteThematicFolderById(media.getThematicFolderMediaId());
 				}else {
-					supportVideo.setNumberDownload(0);
-					supportVideo.setNumberView(0);
+					listCountrySupportVideoDao.getListCountryBySupportVideoId(supportVideo.getSupportId()).forEach(country -> {
+			    		listCountry.add(countryDao.getCountryById(country.getCountryId()));
+			    	});
+					supportVideo.setListCountry(listCountry);
+					listThematicSupportVideoDao.getListThematicBySupportVideoId(supportVideo.getSupportId()).forEach(thematic ->{
+			    		listThematic.add(thematicDao.getThematicById(thematic.getThematicId()));
+			    	});
+					supportVideo.setListThematic(listThematic);
+					if(statisticCountView.isPresent() && !statisticCountView.isEmpty()) {
+						supportVideo.setNumberDownload(statisticCountView.get().getNumberDownload());
+						supportVideo.setNumberView(statisticCountView.get().getNumberView());
+					}else {
+						supportVideo.setNumberDownload(0);
+						supportVideo.setNumberView(0);
+					}
+					media.setSupportVideo(supportVideo);
 				}
-				media.setSupportVideo(supportVideo);
+				
 			}else {
 				Exposition exposition = expositionDao.getExpositionById(media.getMediaId());
-				if(statisticCountView.isPresent() && !statisticCountView.isEmpty()) {
-					exposition.setNumberDownload(statisticCountView.get().getNumberDownload());
-					exposition.setNumberView(statisticCountView.get().getNumberView());
+				if(exposition == null) {
+					thematicFolderDao.deleteThematicFolderById(media.getThematicFolderMediaId());
 				}else {
-					exposition.setNumberDownload(0);
-					exposition.setNumberView(0);
-				}
-		    	if(exposition != null) {
-		    		exposition.setListThematic(thematicDao.getListThematicByExpositionId(exposition.getExpositionId()));
-		        	exposition.setListCountry(List.of( countryDao.getCountryById(exposition.getCountryId())));
-		        	exposition.setListExpositionImage(expositionImageDao.getListExpositionImageByExpositionId(exposition.getExpositionId()));
-		    	}
-				media.setExposition(exposition);
+					if(statisticCountView.isPresent() && !statisticCountView.isEmpty()) {
+						exposition.setNumberDownload(statisticCountView.get().getNumberDownload());
+						exposition.setNumberView(statisticCountView.get().getNumberView());
+					}else {
+						exposition.setNumberDownload(0);
+						exposition.setNumberView(0);
+					}
+			    	if(exposition != null) {
+			    		exposition.setListThematic(thematicDao.getListThematicByExpositionId(exposition.getExpositionId()));
+			        	exposition.setListCountry(List.of( countryDao.getCountryById(exposition.getCountryId())));
+			        	exposition.setListExpositionImage(expositionImageDao.getListExpositionImageByExpositionId(exposition.getExpositionId()));
+			    	}
+					media.setExposition(exposition);
+					}
 			}
-		});
+			
+		}
+		);
 		return listMedia;
 	}
 

@@ -16,6 +16,7 @@ import org.agrisud.mediathequeapi.dao.ListThematicSupportDao;
 import org.agrisud.mediathequeapi.dao.ListThematicSupportVideoDao;
 import org.agrisud.mediathequeapi.dao.SupportDao;
 import org.agrisud.mediathequeapi.dao.SupportVideoDao;
+import org.agrisud.mediathequeapi.dao.ThematicFolderMediaDao;
 import org.agrisud.mediathequeapi.model.Category;
 import org.agrisud.mediathequeapi.model.Exposition;
 import org.agrisud.mediathequeapi.model.Support;
@@ -66,6 +67,8 @@ public class CategoryService {
 	ExpositionSearchRepository expositionSearchRepository;
 	@Autowired
 	ThematicFolderService thematicFolderService;
+	@Autowired
+	ThematicFolderMediaDao thematicFolderMediaDao;
 	
 	public void addCategory(Category category) {
 		//Boolean isFileExiste =false; 
@@ -140,7 +143,7 @@ public class CategoryService {
 						thematicFolderService.deleteThematicFolderById(folder.getThematicFolderId());
 					});
 			}
-			
+			thematicFolderMediaDao.deleteThematicFolderMediaByCategoryId(id);
 			return categoryDao.deleteCategory(category.get().getPathFolder(),id);
 		}
 		return 0;
