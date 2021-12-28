@@ -14,12 +14,12 @@ pipeline {
             }
         }
       }
-      stage('Tests') {
-         steps {
-            sh("git checkout ${tagName}")
-            sh("mvn clean test")
-         }
-      }
+//       stage('Tests') {
+//          steps {
+//             sh("git checkout ${tagName}")
+//             sh("mvn clean test")
+//          }
+//       }
       stage('build') {
          steps {
             sh("mvn clean install -DskipTests")
