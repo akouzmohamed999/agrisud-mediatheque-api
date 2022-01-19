@@ -170,6 +170,7 @@ public class SupportService {
 
     public void updateSupport(Support support) {
     	Support supportOld = supportDao.getSupportById(support.getSupportId()).get();
+    	support.setSupportESId(supportOld.getSupportESId());
         if (!supportOld.getPathSupport().equals(support.getPathSupport())) {
             eventCloudDao.deleteFile(supportOld.getPathSupport());
             support.setUrlSupport(eventCloudDao.doShared(support.getPathSupport()));
