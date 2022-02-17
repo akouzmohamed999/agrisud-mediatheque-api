@@ -46,7 +46,7 @@ public class Exposition {
     private List<Thematic> listThematic;
     @Field(type = FieldType.Nested, includeInParent = true)
     private List<ExpositionImage> listExpositionImage;
-    @Field(type = FieldType.Text)
+    @Transient
     private Timestamp updateAt;
     private Integer numberView;
     private Integer numberDownload;

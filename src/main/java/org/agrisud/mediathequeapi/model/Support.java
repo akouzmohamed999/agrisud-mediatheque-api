@@ -49,7 +49,7 @@ public class Support {
     @Field( type = FieldType.Text,fielddata = true)
     private String dateSupport;
     private boolean download;
-    @Field(type = FieldType.Text)
+    @Transient
     private Timestamp updateAt;
     private Integer numberView;
     private Integer numberDownload;
