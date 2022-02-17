@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -48,6 +49,7 @@ public class Support {
     @Field( type = FieldType.Text,fielddata = true)
     private String dateSupport;
     private boolean download;
+    @Field(type = FieldType.Text)
     private Timestamp updateAt;
     private Integer numberView;
     private Integer numberDownload;
