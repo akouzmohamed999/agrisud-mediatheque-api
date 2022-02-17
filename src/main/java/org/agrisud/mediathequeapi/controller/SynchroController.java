@@ -56,11 +56,11 @@ public class SynchroController {
         categories.forEach(category -> {
             List<Exposition> expositions = expositionService.getAllExpositionByCategory(category.getCategoryId());
             expositionSearchRepository.saveAll(expositions);
-            List<Support> supportsFr = supportService.getSupportByOrder(category.getCategoryId(), SortColumn.SUPPORT_TITLE, true, "Français");
-            supportSearchRepository.saveAll(supportsFr);
-            List<Support> supportsEng = supportService.getSupportByOrder(category.getCategoryId(), SortColumn.SUPPORT_TITLE, true, "Anglais");
-            supportSearchRepository.saveAll(supportsEng);
+            List<Support> supports = supportService.getAllSupport(category.getCategoryId());
+            supports.forEach(support -> support.setCategoryId(category.getCategoryId()));
+            supportSearchRepository.saveAll(supports);
             List<SupportVideo> supportVideos = supportVideoService.getListSupportVideo(category.getCategoryId());
+            supportVideos.forEach(supportVideo -> supportVideo.setCategoryId(category.getCategoryId()));
             supportVideoSearchRepository.saveAll(supportVideos);
         });
     }
