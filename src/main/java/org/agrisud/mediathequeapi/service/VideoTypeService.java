@@ -36,6 +36,10 @@ public class VideoTypeService {
 		return videoTypeDao.updateVideoType(videoType);
 	}
 
+	public VideoType getVideoTypeById(Long videoTypeId){
+		return videoTypeDao.getVideoTypeById(videoTypeId);
+	}
+
 	public List<VideoType> getAllVideoType() {
 		return videoTypeDao.getAllVideoType();
 	}
